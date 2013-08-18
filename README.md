@@ -35,8 +35,16 @@ When you are ready to deploy, make a git commit before running the following two
 heroku create
 git push heroku master
 ```
-
-Your app is now live and can be visited with the command:
+If the second command throws an error similar to this:
+```
+Permission denied (publickey).
+fatal: The remote end hung up unexpectedly
+```
+Try running the following command to upload your public key to Heroku: (credit to [this stackoverflow answer](http://stackoverflow.com/questions/4269922/permission-denied-publickey-when-deploying-heroku-code-fatal-the-remote-end) for this particular fix.
+```
+heroku keys:add ~/.ssh/id_rsa.pub
+```
+More info about using ssh with Heroku can be found [here](https://devcenter.heroku.com/articles/keys#adding_keys_to_heroku)). Your app should now be live and can be visited with the command:
 ```
 heroku open
 ```
