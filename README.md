@@ -16,8 +16,6 @@ Navigate to the Jotta directory in a terminal window and run the following comma
 ```
 node index.js
 ```
-If
-
 By default, the server runs at [http://localhost:5000](http://localhost:5000).
 
 ## Deploying to Heroku
