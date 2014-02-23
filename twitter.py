@@ -1,4 +1,5 @@
 import re
+import json
 from twython import Twython
 from dateutil import parser
 from datetime import datetime, date, time, timedelta
@@ -133,7 +134,7 @@ def tweets(s, e):
   start = parser.parse(s)
   end = parser.parse(e)
   global results
-  return str(filter(lambda t: between(start, end, t), results))
+  return json.dumps(filter(lambda t: between(start, end, t), results))
 
 @app.route('/')
 def index():
