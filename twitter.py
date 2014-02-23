@@ -85,7 +85,7 @@ def getTimeSeries(startDate, term):
     delta = delta + delta
     oldDensity = dateDensity
 
-  return expandOn(oldDate - timedelta(days=3), d, term)
+  return expandOn(oldDate, d, term)
 
 def expandOn(start, end, term):
   while(end - start >= timedelta(days=7)):
@@ -126,7 +126,7 @@ def gentime(q,d):
 
 def between(s,e,tweet):
   d = parser.parse(tweet.get('created_at')).replace(tzinfo=None)
-  return s <= d and e >= d
+  return s - timedelta(1) <= d and e + timedelta(1) >= d
 
 @app.route("/api/get_tweets/<s>/<e>")
 def tweets(s, e):
