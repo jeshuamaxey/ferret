@@ -2,8 +2,8 @@ import re
 from twython import Twython
 from dateutil import parser
 from datetime import datetime, date, time, timedelta
-from flask import Flask, url_for
-app = Flask(__name__, static_folder='public', static_url_path='/')
+from flask import Flask, send_from_directory
+app = Flask(__name__, static_url_path='')
 counter = 0
 
 def startTwitter():
@@ -131,10 +131,17 @@ def tweets(s, e):
   global results
   return str(filter(lambda t: between(start, end, t), results))
 
+@app.route('/')
+def index():
+  return app.send_static_file('public/index.html')
+
+@app.route('/public/<path:filename>')
+def send_foo(filename):
+  print filename
+  return send_from_directory('public', filename)
+
 if __name__ == "__main__":
   startTwitter()
-  # with app.test_request_context():
-  #   url_for('public')
   app.run(debug=True)
 
 
