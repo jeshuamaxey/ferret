@@ -17,11 +17,12 @@ g.graphAJAX = function(e){
 	var date = $('#date').val();
 
 	$.ajax({
-		//url: 'api/get_time_series/'+ hashtag + '/' + date,
+		url: 'http://localhost:5000/api/get_time_series/'+ hashtag + '/' + date,
 		type: 'GET'
 	}).done(function(filename) {
-		g.plotGraph('fake_data.tsv');
-		$('#seeTweets').show();
+		console.log(filename)
+		g.plotGraph(filename);
+		//$('#seeTweets').show();
 	});
 
 };
