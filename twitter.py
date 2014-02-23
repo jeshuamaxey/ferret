@@ -41,7 +41,7 @@ def getDensity(ts):
   maxtime = max(times)
 
   range = maxtime - mintime
-  return (len(ts)/range.total_seconds(), avg_time(times))
+  return (len(ts)/1 if range.total_seconds() else range.total_seconds(), avg_time(times))
 
 def avg_time(datetimes):
   total = sum(dt.hour * 3600 + dt.minute * 60 + dt.second for dt in datetimes)
@@ -86,7 +86,7 @@ def getTimeSeries(startDate, term):
     delta = delta + delta
     oldDensity = dateDensity
 
-  return expandOn(oldDate, d, term)
+  return expandOn(oldDate + timedelta(-1), d, term)
 
 def expandOn(start, end, term):
   while(end - start >= timedelta(days=7)):
@@ -101,7 +101,7 @@ def expandOn(start, end, term):
       if dateTweets:
         start = middle
 
-  fullTweets = getTweets(start, term, 5)
+  fullTweets = getTweets(start, term, 10)
   b = 5
   chunks=[fullTweets[x:x+b] for x in xrange(0, len(fullTweets), b)]
   global results
