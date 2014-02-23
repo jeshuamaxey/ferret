@@ -115,7 +115,7 @@ def gentime(q,d):
   f = open(fname, 'w')
   f.write('date\ttps\n')
   for t in ts:
-    tstamp = (t[1] - datetime(1970, 1, 1)).total_seconds()
+    tstamp = (t[1].replace(tzinfo=None) - datetime(1970, 1, 1)).total_seconds()
     f.write('%d\t%f\n' % (int(tstamp), t[0]))
   f.close()
 

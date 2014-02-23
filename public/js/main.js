@@ -34,7 +34,7 @@ g.graphAJAX = function(e){
 
 g.tweetsAJAX = function() {
 	$.ajax({
-		url: 'api/get_tweets/' + g.dateRange[0].yyyymmdd() + '/' + g.dateRange[1].yyyymmdd(),
+		url: 'http://localhost:5000/api/get_tweets/' + g.dateRange[0].yyyymmdd() + '/' + g.dateRange[1].yyyymmdd(),
 		type: 'GET'
 	})
 	.done(g.addTweets)
