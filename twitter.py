@@ -109,16 +109,17 @@ def expandOn(start, end, term):
 def gentime(q,d):
   global counter
   ts = getTimeSeries(parser.parse(d), q)
+  toreturn = 'data/data' + str(counter)
   fname = 'public/data/data' + str(counter)
   counter = counter + 1
   f = open(fname, 'w')
-  f.write('date tps\n')
+  f.write('date\ttps\n')
   for t in ts:
     tstamp = (t[1] - datetime(1970, 1, 1)).total_seconds()
-    f.write('%d %f\n' % (int(tstamp), t[0]))
+    f.write('%d\t%f\n' % (int(tstamp), t[0]))
   f.close()
 
-  return fname
+  return toreturn
 
 def between(s,e,tweet):
   d = parser.parse(tweet.get('created_at')).replace(tzinfo=None)

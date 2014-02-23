@@ -106,7 +106,7 @@ g.plotGraph = function(dataFilePath) {
 
 	function brushmove() {
 	  g.dateRange = brush.extent();
-	  //console.log(g.dateRange);
+	  console.log(g.dateRange);
 	}
 
 	function brushend() {
