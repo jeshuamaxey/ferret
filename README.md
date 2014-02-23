@@ -1,58 +1,11 @@
-# Jotta
+# Low Pass
 
-Jotta is a barebones Node.js server which uses the Express framework. It exists to get a simple express implementation up and running super duper quick. It can be quickly deployed to Heroku following the instructions below (adapted from the [Heroku documentation for implementing Node.js](https://devcenter.heroku.com/articles/nodejs)).
+**Low Pass** is a powerful tool for finding first-person, eye-witness accounts of major events through Twitter.</p>
 
-Jotta works very well with [Squared Paper](http://github.com/jeshuamaxey/squared-paper), a front end amalgam of boilerplate code.
+It allows journalists to go back in time and find tweets immediately before the flood of noise and activity that accompanies heavily-reported news.
 
-## Running Jotta Locally
+After entering your search term, **Low Pass** returns a graphical representation of the density of tweets over time. The interactive interface lets you pull tweets from the beginnings of an event, before the noise of opinion and outrage takes over.
 
-### Prerequisites
+**Low Pass** was created by [http://twitter.com/gdcharles](Giovanni Charles), [http://twitter.com/jeshuamaxey](Jeshua Maxey), [http://twitter.com/philipnye](Philip Nye), [http://twitter.com/ashmpace](Ashley Pace) and [http://twitter.com/kadhimshubber](Kadhim Shubber) at [http://buildthenews.wordpress.com/](The Times The Sunday Times Build The News hack weekend).
 
-I am assuming you have Node.js and NPM installed locally on your machine. If you do not, you can download it [here](http://nodejs.org/download).
-
-### Running the server
-
-Navigate to the Jotta directory in a terminal window and run the following command:
-```
-node index.js
-```
-By default, the server runs at [http://localhost:5000](http://localhost:5000).
-
-## Deploying to Heroku
-
-### Prerequisites
-
-As well as all the prerequisites of the previous section, I am assuming you have the Heroku toolbelt installed on your machine and have signed up for a free Heroku account. Details of this can be found on the [heroku website](http://heroku.com).
-
-### Deploying the server
-
-From a terminal window, navigate to the newly cloned Jotta directory and login with your Heroku account details using the `heroku login` command.
-
-You can run the server locally using `foreman start` to make sure things are in order before you deploy the app.
-
-When you are ready to deploy, make a git commit before running the following two commands:
-```
-heroku create
-git push heroku master
-```
-If the second command throws an error similar to this:
-```
-Permission denied (publickey).
-fatal: The remote end hung up unexpectedly
-```
-Try running the following command to upload your public key to Heroku: (credit to [this stackoverflow answer](http://stackoverflow.com/questions/4269922/permission-denied-publickey-when-deploying-heroku-code-fatal-the-remote-end) for this particular fix.
-```
-heroku keys:add ~/.ssh/id_rsa.pub
-```
-More info about using ssh with Heroku can be found [here](https://devcenter.heroku.com/articles/keys#adding_keys_to_heroku)). Your app should now be live and can be visited with the command:
-```
-heroku open
-```
-
-By default, you will be running one dyno. This can be changed with the following command:
-```
-heroku ps:scale web=2 #for running 2 dynos
-```
-To learn more about dynos and scaling, visit the [Heroku documentation](https://devcenter.heroku.com/articles/dynos). Info about dynos and billing can be found [here](https://devcenter.heroku.com/articles/usage-and-billing).
-
-To dive deeper into deploying a Node.js backend with Heroku, see [this article](https://devcenter.heroku.com/articles/nodejs).
+All the code for **Low Pass** is open source, released under the MIT license. You may view it [http://github.com/jeshuamaxey/low-pass" target="_blank](here).
