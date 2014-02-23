@@ -2,8 +2,8 @@ import re
 from twython import Twython
 from dateutil import parser
 from datetime import datetime, date, time, timedelta
-from flask import Flask
-app = Flask(__name__)
+from flask import Flask, url_for
+app = Flask(__name__, static_folder='public', static_url_path='/')
 counter = 0
 
 def startTwitter():
@@ -133,4 +133,8 @@ def tweets(s, e):
 
 if __name__ == "__main__":
   startTwitter()
+  # with app.test_request_context():
+  #   url_for('public')
   app.run(debug=True)
+
+
