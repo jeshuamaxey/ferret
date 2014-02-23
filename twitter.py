@@ -85,7 +85,7 @@ def getTimeSeries(startDate, term):
     delta = delta + delta
     oldDensity = dateDensity
 
-  return expandOn(oldDate, d, term)
+  return expandOn(oldDate - timedelta(days=3), d, term)
 
 def expandOn(start, end, term):
   while(end - start >= timedelta(days=7)):
