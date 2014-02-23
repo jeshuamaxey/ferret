@@ -3,6 +3,8 @@ from twython import Twython
 from dateutil import parser
 from datetime import datetime, date, time, timedelta
 from flask import Flask, send_from_directory
+import calendar
+
 app = Flask(__name__, static_url_path='')
 counter = 0
 
@@ -38,7 +40,7 @@ def getDensity(ts):
   maxtime = max(times)
 
   range = maxtime - mintime
-  return (len(ts)/range.total_seconds(), times[0])
+  return (len(ts)/range.total_seconds(), avg_time(times))
 
 def avg_time(datetimes):
   total = sum(dt.hour * 3600 + dt.minute * 60 + dt.second for dt in datetimes)
@@ -114,7 +116,7 @@ def gentime(q,d):
   f = open(fname, 'w')
   f.write('date tps\n')
   for t in ts:
-    tstamp = (t[1] - datetime(1970, 1, 1)).total_seconds()
+    tstamp = calendar.timegm(t[1])
     f.write('%d %f\n' % (int(tstamp), t[0]))
   f.close()
 
@@ -143,5 +145,3 @@ def send_foo(filename):
 if __name__ == "__main__":
   startTwitter()
   app.run(debug=True)
-
-
