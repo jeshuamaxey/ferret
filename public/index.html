@@ -48,12 +48,16 @@
         </form>
         <hr>
         <label for="dateDisp">Date: </label><span id="dateDisp"></span>
-        <div class="graph"></div>
+        
+        <!-- graph is drawn by d3-->
+        <div id="graph" class="graph"></div>
+        
         <input id="seeTweets" type="button" class="btn btn-primary" value="See those tweets">
         <div id="loadingGif">
           <h3>Loading...</h3>
           <img src="img/loading.gif" alt="loading...">
         </div>
+        
         <ul id="tweets" class="list-group"></ul>
     </div>
 

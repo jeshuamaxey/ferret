@@ -35,19 +35,13 @@ g.plotGraph = function(dataFilePath) {
 	d3.tsv(dataFilePath, function(error, data) {
 	  data.forEach(function(d) {
 	  	console.log(d.date)
+	  	//convert date to milliseconds
 	    d.date = new Date(parseInt(d.date*1000));
 	    d.tps = +d.tps;
 	  });
 
-//	  console.log(data)
-
-	// d3.tsv.parse(TSVdata, function(error, data) {
-	// 	console.log(error)
-	//   data.forEach(function(d) {
-	//     d.date = new Date(parseInt(d.date));
-	//     d.tps = +d.tps;
-	//   });
-
+	  console.log(data);
+	  
 	  x.domain(d3.extent(data, function(d) { return d.date; }));
 	  y.domain(d3.extent(data, function(d) { return d.tps; }));
 

@@ -17,23 +17,27 @@ g.main = function() {
 }
 
 g.graphAJAX = function(e){
+	//stop default form submission
 	e.preventDefault();
-
+	//clear any previous graphs (this should be improved I guess)
+	$('#graph').html('');
+	//show loading gif cos the api call takes a while
 	$('#loadingGif').show()
+	//get parameters from form
 	var hashtag = $('#hashtag').val();
 	var date = $('#date').val();
-
+	//make the call
 	$.ajax({
 		url: 'http://localhost:5000/api/generate_time_series/'+ hashtag + '/' + date,
 		type: 'GET'
-	}).done(function(filename) {
-		console.log('filename: '+filename);
-		$('#loadingGif').hide();
-		g.plotGraph(filename);
-		$('#seeTweets').show();
-	});
+	}).done(g.presentGraph);
 
 };
+
+g.presentGraph = function(filename) {
+	$('#loadingGif').hide();
+	g.plotGraph(filename);
+}
 
 g.tweetsAJAX = function() {
 	console.log(g.dateRange);
@@ -46,7 +50,13 @@ g.tweetsAJAX = function() {
 }
 
 g.addTweets = function(tweets) {
-	if(!tweets.length) console.log("No tweets returned");
+	//if there are no tweets, tell the console
+	if(!tweets.length) {
+		console.log("No tweets returned");
+		return false;
+	}
+	//make the tweet list visible
+	$('#seeTweets').show();
 	tweets = $.parseJSON(tweets)
 	tweets.forEach(function(t) {
 		console.log(t)
