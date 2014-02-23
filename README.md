@@ -9,3 +9,15 @@ After entering your search term, **Low Pass** returns a graphical representation
 **Low Pass** was created by [http://twitter.com/gdcharles](Giovanni Charles), [http://twitter.com/jeshuamaxey](Jeshua Maxey), [http://twitter.com/philipnye](Philip Nye), [http://twitter.com/ashmpace](Ashley Pace) and [http://twitter.com/kadhimshubber](Kadhim Shubber) at [http://buildthenews.wordpress.com/](The Times The Sunday Times Build The News hack weekend).
 
 All the code for **Low Pass** is open source, released under the MIT license. You may view it [http://github.com/jeshuamaxey/low-pass" target="_blank](here).
+
+## Run Locally
+
+Once you have the repo cloned run:
+
+`pip install -r requirements.txt`
+
+Then to spin up the server type:
+
+`python twitter.py`
+
+The app is now accessible at `http://localhost:5000/public/index.html`

@@ -36,16 +36,21 @@ g.graphAJAX = function(e){
 };
 
 g.tweetsAJAX = function() {
+	console.log(g.dateRange);
+	var url = 'http://localhost:5000/api/get_tweets/' + g.dateRange[0].yyyymmdd() + '/' + g.dateRange[1].yyyymmdd()
 	$.ajax({
-		url: 'http://localhost:5000/api/get_tweets/' + g.dateRange[0].yyyymmdd() + '/' + g.dateRange[1].yyyymmdd(),
+		url: url,
 		type: 'GET'
 	})
 	.done(g.addTweets)
 }
 
 g.addTweets = function(tweets) {
+	if(!tweets.length) console.log("No tweets returned");
+	tweets = $.parseJSON(tweets)
 	tweets.forEach(function(t) {
-		$('#tweets').append(t.html);
+		console.log(t)
+		$('#tweets').append("<li class='list-group-item'><a href='https://twitter.com/l/statuses/" + t.id_str + "' target='_blank'>"+ t.text +"</a></li>");
 	})
 }
 

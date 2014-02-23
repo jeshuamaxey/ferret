@@ -35,7 +35,7 @@ g.plotGraph = function(dataFilePath) {
 	d3.tsv(dataFilePath, function(error, data) {
 	  data.forEach(function(d) {
 	  	console.log(d.date)
-	    d.date = new Date(parseInt(d.date*100));
+	    d.date = new Date(parseInt(d.date*1000));
 	    d.tps = +d.tps;
 	  });
 
@@ -109,6 +109,7 @@ g.plotGraph = function(dataFilePath) {
 
 	function brushmove() {
 	  g.dateRange = brush.extent();
+	  $('#dateDisp').html(g.dateRange[0].yyyymmdd())
 	  console.log(g.dateRange);
 	}
 
