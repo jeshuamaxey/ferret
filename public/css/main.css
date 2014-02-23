@@ -23,6 +23,14 @@ body svg {
   cursor: pointer;
 }
 
+#loadingGif {
+  display: none;
+}
+
+#loadingGif img {
+  height: 150px;
+}
+
 /* graph styles */
 
 .axis path,

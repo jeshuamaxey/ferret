@@ -117,8 +117,9 @@ def gentime(q,d):
   f = open(fname, 'w')
   f.write('date\ttps\n')
   for t in ts:
-    tstamp = calendar.timegm(t[1])
-    f.write('%d\t%f\n' % (int(tstamp), t[0]))
+    tstamp = str(calendar.timegm(t[1].utctimetuple()))
+    print tstamp, ' ', t[1]
+    f.write('%s\t%f\n' % (tstamp, t[0]))
   f.close()
 
   return toreturn

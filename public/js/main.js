@@ -18,6 +18,8 @@ g.main = function() {
 
 g.graphAJAX = function(e){
 	e.preventDefault();
+
+	$('#loadingGif').show()
 	var hashtag = $('#hashtag').val();
 	var date = $('#date').val();
 
@@ -25,7 +27,8 @@ g.graphAJAX = function(e){
 		url: 'http://localhost:5000/api/generate_time_series/'+ hashtag + '/' + date,
 		type: 'GET'
 	}).done(function(filename) {
-		console.log(filename)
+		console.log('filename: '+filename);
+		$('#loadingGif').hide();
 		g.plotGraph(filename);
 		$('#seeTweets').show();
 	});

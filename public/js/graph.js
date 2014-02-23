@@ -34,9 +34,12 @@ g.plotGraph = function(dataFilePath) {
 
 	d3.tsv(dataFilePath, function(error, data) {
 	  data.forEach(function(d) {
-	    d.date = new Date(parseInt(d.date));
+	  	console.log(d.date)
+	    d.date = new Date(parseInt(d.date*100));
 	    d.tps = +d.tps;
 	  });
+
+//	  console.log(data)
 
 	// d3.tsv.parse(TSVdata, function(error, data) {
 	// 	console.log(error)
