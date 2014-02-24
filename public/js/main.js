@@ -37,6 +37,8 @@ g.graphAJAX = function(e){
 g.presentGraph = function(filename) {
 	$('#loadingGif').hide();
 	g.plotGraph(filename);
+	//show option to see tweets
+	$('#seeTweets').show();
 }
 
 g.tweetsAJAX = function() {
@@ -55,8 +57,6 @@ g.addTweets = function(tweets) {
 		console.log("No tweets returned");
 		return false;
 	}
-	//make the tweet list visible
-	$('#seeTweets').show();
 	tweets = $.parseJSON(tweets)
 	tweets.forEach(function(t) {
 		console.log(t)
