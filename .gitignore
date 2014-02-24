@@ -1,0 +1,5 @@
+# all intermediate data files
+public/data/*
+
+# files that pertain to the project but aren't code/trackable
+misc/*
