@@ -11,8 +11,8 @@ counter = 0
 
 def startTwitter():
   global APP_KEY
-  APP_KEY='V1ep5xJmScEYuwlAwyeGgw'
-  APP_SECRET='kDvzWQ0Gt1ASIppfVgH6Jr14XoKSIERcVdeaLA6g'
+  APP_KEY= 'YOUR KEY HERE'
+  APP_SECRET='YOUR SECRET HERE'
   twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
   global ACCESS_TOKEN 
   ACCESS_TOKEN = twitter.obtain_access_token()
