@@ -3,3 +3,6 @@ public/data/*
 
 # files that pertain to the project but aren't code/trackable
 misc/*
+
+#node
+node_modules
