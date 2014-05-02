@@ -6,3 +6,6 @@ misc/*
 
 #node
 node_modules
+
+#Apple
+.DS_Store
