@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "low-pass",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,6 +13,8 @@
     "body-parser": "~1.0.0",
     "debug": "~0.7.4",
     "jade": "~1.3.0",
-    "stylus": "0.42.3"
+    "stylus": "0.42.3",
+    "twit": "^1.1.14",
+    "vows": "^0.7.0"
   }
 }
