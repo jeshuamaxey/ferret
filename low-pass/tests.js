@@ -2,6 +2,7 @@ var vows = require('vows');
 var assert = require('assert');
 
 var twitter = require('./data/twitter');
+var analyser = require('./data/analyser');
 
 var suite = vows.describe('twitter');
 
@@ -29,9 +30,20 @@ suite.addBatch({
         'something is returned' : function (err, tweets) {
           assert.isTrue(tweets.length > 0);
         }
+      },
+
+      'can pull several pages of tweets': {
+        topic: function () {
+                 twitter.twitter.getTweets('twitter', null, 3, this.callback)
+               },
+        'tweets are returned' : function (err, tweets) {
+          //TODO: comparison of size of results?
+          assert.isTrue(tweets.length > 0);
+        }
       }
     }
-  }
+  },
+  'analysing data': {}
 
 });
 

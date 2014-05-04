@@ -26,13 +26,26 @@ var twitter = {
   },
 
   getTweets: function(search, date, pages, cb){
-    //TODO: pages
-    this.T.get('search/tweets', { q: search }, function(err, data, res){
-      //lots of copying
-      cb(err, data.statuses);
-    });
-  }
+    //TODO: date
+    var tweets = [];
+    var api = this.T;
 
+    var adder = function (err, data, res){
+      //lots of copying
+      tweets = tweets.concat(data.statuses);
+      pages = pages - 1;
+
+      if (pages == 0){
+        cb(err, tweets);
+      } else {
+        var maxid = data.search_metadata.sinceid;
+        api.get('search/tweets', { q: search, max_id: maxid }, adder);
+      }
+    };
+
+    api.get('search/tweets', { q: search }, adder);
+
+  },
 
 };
 
