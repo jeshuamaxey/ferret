@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "express": "~4.0.0",
@@ -16,5 +16,8 @@
     "stylus": "0.42.3",
     "twit": "^1.1.14",
     "vows": "^0.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "~1.0.17"
   }
 }
