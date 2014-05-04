@@ -1,9 +1,11 @@
 var analyser = {
+
   getDatapoint: function(tweets){
 
                 if (tweets.length < 2){
                   console.log('small sample');
                   return 0;
+                  //TODO:make this a datapoint
                 }
 
                 var times = [];
@@ -25,7 +27,7 @@ var analyser = {
                 }
 
                 return {density: tweets.length/(max - min), 
-                  time: sum/tweet.length}
+                  time: sum/tweets.length}
               }
 }
 exports.analyser = analyser;

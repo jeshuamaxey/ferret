@@ -2,10 +2,8 @@ var vows = require('vows');
 var assert = require('assert');
 
 var twitter = require('./data/twitter');
-var analyser = require('./data/analyser');
 
 var suite = vows.describe('twitter');
-
 suite.addBatch({
   'getting data' : {
     'connecting': {
@@ -28,6 +26,7 @@ suite.addBatch({
                  twitter.twitter.getTweets('twitter', null, 1, this.callback)
                },
         'something is returned' : function (err, tweets) {
+          testData = tweets;//what a filthy hack
           assert.isTrue(tweets.length > 0);
         }
       },
@@ -43,8 +42,6 @@ suite.addBatch({
       }
     }
   },
-  'analysing data': {}
-
 });
 
 suite.run();
