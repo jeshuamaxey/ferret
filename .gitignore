@@ -8,5 +8,9 @@ misc/*
 node_modules
 #vim buffer
 *.swp
+
 #Apple
 .DS_Store
+
+#twitter api key
+twitterapi.json
