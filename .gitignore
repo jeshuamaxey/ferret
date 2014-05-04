@@ -6,6 +6,7 @@ misc/*
 
 #node
 node_modules
-
+#vim buffer
+*.swp
 #Apple
 .DS_Store
