@@ -28,7 +28,7 @@ g.graphAJAX = function(e){
 	var date = $('#date').val();
 	//make the call
 	$.ajax({
-		url: 'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date,
+		url: 'http://localhost:3000/api/generate/'+ hashtag,
 		type: 'GET'
 	})
 	.done(g.presentGraph)

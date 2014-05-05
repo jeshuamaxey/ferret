@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
+var api = require('./routes/api');
 var users = require('./routes/users');
 
 var app = express();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/api', api);
 app.use('/users', users);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,6 +42,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+        console.log(err.stack);
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -58,5 +61,25 @@ app.use(function(err, req, res, next) {
     });
 });
 
+/*
+function cleanup () {
+  shutting_down = true;
+  server.close( function () {
+    console.log( "Closed out remaining connections.");
+    // Close db connections, other chores, etc.
+    twitterdb.close();
+    process.exit();
+  });
+
+  setTimeout( function () {
+   console.error("Could not close connections in time, forcing shut down");
+   process.exit(1);
+  }, 30*1000);
+
+}
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+*/
 
 module.exports = app;
