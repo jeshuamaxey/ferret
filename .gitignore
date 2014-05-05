@@ -6,3 +6,11 @@ misc/*
 
 #node
 node_modules
+
+#ignore
+*.swp
+mongodata
+
+low-pass
+
+.DS_Store
