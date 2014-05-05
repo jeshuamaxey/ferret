@@ -6,6 +6,8 @@ misc/*
 
 #node
 node_modules
+#bower
+low-pass/public/bower_components
 #vim buffer
 *.swp
 

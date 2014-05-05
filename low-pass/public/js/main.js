@@ -28,10 +28,11 @@ g.graphAJAX = function(e){
 	var date = $('#date').val();
 	//make the call
 	$.ajax({
-		url: 'http://localhost:5000/api/generate_time_series/'+ hashtag + '/' + date,
+		url: 'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date,
 		type: 'GET'
-	}).done(g.presentGraph);
-
+	})
+	.done(g.presentGraph)
+	.fail(g.failedAjax);
 };
 
 g.presentGraph = function(filename) {
@@ -49,6 +50,10 @@ g.tweetsAJAX = function() {
 		type: 'GET'
 	})
 	.done(g.addTweets)
+}
+
+g.failedAjax = function() {
+	
 }
 
 g.addTweets = function(tweets) {

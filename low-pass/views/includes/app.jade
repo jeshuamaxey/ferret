@@ -1,0 +1,22 @@
+#wrapper.container
+	form#params(role='form')
+		label(for='hashtag') Choose a hashtag:
+		.input-group
+			span.input-group-addon #
+			input#hashtag.form-control(type='text', placeholder='yolo')
+		.form-group
+			label(for='date') Choose a date a little after it all kicked off:
+			input#date.form-control(type='date')
+		input#submitParams.btn.btn-primary(type='sumbit', value='Go')
+	hr
+	label(for='dateDisp') Date: 
+	span#dateDisp
+
+	//
+		/.graph is drawn by d3
+	#graph.graph
+	input#seeTweets.btn.btn-primary(type='button', value='See those tweets')
+	#loadingGif
+		h3 Loading...
+		img(src='img/loading.gif', alt='loading...')
+	ul#tweets.list-group
