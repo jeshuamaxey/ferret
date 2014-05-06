@@ -5,19 +5,27 @@ var twitter = require('../data/twitter');
 
 var dataMin = 50;
 
+function genTime(res, tweets){
+    console.log(tweets.length);
+    var points = [];
+    var bins = 10;
+    var binsize = Math.round(tweets.length / bins);
+    for (var bin = 0; bin < bins; bin++){
+      b
+    }
+    
+    res.json(series);
+    res.end();
+}
+
 //TODO:fix for api prefix
 router.get('/generate/:term', function(req, res){
   var term = req.param('term',null);
 
-  function genTime(tweets){
-    console.log(tweets.length);
-    res.json({a:1});
-    res.end();
-  }
-
   var getMore = function (tweets){
     console.log(tweets.length);
 
+    //possibly more sophisticated here
     if(tweets.length < dataMin){
       var morePages = (dataMin - tweets.length) / 15;
       console.log('getting ' + morePages + ' more pages');
@@ -32,7 +40,7 @@ router.get('/generate/:term', function(req, res){
       twitter.getTweets(term, null, morePages, min, function(err, ts){
         twitterdb.storeTweets(term, ts);
         var ts = tweets.concat(ts);
-        genTime(ts);
+        genTime(res, ts);
       });
       return;
     }
