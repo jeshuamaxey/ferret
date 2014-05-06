@@ -26,9 +26,10 @@ g.graphAJAX = function(e){
 	//get parameters from form
 	var hashtag = $('#hashtag').val();
 	var date = $('#date').val();
+	var url = null; //'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date;
 	//make the call
 	$.ajax({
-		url: 'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date,
+		url: url,
 		type: 'GET'
 	})
 	.done(g.presentGraph)
@@ -43,8 +44,10 @@ g.presentGraph = function(filename) {
 }
 
 g.tweetsAJAX = function() {
-	console.log(g.dateRange);
-	var url = 'http://localhost:5000/api/get_tweets/' + g.dateRange[0].yyyymmdd() + '/' + g.dateRange[1].yyyymmdd()
+	//console.log(g.dateRange);
+	//var url = 'http://localhost:5000/api/get_tweets/' + g.dateRange[0].yyyymmdd() + '/' + g.dateRange[1].yyyymmdd();
+	//hack to local data for test
+	var url = 'testData.json';
 	$.ajax({
 		url: url,
 		type: 'GET'
@@ -53,7 +56,7 @@ g.tweetsAJAX = function() {
 }
 
 g.failedAjax = function() {
-	
+	console.log('ajax failed')
 }
 
 g.addTweets = function(tweets) {
@@ -62,10 +65,18 @@ g.addTweets = function(tweets) {
 		console.log("No tweets returned");
 		return false;
 	}
-	tweets = $.parseJSON(tweets)
-	tweets.forEach(function(t) {
-		console.log(t)
-		$('#tweets').append("<li class='list-group-item'><a href='https://twitter.com/l/statuses/" + t.id_str + "' target='_blank'>"+ t.text +"</a></li>");
+	//tweets = $.parseJSON(tweets)
+	tweets.forEach(function(t, i) {
+		console.log(t.coordinates, i)
+		$('#tweets').append("<li class='list-group-item' data-index="+i+">" +
+													"<h4 class='list-group-item-heading'>"+
+														"<a href='https://twitter.com/" + t.user.name + "' target='_blank'>" +
+															t.user.name +
+														"</a>" +
+													"</h4>" +
+													"<p>" + t.text + "</p>" +
+													"<a href='https://twitter.com/l/statuses/" + t.id_str + "' target='_blank'>Go to Tweet</a>" +
+												"</li>");
 	})
 }
 
