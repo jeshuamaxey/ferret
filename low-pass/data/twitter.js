@@ -25,20 +25,25 @@ var twitter = {
     return this._T;
   },
 
-  getTweets: function(search, date, pages, cb){
+  getTweets: function(search, date, pages, min, cb){
     //TODO: date
     var tweets = [];
     var api = this.T;
+    var maxid = min;
 
     var adder = function (err, data, res){
       //lots of copying
+      if(err){
+         console.log(err);
+         return;
+      }
       tweets = tweets.concat(data.statuses);
       pages = pages - 1;
 
-      if (pages == 0){
+      if (pages <= 0){
         cb(err, tweets);
       } else {
-        var maxid = data.search_metadata.sinceid;
+        maxid = data.search_metadata.sinceid;
         api.get('search/tweets', { q: search, max_id: maxid }, adder);
       }
     };
@@ -49,4 +54,4 @@ var twitter = {
 
 };
 
-exports.twitter = twitter;
+module.exports = twitter;

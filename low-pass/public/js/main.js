@@ -3,6 +3,9 @@
 //global namespace object
 var g = g || {};
 
+// set to true to fake the api call
+g.fakeApiCall = true
+
 Date.prototype.yyyymmdd = function() {
    var yyyy = this.getFullYear().toString();
    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
@@ -26,7 +29,8 @@ g.graphAJAX = function(e){
 	//get parameters from form
 	var hashtag = $('#hashtag').val();
 	var date = $('#date').val();
-	var url = null; //'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date;
+	////'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date;
+	var url = g.fakeApiCall ? null : 'http://localhost:3000/api/generate/'+ hashtag;
 	//make the call
 	$.ajax({
 		url: url,
