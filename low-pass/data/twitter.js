@@ -29,46 +29,59 @@ var twitter = {
 
   getTweets: function(search, time, n, cb){
 
-               var tweets = [];
                var api = this.T;
 
-               var pages = Math.ceil(n / 15);
-               console.log('getting ' + pages + ' pages');
+               var pullTweets = function(){
+                 var tweets = [];
 
-               if(!time){
-                 time = Date.now;
-               }
+                 var pages = Math.ceil(n / 15);
+                 console.log('getting ' + pages + ' pages');
 
-               var d = new Date(time);
-               var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-               var query = { q: search, until: ds, result_type: 'recent'};
-
-               var adder = function (err, data, res){
-                 //lots of copying
-                 tweets = tweets.concat(data.statuses);
-                 pages = pages - 1;
-
-                 if(err){
-                   cb(err);
+                 if(!time){
+                   time = Date.now();
                  }
 
-                 if (pages <= 0){
-                   cb(err, tweets);
-                 } else {
-                   var maxid = data.search_metadata.sinceid;
-                   query.max_id = maxid;
-                   api.get('search/tweets', query, adder);
-                 }
+                 var d = new Date(time);
+                 var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                 var query = { q: search, until: ds, result_type: 'recent'};
+
+                 var adder = function (err, data, res){
+                   //lots of copying
+                   tweets = tweets.concat(data.statuses);
+                   pages = pages - 1;
+
+                   if(err){
+                     cb(err);
+                   }
+
+                   if (pages <= 0){
+                     cb(err, tweets);
+                   } else {
+                     var maxid = data.search_metadata.sinceid;
+                     query.max_id = maxid;
+                     api.get('search/tweets', query, adder);
+                   }
+                 };
+
+                 api.get('search/tweets', query, adder);
                };
 
-               api.get('search/tweets', query, adder);
+               db.haveTweets(search, time, function(err, docs){
+                 if(err){
+                   pullTweets(api);
+                 } else {
+                   cb(null, docs);
+                 }
+               });
 
              },
 
   getSample: function(term, time, callback){
-               this.getTweets(term, time, samplesize, function (err, tweets){
+
+               var useTweets = function (err, tweets){
                  if (err){
                    callback(err);
+                   return;
                  }
 
                  var avgTime = time;
@@ -84,7 +97,7 @@ var twitter = {
                    var sum = 0;
                    for(var t in tweets){
                      var itime = 0;
-                     itime = new Date(tweets[t].created_at).getTime;
+                     itime = new Date(tweets[t].created_at).getTime();
                      mintime = Math.min(mintime, itime);
                      maxtime = Math.max(maxtime, itime);
                      sum = sum + itime;
@@ -112,6 +125,16 @@ var twitter = {
                  };
                  db.storeSample(sample, tweets);
                  callback(null, sample);
+               };
+
+               var me = this;//javascript why
+               db.haveSample(term, time, function(err, sample){
+                 if (!sample){
+                   console.log('getting sample');
+                   me.getTweets(term, time, samplesize, useTweets);
+                 } else {
+                   callback(null, sample);
+                 }
                });
              }
 

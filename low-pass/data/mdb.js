@@ -34,6 +34,24 @@ var twitterdb = {
                  }
                });
              },
+
+  haveSample: function(term, time, cb){
+                samples.findOne({term: term, time: {$gte: (time - 1000)}}, function(err, doc){
+                  cb(err, doc);
+                });
+              },
+
+  haveTweets: function(term, time, cb){
+                tweets.findOne({lpterm: term, lptime: {$gte: (time - 1000)}}, function(err, doc){
+                  if (!doc){
+                    cb({message: 'no doc'});
+                  } else {
+                    tweets.find({lpsample: doc.lpsample}, function(err, docs){
+                      cb(err, docs)
+                    });
+                  }
+                });
+              }
 };
 
 module.exports = twitterdb;
