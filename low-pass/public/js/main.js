@@ -14,14 +14,34 @@ Date.prototype.yyyymmdd = function() {
   };
 
 g.main = function() {
+	$('body').addClass('landing');
 	$('#seeTweets').hide();
-	$("#submitParams").on('click', g.graphAJAX);
-	$("#seeTweets").on('click', g.tweetsAJAX);
+	$("#initial-search").on('submit', g.initRefine);
+	$("#seeTweets").on('click', g.initRetrieve);
 }
 
-g.graphAJAX = function(e){
+g.initRefine = function(e) {
 	//stop default form submission
 	e.preventDefault();
+	//change view state
+	$('body').removeClass('landing').addClass('refine');
+
+	//add filter event listener
+	$('#filterParameters li').on('click', function() {
+		$('#filterParameters li').removeClass('active');
+		$(this).addClass('active');
+	});
+	//
+	g.graphAJAX();		
+}
+
+g.initRetrieve = function() {
+	$('body').removeClass('refine').addClass('retrieve');
+
+	g.tweetsAJAX();
+}
+
+g.graphAJAX = function(e) {
 	//clear any previous graphs (this should be improved I guess)
 	$('#graph').html('');
 	//show loading gif cos the api call takes a while
@@ -41,6 +61,7 @@ g.graphAJAX = function(e){
 };
 
 g.presentGraph = function(filename) {
+	if(g.fakeApiCall) filename = 'data.tsv';
 	$('#loadingGif').hide();
 	g.plotGraph(filename);
 	//show option to see tweets
@@ -71,15 +92,25 @@ g.addTweets = function(tweets) {
 	}
 	//tweets = $.parseJSON(tweets)
 	tweets.forEach(function(t, i) {
-		console.log(t.coordinates, i)
-		$('#tweets').append("<li class='list-group-item' data-index="+i+">" +
-													"<h4 class='list-group-item-heading'>"+
-														"<a href='https://twitter.com/" + t.user.name + "' target='_blank'>" +
-															t.user.name +
-														"</a>" +
-													"</h4>" +
-													"<p>" + t.text + "</p>" +
-													"<a href='https://twitter.com/l/statuses/" + t.id_str + "' target='_blank'>Go to Tweet</a>" +
+		console.log(t)
+		//scan tweet for media
+		//make tweet
+
+		$('#tweets').append("<li class='media tweet' data-index="+i+">" +
+														"<a class='pull-left' href='#'>" +
+															"<img class='twProfilePic' src='"+ t.user.profile_image_url +"'/>" +
+												    "</a>" +
+												    "<div class='media-body'>" +
+												      "<h4 class='media-heading'><a src='"+ t.user.profile_image_url +"'>" +
+												      	t.user.name +
+												      "</a></h4>" +
+												      "<div class='tweet-content'>" +
+																"<p>" + t.text + "</p>" +
+																"<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" +
+															"</div>" +
+															"<div class='tweet-footer'>" +
+																"<a href='https://twitter.com/l/statuses/" + t.id_str + "' target='_blank'>Go to Tweet</a>" +
+															"</div>" +
 												"</li>");
 	})
 }
