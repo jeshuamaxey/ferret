@@ -6,19 +6,39 @@
 */
 body {
   /** for static header **/
-  padding-top: 70px; }
+  padding-top: 70px;
+  background: whitesmoke; }
   body svg {
     font: 10px sans-serif; }
+
+body {
+  font-family: 'Lato', 'Helvetica', sans-serif; }
+
+h1, h2 {
+  color: #00b7ff; }
+
+.lead-copy {
+  max-width: 400px;
+  margin: 0 auto;
+  font-size: 150%;
+  text-align: center; }
 
 /*
 *	Layout
 */
-.l-initial-search {
-  margin-top: 200px; }
-  .l-initial-search input {
-    margin: 0 auto;
-    max-width: 200px;
-    border-radius: 20px; }
+.l-initial-search input {
+  margin: 100px auto;
+  max-width: 200px; }
+.l-initial-search .links {
+  max-width: 400px;
+  margin: 200px auto;
+  padding: 0;
+  text-align: center;
+  list-style: none; }
+  .l-initial-search .links li {
+    display: inline-block;
+    padding: 0 10px;
+    text-align: center; }
 
 .retrieve .l-initial-search {
   display: none; }
@@ -79,8 +99,7 @@ circle {
   max-width: 100%; }
 
 .navbar-brand {
-  transition: all 0.2s ease;
-  padding: 0 0 0 10px; }
+  transition: all 0.2s ease; }
 
 /* tweets */
 .tweet .twProfilePic {

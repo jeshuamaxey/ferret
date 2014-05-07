@@ -1,8 +1,15 @@
 #wrapper.container
 	//- INITIAL SEARCH
-	form#initial-search.l-initial-search(role='form', action="/")
-		div.form-group
-			input#hashtag.form-control(type='text', placeholder='Search...')
+	div.l-initial-search
+		div.lead-copy
+			h1 oFilter
+			p Stand fast goes here, describing what all the fuss is about
+		form#initial-search(role='form', action="/")
+			div.form-group
+				input#hashtag.form-control(type='text', placeholder='Search...')
+		ul.links
+			li: a(href='#') About
+			li: a(href='http://github.com/jeshuamaxey/low-pass') GitHub
 	
 	//- REFINE SEARCH
 	div#refine-search.l-refine-search.row
