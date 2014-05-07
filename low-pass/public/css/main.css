@@ -1,88 +1,122 @@
+/*
+*	Master Stylesheet
+*/
+/*
+*	Base
+*/
 body {
-	/** for static header **/
-	padding-top: 70px;
-}
+  /** for static header **/
+  padding-top: 70px; }
+  body svg {
+    font: 10px sans-serif; }
 
-.scroll-lock {
-	overflow: hidden;
-}
+/*
+*	Layout
+*/
+.l-initial-search {
+  margin-top: 200px; }
+  .l-initial-search input {
+    margin: 0 auto;
+    max-width: 200px;
+    border-radius: 20px; }
 
-body svg {
-  font: 10px sans-serif;
-}
+.retrieve .l-initial-search {
+  display: none; }
+.retrieve .l-refine-search {
+  display: none; }
+.retrieve .l-retrieve {
+  display: block; }
 
-.navbar-brand {
-  padding: 0 0 0 10px;
-}
-.logo {
-  max-height: 100%;
-  max-width: 100%;
-}
-
-.glyphicon-info-sign:hover {
-  cursor: pointer;
-}
-
-#loadingGif {
-  display: none;
-}
-
-#loadingGif img {
-  height: 150px;
-}
-
+/*
+*	Modules
+*/
 /* graph styles */
-
 .axis path,
 .axis line {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
-}
+  shape-rendering: crispEdges; }
 
 .x.axis path {
-  display: none;
-}
+  display: none; }
 
 .line {
   fill: none;
   stroke: #5AA9E0;
-  stroke-width: 1.5px;
-}
+  stroke-width: 1.5px; }
 
 /**/
-
 svg {
-  font: 10px sans-serif;
-}
+  font: 10px sans-serif; }
 
 circle {
-  -webkit-transition: fill-opacity 250ms linear;
-}
+  -webkit-transition: fill-opacity 250ms linear; }
 
 .selecting circle {
-  fill-opacity: .2;
-}
+  fill-opacity: .2; }
 
 .selecting circle.selected {
-  stroke: #f00;
-}
+  stroke: #f00; }
 
 .resize path {
   fill: #ccc;
   fill-opacity: .8;
   stroke: #000;
-  stroke-width: 1.5px;
-}
+  stroke-width: 1.5px; }
 
 .axis path, .axis line {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
-}
+  shape-rendering: crispEdges; }
 
 .brush .extent {
   fill: #5AA9E0;
   fill-opacity: .125;
-  shape-rendering: crispEdges;
-}
+  shape-rendering: crispEdges; }
+
+.logo {
+  max-height: 100%;
+  max-width: 100%; }
+
+.navbar-brand {
+  transition: all 0.2s ease;
+  padding: 0 0 0 10px; }
+
+/* tweets */
+.tweet .twProfilePic {
+  width: 48px;
+  height: 48px;
+  border-radius: 5px; }
+
+.tweet .tweetPic {
+  max-width: 150px;
+  max-height: 150px; }
+
+/*
+*	State
+*/
+.hidden {
+  display: none; }
+
+.landing .navbar {
+  margin-top: -50px; }
+.landing .l-initial-search {
+  display: block; }
+.landing .l-refine-search {
+  display: none; }
+.landing .l-retrieve {
+  display: none; }
+
+.refine .l-initial-search {
+  display: none; }
+.refine .l-refine-search {
+  display: block; }
+.refine .l-retrieve {
+  display: none; }
+
+.retrieve .l-initial-search {
+  display: none; }
+.retrieve .l-refine-search {
+  display: none; }
+.retrieve .l-retrieve {
+  display: block; }

@@ -1,0 +1,55 @@
+/* graph styles */
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: #5AA9E0;
+  stroke-width: 1.5px;
+}
+
+/**/
+
+svg {
+  font: 10px sans-serif;
+}
+
+circle {
+  -webkit-transition: fill-opacity 250ms linear;
+}
+
+.selecting circle {
+  fill-opacity: .2;
+}
+
+.selecting circle.selected {
+  stroke: #f00;
+}
+
+.resize path {
+  fill: #ccc;
+  fill-opacity: .8;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  fill: #5AA9E0;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
