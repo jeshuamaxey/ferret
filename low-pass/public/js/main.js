@@ -24,20 +24,31 @@ g.main = function() {
 g.initRefine = function(e) {
 	//stop default form submission
 	e.preventDefault();
-	//change view state
-	$('body').removeClass('landing').addClass('refine');
-
+	//collect search term
 	g.searchTerm = $('#hashtag').val();
 	$('nav input').val(g.searchTerm);
-
-	//
-	g.generateGraph();		
+	//animate UI
+	$('.l-initial-search').fadeOut(200, function() {
+		//update css state classes
+		$('body').removeClass('landing')
+		$('.l-refine-search').fadeIn(200, function() {
+			g.generateGraph();
+			$('body').addClass('refine');
+		});
+	});	
 }
 
 g.initRetrieve = function() {
-	$('body').removeClass('refine').addClass('retrieve');
-
+	//get tweets
 	g.tweetsAJAX(g.searchTerm);
+	//animate UI
+	$('.l-refine-search').fadeOut(200, function() {
+		//update css state classes
+		$('body').removeClass('refine');
+		$('l.retrieve').fadeIn(200, function() {
+			$('body').addClass('retrieve');
+		});
+	});
 }
 
 g.generateGraph = function(searchTerm) {

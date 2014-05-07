@@ -2,7 +2,7 @@
 
 g.plotGraph = function(dataFilePath) {
 
-	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+	var margin = {top: 50, right: 100, bottom: 50, left: 100},
 	    width = $('#graph').width() - margin.left - margin.right,
 	    height = $('#graph').width()*0.5 - margin.top - margin.bottom;
 
