@@ -63,10 +63,10 @@ suite.addBatch({
 
       'which is sensible': function(err, sample){
         assert.equal(sample.term, 'twitter');
-        assert.isNumber(sample.time);
-        assert.isNumber(sample.minid);
-        assert.isNumber(sample.maxid);
-        assert.isNumber(sample.density);
+        assert.strictEqual(sample.time > 0, true);
+        assert.strictEqual(sample.minid > 0, true);
+        assert.strictEqual(sample.maxid > 0, true);
+        assert.strictEqual(sample.density > 0, true);
       },
 
     }
