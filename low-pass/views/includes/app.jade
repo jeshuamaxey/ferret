@@ -1,22 +1,35 @@
 #wrapper.container
-	form#params(role='form')
-		label(for='hashtag') Choose a hashtag:
-		.input-group
-			span.input-group-addon #
-			input#hashtag.form-control(type='text', placeholder='yolo')
-		.form-group
-			label(for='date') Choose a date a little after it all kicked off:
-			input#date.form-control(type='date')
-		input#submitParams.btn.btn-primary(type='sumbit', value='Go')
-	hr
-	label(for='dateDisp') Date: 
-	span#dateDisp
+	//- INITIAL SEARCH
+	form#initial-search.l-initial-search(role='form', action="/")
+		div.form-group
+			input#hashtag.form-control(type='text', placeholder='Search...')
+	
+	//- REFINE SEARCH
+	div#refine-search.l-refine-search.row
+		div.col-md-8
+			h4 Refine
+			//graph is drawn by d3
+			#graph.graph
+			#loadingGif
+				h3.hidden Loading...
+				img(src='img/loading.gif', class='hidden', alt='loading...')
+		div.col-md-4
+			h4 Filter
+			ul.nav.nav-pills.nav-stacked#filterParameters
+				li.active
+					a All
+				li
+					a Photo
+				li
+					a Text
+				li
+					a Video
+			hr
+			div.form-group
+				input#location.form-control(type='text', placeholder='Location')
+			hr
+			input#seeTweets.btn.btn-primary(type='button', value='See Tweets')
 
-	//
-		/.graph is drawn by d3
-	#graph.graph
-	input#seeTweets.btn.btn-primary(type='button', value='See those tweets')
-	#loadingGif
-		h3 Loading...
-		img(src='img/loading.gif', alt='loading...')
-	ul#tweets.list-group
+	//- RETIREVE TWEETS
+	div.l-retrieve
+		ul#tweets.media-list
