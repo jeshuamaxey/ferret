@@ -7,5 +7,21 @@ var twitterdb = {
                    t.lowpassTerm = term;
                  }
                  tweets.insert(newTweets);
+               },
+
+  getTweets: function(term, startid, size, cb){
+               var q = {term: term};
+               if (startid){
+                 q.$lte = startid;
                }
+               tweets.find(q, function(err, doc){
+                 if (err){
+                   cb(err, doc);
+                 } else {
+                   cb(err, doc.splice(0,size));
+                 }
+               });
+             },
 };
+
+module.exports = twitterdb;

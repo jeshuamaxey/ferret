@@ -26,7 +26,6 @@ var twitter = {
   },
 
   getTweets: function(search, date, pages, cb){
-    //TODO: date
     var tweets = [];
     var api = this.T;
 
@@ -46,6 +45,17 @@ var twitter = {
     api.get('search/tweets', { q: search }, adder);
 
   },
+
+  getSample: function(term, time, callback){
+               var sample = {
+                 term: term, 
+                 time: 0,
+                 minid: 0,
+                 maxid: 0,
+                 density: 0
+               }
+               callback(null, sample);
+             }
 
 };
 
