@@ -13,8 +13,8 @@
 
 .line {
   fill: none;
-  stroke: #5AA9E0;
-  stroke-width: 1.5px;
+  stroke: rgb(0,0,0);//#5AA9E0;
+  stroke-width: 0.5px;
 }
 
 /**/
@@ -49,7 +49,7 @@ circle {
 }
 
 .brush .extent {
-  fill: #5AA9E0;
+  fill: rgb(255,0,255); //#5AA9E0;
   fill-opacity: .125;
   shape-rendering: crispEdges;
 }

@@ -3,8 +3,8 @@
 g.plotGraph = function(dataFilePath) {
 
 	var margin = {top: 20, right: 20, bottom: 30, left: 50},
-	    width = $('#wrapper').width() - margin.left - margin.right,
-	    height = $('#wrapper').width()*0.5 - margin.top - margin.bottom;
+	    width = $('#graph').width() - margin.left - margin.right,
+	    height = $('#graph').width()*0.5 - margin.top - margin.bottom;
 
 	var parseDate = d3.time.format("%d-%b-%y").parse;
 
@@ -32,9 +32,9 @@ g.plotGraph = function(dataFilePath) {
 	  .append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	d3.tsv(dataFilePath, function(error, data) {
+	d3.json(dataFilePath, function(error, data) {
 	  data.forEach(function(d) {
-	  	console.log(d.date)
+	  	//console.log(d.date)
 	  	//convert date to milliseconds
 	    d.date = new Date(parseInt(d.date*1000));
 	    d.tps = +d.tps;

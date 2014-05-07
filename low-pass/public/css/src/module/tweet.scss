@@ -1,20 +1,37 @@
 /* tweets */
 
 .tweet {
+	padding: 15px;
+	margin-bottom: 20px;
 
-}
+	background: #fff;
 
-.tweet .twProfilePic {
-  width: 48px;
-  height: 48px;
-  border-radius: 5px;
-}
+	border-radius: 6px;
 
-.tweet .twUsername {
+	.tw-profile {
+		.twProfilePic {
+			float: left;
+		  width: 48px;
+		  height: 48px;
+		  border-radius: 5px;
+		}
+		p {
+			float: left;
+			margin-left: 15px;
+		}
+	}
+	//CONTENT
+	.tw-body {
+		p {
+			max-width: 65%;
+			float: left;
+		}
+		.tweetPic {
+		  // max-width: 150px;
+		  // max-height: 150px;
+		  max-width: 35%;
 
-}
-
-.tweet .tweetPic {
-  max-width: 150px;
-  max-height: 150px;
+		  float: right;
+		}
+	}
 }

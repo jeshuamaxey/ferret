@@ -4,6 +4,9 @@
 /*
 *	Base
 */
+/*
+*	Colours
+*/
 body {
   /** for static header **/
   padding-top: 70px;
@@ -40,6 +43,10 @@ h1, h2 {
     padding: 0 10px;
     text-align: center; }
 
+.l-refine-search #seetweets {
+  display: block;
+  margin: 50px auto; }
+
 .retrieve .l-initial-search {
   display: none; }
 .retrieve .l-refine-search {
@@ -62,8 +69,8 @@ h1, h2 {
 
 .line {
   fill: none;
-  stroke: #5AA9E0;
-  stroke-width: 1.5px; }
+  stroke: black;
+  stroke-width: 0.5px; }
 
 /**/
 svg {
@@ -90,7 +97,7 @@ circle {
   shape-rendering: crispEdges; }
 
 .brush .extent {
-  fill: #5AA9E0;
+  fill: magenta;
   fill-opacity: .125;
   shape-rendering: crispEdges; }
 
@@ -98,18 +105,35 @@ circle {
   max-height: 100%;
   max-width: 100%; }
 
-.navbar-brand {
-  transition: all 0.2s ease; }
+.navbar {
+  background-color: #fff; }
+  .navbar .top-search-bar {
+    max-width: 50%;
+    float: left; }
+  .navbar .navbar-brand {
+    transition: all 0.2s ease;
+    color: #00b7ff; }
 
 /* tweets */
-.tweet .twProfilePic {
-  width: 48px;
-  height: 48px;
-  border-radius: 5px; }
-
-.tweet .tweetPic {
-  max-width: 150px;
-  max-height: 150px; }
+.tweet {
+  padding: 15px;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 6px; }
+  .tweet .tw-profile .twProfilePic {
+    float: left;
+    width: 48px;
+    height: 48px;
+    border-radius: 5px; }
+  .tweet .tw-profile p {
+    float: left;
+    margin-left: 15px; }
+  .tweet .tw-body p {
+    max-width: 65%;
+    float: left; }
+  .tweet .tw-body .tweetPic {
+    max-width: 35%;
+    float: right; }
 
 /*
 *	State

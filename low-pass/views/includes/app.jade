@@ -13,30 +13,22 @@
 	
 	//- REFINE SEARCH
 	div#refine-search.l-refine-search.row
-		div.col-md-8
-			h4 Refine
+		div.col-md-12
 			//graph is drawn by d3
 			#graph.graph
+			input#seeTweets.btn.btn-primary(type='button', value='Retrieve Tweets')
 			#loadingGif
 				h3.hidden Loading...
 				img(src='img/loading.gif', class='hidden', alt='loading...')
-		div.col-md-4
-			h4 Filter
-			ul.nav.nav-pills.nav-stacked#filterParameters
-				li.active
-					a All
-				li
-					a Photo
-				li
-					a Text
-				li
-					a Video
-			hr
-			div.form-group
-				input#location.form-control(type='text', placeholder='Location')
-			hr
-			input#seeTweets.btn.btn-primary(type='button', value='See Tweets')
+		//- div.col-md-4
+		//- 	hr
+		//- 	div.form-group
+		//- 		input#location.form-control(type='text', placeholder='Location')
+		//- 	hr
 
 	//- RETIREVE TWEETS
 	div.l-retrieve
-		ul#tweets.media-list
+		div.row
+			div.col-md-8
+				ul#tweets.media-list
+			div.col-md-4
