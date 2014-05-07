@@ -2,7 +2,6 @@ var vows = require('vows');
 var assert = require('assert');
 
 var twitter = require('./data/twitter');
-twitter = twitter.twitter;
 
 var suite = vows.describe('twitter');
 suite.addBatch({
@@ -70,7 +69,6 @@ suite.addBatch({
       },
 
     }
-
   },
 });
 

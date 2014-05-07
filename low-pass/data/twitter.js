@@ -140,4 +140,4 @@ var twitter = {
 
 };
 
-exports.twitter = twitter;
+module.exports = twitter;
