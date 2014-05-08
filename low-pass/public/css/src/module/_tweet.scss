@@ -15,23 +15,27 @@
 		  height: 48px;
 		  border-radius: 5px;
 		}
-		p {
-			float: left;
+		.user {
 			margin-left: 15px;
 		}
 	}
 	//CONTENT
-	.tw-body {
+	.tw-text {
 		p {
-			max-width: 65%;
-			float: left;
+			max-width: 100%;
 		}
 		.tweetPic {
-		  // max-width: 150px;
-		  // max-height: 150px;
-		  max-width: 35%;
+		  max-width: 100%;
+		  max-height: 100%;
+		  // max-width: 35%;
 
-		  float: right;
+		  // float: right;
+		}
+	}
+	.tw-media {
+		img {
+			max-width: 100%;
+		  max-height: 100%;
 		}
 	}
 }

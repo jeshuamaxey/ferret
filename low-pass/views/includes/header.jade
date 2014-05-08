@@ -10,14 +10,14 @@ nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
       a.navbar-brand(href='#') oFilter
     //Collect the nav links, forms, and other content for toggling     
     div#collapse.navbar-collapse
-      form.navbar-form.top-search-bar
+      form#navbar-search.navbar-form.top-search-bar(role='form', action="/")
           div.form-group
-            input#navbar-search.form-control(type='text', placeholder='search term')
+            input.form-control(type='text', placeholder='search term')
       ul.nav.navbar-nav.navbar-right
-        li.active: a All
-        li: a Photos
-        li: a Text
-        li: a Video
-        li: a Links
-        li: a More
+        li.active: a(href='#', class='filter-option', data-filter-by='all') All
+        li: a(href='#', class='filter-option', data-filter-by='photos') Photos
+        li: a(href='#', class='filter-option', data-filter-by='text') Text
+        li: a(href='#', class='filter-option', data-filter-by='video') Video
+        li: a(href='#', class='filter-option', data-filter-by='links') Links
+        li: a(href='#', class='filter-option', data-filter-by='more') More
 

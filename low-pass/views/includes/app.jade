@@ -17,9 +17,10 @@
 			//graph is drawn by d3
 			#graph.graph
 			input#seeTweets.btn.btn-primary(type='button', value='Retrieve Tweets')
-			#loadingGif
-				h3.hidden Loading...
-				img(src='img/loading.gif', class='hidden', alt='loading...')
+			.panel.panel-default#loadingGif.loading
+				.panel-body
+					p Just checking in with our mates at Twitter
+					img(src='img/loading.gif', alt='loading...')
 		//- div.col-md-4
 		//- 	hr
 		//- 	div.form-group
