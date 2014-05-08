@@ -1,6 +1,9 @@
 var db = require('monk')('localhost/low-pass');
 var tweets = db.get('tweets');
 var samples = db.get('samples');
+var cfilter = function(time) {
+  return {$gte: (time - 1000), $lte: (time + 1000)};
+};
 
 var twitterdb = {
   storeTweets: function(term, newTweets){
@@ -21,8 +24,29 @@ var twitterdb = {
                  });
                },
 
+  getSamples: function(term, cb){
+                //TODO:mapreduce this
+                samples.distinct('time', function(err, times){
+                  var toAdd = times.length;
+                  var ss = [];
+                  var adder = function(err, s){
+                    ss.push(s);
+                    toAdd--;
+                    if(!toAdd){
+                      console.log(ss);
+                      cb(err, ss);
+                      toAdd = 0;
+                    }
+                  }
+
+                  for (t in times){
+                    samples.findOne({time:times[t]}, adder);
+                  }
+                });
+              },
+
   getTweets: function(term, startid, size, cb){
-               var q = {term: term};
+               var q = {lpterm: term};
                if (startid){
                  q.$lte = startid;
                }
@@ -36,13 +60,13 @@ var twitterdb = {
              },
 
   haveSample: function(term, time, cb){
-                samples.findOne({term: term, time: {$gte: (time - 1000), $lte: (time + 1000)}}, function(err, doc){
+                samples.findOne({term: term, time: cfilter(time)}, function(err, doc){
                   cb(err, doc);
                 });
               },
 
   haveTweets: function(term, time, cb){
-                tweets.findOne({lpterm: term, lptime: {$gte: (time - 1000), $lte: (time + 1000)}}, function(err, doc){
+                tweets.findOne({lpterm: term, lptime: cfilter(time)}, function(err, doc){
                   if (!doc){
                     cb({message: 'no doc'});
                   } else {

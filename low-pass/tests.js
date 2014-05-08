@@ -21,13 +21,11 @@ suite.addBatch({
         assert.isObject(topic.T);
       },
 
-  /*
       'can pull a page of tweets': {
         topic: function () {
                  twitter.twitter.getTweets('twitter', null, 1, this.callback)
                },
         'something is returned' : function (err, tweets) {
-          testData = tweets;//what a filthy hack
           assert.isTrue(tweets.length > 0);
         }
       },
@@ -41,8 +39,8 @@ suite.addBatch({
           assert.isTrue(tweets.length > 0);
         }
       }
-      */
     },
+      /*
     'making a sample': {
       topic: function(){
                twitter.getSample('twitter', Date.now(), this.callback);
@@ -68,7 +66,23 @@ suite.addBatch({
         assert.strictEqual(sample.density > 0, true);
       },
 
+      
     }
+    */
+      'making a series': {
+        topic: function(){
+                 twitter.sampleTerm('twitter', 60*60000, this.callback);
+               },
+
+        'no error': function (err, samples){
+          assert.isNull(err);
+        },
+
+        'there are many points': function (err, samples){
+          assert.isStrictEqual(samples >= 5, true);
+        },
+
+      }
   },
 });
 

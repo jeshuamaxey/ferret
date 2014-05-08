@@ -6,8 +6,15 @@ misc/*
 
 #node
 node_modules
+
 #vim buffer
 *.swp
+
+#other buffer
+*.swo
+
+#test file
+r.js
 
 #Apple
 .DS_Store
