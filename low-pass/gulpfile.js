@@ -62,6 +62,17 @@ gulp.task('sass', function () {
       .pipe(gulp.dest(paths.styles.dest));
 });
 
+gulp.task('sass-watch', ['sass'], function() { 
+  // Watch the files in the paths object, and when there is a change, fun the functions in the array
+  gulp.watch(paths.styles.files, ['sass'])
+  // Also when there is a change, display what file was changed, only showing the path after the 'sass folder'
+  .on('change', function(evt) {
+    console.log(
+      '[watcher] File ' + evt.path.replace(/.*(?=sass)/,'') + ' was ' + evt.type + ', compiling...'
+    );
+  });
+});
+
 gulp.task('default', ['serve','sass'], function() { 
   // Watch the files in the paths object, and when there is a change, fun the functions in the array
   gulp.watch(paths.styles.files, ['sass'])
