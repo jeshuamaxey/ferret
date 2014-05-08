@@ -4,6 +4,7 @@ from twython import Twython
 from dateutil import parser
 from datetime import datetime, date, time, timedelta
 from flask import Flask, send_from_directory
+import sys
 import calendar
 
 app = Flask(__name__, static_url_path='')
@@ -11,8 +12,8 @@ counter = 0
 
 def startTwitter():
   global APP_KEY
-  APP_KEY= 'YOUR KEY HERE'
-  APP_SECRET='YOUR SECRET HERE'
+  APP_KEY= 'UO1UHczEF8XCyYNJ1PMZtFfR0'
+  APP_SECRET='5JhKexPUEceWxPlfdzM6b1aRLR1ZTQ18vU9zUvAWnJZ4YZ4uIr'
   twitter = Twython(APP_KEY, APP_SECRET, oauth_version=2)
   global ACCESS_TOKEN 
   ACCESS_TOKEN = twitter.obtain_access_token()
@@ -36,11 +37,15 @@ def getFollowerCount(tweet):
   return getTwitter().show_user(user_id=tweet.get('user').get('id')).get('followers_count')
 
 def getDensity(ts):
+  if len(ts) < 2:
+    return (0, ts[0]);
   times = map(lambda x: parser.parse(x.get('created_at')), ts)
   mintime = min(times)
   maxtime = max(times)
 
   range = maxtime - mintime
+  if range.total_seconds() == 0:
+    return (sys.maxint, avg_time(times))
   return (len(ts)/range.total_seconds(), avg_time(times))
 
 def avg_time(datetimes):

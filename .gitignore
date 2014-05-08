@@ -29,3 +29,11 @@ twitterapi.json
 
 #database folder
 mongodata
+
+#ignore
+*.swp
+mongodata
+
+low-pass
+
+.DS_Store
