@@ -11,7 +11,7 @@ router.get('/search', function(req, res){
     res.json({message: 'bad query'});
     res.end();
   }else{
-    var scale = 60*1000; //minute, will soon be relevant
+    var scale = 14*24*60*60*1000; //minute, will soon be relevant
     twitter.sampleTerm(term, scale, function(err, series){
       res.json(JSON.stringify(series));
       res.end();

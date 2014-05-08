@@ -46,7 +46,7 @@ var twitter = {
     return this._T;
   },
 
-  getTweets: function(search, time, n, id, cb){
+  getTweets: function(search, type, n, cb){
 
                var api = this.T;
 
@@ -56,16 +56,16 @@ var twitter = {
                  var pages = Math.ceil(n / 15);
                  console.log('getting ' + pages + ' pages');
 
-                 if(!time){
-                   time = Date.now();
+                 var query = { q: search, result_type: 'recent'};
+
+                 if(type.sample == 'time'){
+                   var d = new Date(type.time);
+                   var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                   query.until = ds;
                  }
 
-                 var d = new Date(time);
-                 var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                 var query = { q: search, until: ds, result_type: 'recent'};
-
-                 if(id){
-                   query.max_id = id;
+                 if(type.sample == 'id'){
+                   query.max_id = type.id;
                  }
 
                  var adder = function (err, data, res){
@@ -90,10 +90,11 @@ var twitter = {
                    }
                  };
 
+                 console.dir(query);
                  api.get('search/tweets', query, adder);
                };
 
-               db.haveTweets(search, time, function(err, docs){
+               db.haveTweets(search, type.time, function(err, docs){
                  if(err){
                    pullTweets(api);
                  } else {
@@ -103,7 +104,7 @@ var twitter = {
 
              },
 
-  getSample: function(term, time, id, currentSamples, callback){
+  getSample: function(term, type, currentSamples, callback){
 
                var useTweets = function (err, tweets){
                  if (err){
@@ -111,7 +112,7 @@ var twitter = {
                    return;
                  }
 
-                 var avgTime = time;
+                 var avgTime = type.time;
                  var density = 0;
                  var minid = 0;
                  var maxid = 0;
@@ -123,14 +124,14 @@ var twitter = {
                    var maxtime = Number.MIN_VALUE;
                    var sum = 0;
                    for(var t in tweets){
-                     var itime = 0;
-                     itime = new Date(tweets[t].created_at).getTime();
+                     var itime = new Date(tweets[t].created_at).getTime();
                      mintime = Math.min(mintime, itime);
                      maxtime = Math.max(maxtime, itime);
                      sum = sum + itime;
                    }
 
                    avgTime = (maxtime + mintime) / 2;
+                   console.log(new Date(avgTime));
 
                    if (maxtime == mintime){
                      console.log('sample size too small');
@@ -160,15 +161,18 @@ var twitter = {
                 //want to have more samples at lower densities
                 //so return false if we have something in the vicinity
                 //with high density
-                 var distance = Math.abs(time - currentSamples[s].time);
+                 var distance = Math.abs(type.time - currentSamples[s].time);
+                 console.log('distance of ' + distance);
 
-                 if (currentSamples[s].density == 15 && distance < 60*60*1000){
+                 if (currentSamples[s].density > 10 && distance < 60*60*1000){
+                   console.log('cached sample');
                    callback(null, currentSamples[s]);
                    return;
                  }
                  //optimise to not go through all samples
                }
-               this.getTweets(term, time, samplesize, id, useTweets);
+
+               this.getTweets(term, type, samplesize, useTweets);
              },
 
   sampleTerm: function(term, scale, cb){
@@ -216,19 +220,27 @@ var twitter = {
                    var points = [];
                    var toAdd = npoints;
                    for(var p = 0; p < npoints; p++){
-                     var t = start + p*scale/npoints;
+                     var t = start - p*scale/npoints;
                      var ref = closestReference(t, reference);
                      var refid = (ref.maxid + ref.minid)/2;
-                     var deltaid = ref.gradient*(ref.time - t);
+                     var deltaid = ref.gradient*(t - ref.time);
                      var id = Math.round(refid + deltaid);
 
-                     console.log(new Date(t));
-
-                     me.getSample(ref.term, null, id, reference, function(err, s){
-                       console.log('wanted: ' + new Date(t) + ' got: ' + new Date(s.time));
-                       points.push({date: s.time, tps: s.density});
+                     console.log(new Date(t) + ' ' + id);
+                     var sampletype = {sample: 'id', time: t, id:id};
+                     me.getSample(ref.term, sampletype, reference, function(err, s){
+                       points.push({date: s.time/1000, tps: s.density});
                        toAdd--;
                        if (!toAdd){
+                         var end = start + scale;
+                         for(r in reference){
+                           var reftime = reference[r].time;
+                           if(reftime < start && reftime > end){
+                             points.push({date: reftime/1000, tps: reference[r].density});
+                           } else {
+                             console.log(new Date(reftime) + ' not between ' + new Date(start) + new Date(end));
+                           }
+                         }
                          points.sort(dateSort);
                          cb(null, points);
                        }
@@ -254,9 +266,11 @@ var twitter = {
                    //TODO: remove redundant sample
                    if (samples.length < 2){
                      var date = new Date();
-                     me.getSample(term, date.getTime(), null, samples, function(err, today){
+                     var sampletype = {sample: 'time', time: date.getTime(), id: null};
+                     me.getSample(term, sampletype, samples, function(err, today){
                        date.setDate(date.getDate() - 1);
-                       me.getSample(term, date.getTime(), null, samples, function(err, yesterday){
+                       sampletype = {sample: 'time', time: date.getTime(), id: null};
+                       me.getSample(term, sampletype, samples, function(err, yesterday){
                          samples.push(today);
                          samples.push(yesterday);
                          checkReference(samples);
