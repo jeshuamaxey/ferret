@@ -103,13 +103,16 @@ g.tweetsAJAX = function() {
 g.failedAjax = function(err) {
 	$('#error #cause').html('an ajax error');
 	$('#error #log').html(err);
-	$('#error').modal('show')
+	$('#error').modal('show');
 }
 
 g.addTweets = function(tweets) {
 	//if there are no tweets, tell the console
 	if(!tweets.length) {
 		console.log("No tweets returned");
+		$('#cause').html();
+		$('#log').html(tweets);
+		$('#error').modal('show');
 		return false;
 	}
 	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
