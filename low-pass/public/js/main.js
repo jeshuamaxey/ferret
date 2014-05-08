@@ -4,7 +4,7 @@
 var g = g || {};
 
 // set to true to fake the api call
-g.fakeApiCall = true
+g.fakeApiCall = false;
 
 Date.prototype.yyyymmdd = function() {
    var yyyy = this.getFullYear().toString();
@@ -32,7 +32,7 @@ g.initRefine = function(e) {
 		//update css state classes
 		$('body').removeClass('landing')
 		$('.l-refine-search').fadeIn(200, function() {
-			g.generateGraph();
+			g.generateGraph(g.searchTerm);
 			$('body').addClass('refine');
 		});
 	});	
@@ -55,9 +55,11 @@ g.generateGraph = function(searchTerm) {
 	//clear any previous graphs (this should be improved I guess)
 	$('#graph').html('');
 	//show loading gif cos the api call takes a while
-	$('#loadingGif').show()
+	$('#loadingGif').show();
 	////'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date;
-	var url = g.fakeApiCall ? null : 'http://localhost:3000/api/generate_time_series?q='+ searchTerm;
+	var url = g.fakeApiCall ? null : 'http://localhost:3000/api/search?q='+ searchTerm;
+  g.presentGraph(url);
+  /*
 	//make the call
 	$.ajax({
 		url: url,
@@ -65,6 +67,7 @@ g.generateGraph = function(searchTerm) {
 	})
 	.done(g.presentGraph)
 	.fail(g.failedAjax);
+  */
 };
 
 g.presentGraph = function(filename) {

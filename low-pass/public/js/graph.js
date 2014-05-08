@@ -33,6 +33,7 @@ g.plotGraph = function(dataFilePath) {
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	d3.json(dataFilePath, function(error, data) {
+    data = JSON.parse(data);
 	  data.forEach(function(d) {
 	  	//console.log(d.date)
 	  	//convert date to milliseconds

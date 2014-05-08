@@ -9,10 +9,17 @@ node_modules
 npm-debug.log
 #bower
 low-pass/public/bower_components
+
 #vim buffer
 *.swp
 #sass cache
 *.sass-cache
+
+#other buffer
+*.swo
+
+#test file
+r.js
 
 #Apple
 .DS_Store
