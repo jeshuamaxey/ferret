@@ -6,6 +6,8 @@ var g = g || {};
 // set to true to fake the api call
 g.fakeApiCall = false;
 
+var filterOptions = ['all','photos','text','video','links','more'];
+
 Date.prototype.yyyymmdd = function() {
    var yyyy = this.getFullYear().toString();
    var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
@@ -17,11 +19,19 @@ g.main = function() {
 	$('body').addClass('landing');
 	$('#seeTweets').hide();
 	$("#initial-search").on('submit', g.initRefine);
-	$("#navbar-search").on('submit', g.initRefine);
+	$("#navbar-search").on('submit', function(e) {
+		//stop default form submission
+		e.preventDefault();
+		console.log('nav search')
+		//collect search term
+		g.searchTerm = $('#hashtag').val();
+		g.fetchTimeSeries(g.searchTerm);
+	});
 	$("#seeTweets").on('click', g.initRetrieve);
 }
 
 g.initRefine = function(e) {
+	console.log('init refine')
 	//stop default form submission
 	e.preventDefault();
 	//collect search term
@@ -32,7 +42,7 @@ g.initRefine = function(e) {
 		//update css state classes
 		$('body').removeClass('landing')
 		$('.l-refine-search').fadeIn(200, function() {
-			g.generateGraph(g.searchTerm);
+			g.fetchTimeSeries(g.searchTerm);
 			$('body').addClass('refine');
 		});
 	});	
@@ -51,15 +61,13 @@ g.initRetrieve = function() {
 	});
 }
 
-g.generateGraph = function(searchTerm) {
+g.fetchTimeSeries = function(searchTerm) {
 	//clear any previous graphs (this should be improved I guess)
 	$('#graph').html('');
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
-	////'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date;
-	var url = g.fakeApiCall ? null : 'http://localhost:3000/api/search?q='+ searchTerm;
-  g.presentGraph(url);
-  /*
+	var url = g.fakeApiCall ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;
+  
 	//make the call
 	$.ajax({
 		url: url,
@@ -67,20 +75,17 @@ g.generateGraph = function(searchTerm) {
 	})
 	.done(g.presentGraph)
 	.fail(g.failedAjax);
-  */
 };
 
-g.presentGraph = function(filename) {
-	if(g.fakeApiCall) filename = 'testseries.json';
-	$('#loadingGif').hide();
-	g.plotGraph(filename);
-	//show option to see tweets
+g.presentGraph = function(data) {
+	g.plotGraph(data);
 	$('#seeTweets').show();
+	$('#loadingGif').hide()
 }
 
 g.tweetsAJAX = function() {
 	//console.log(g.dateRange);
-	// var url = 'http://localhost:5000/api/get_tweets?'+
+	// var url = 'api/get_tweets?'+
 	// 					'start=' + g.dateRange[0] +
 	// 					'&end='+ g.dateRange[1];
 	//hack to local data for test
@@ -92,8 +97,10 @@ g.tweetsAJAX = function() {
 	.done(g.addTweets)
 }
 
-g.failedAjax = function() {
-	console.log('ajax failed')
+g.failedAjax = function(err) {
+	$('#error #cause').html('an ajax error');
+	$('#error #log').html(err);
+	$('#error').modal('show')
 }
 
 g.addTweets = function(tweets) {
@@ -102,9 +109,13 @@ g.addTweets = function(tweets) {
 		console.log("No tweets returned");
 		return false;
 	}
+	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	//tweets = $.parseJSON(tweets)
 	tweets.forEach(function(t, i) {
-		console.log(t)
+		var dateStamp = new Date(t.created_at);
+		var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
+
+		console.log(t, dateStr);
 		//scan tweet for media
 		//make tweet
 
@@ -129,19 +140,23 @@ g.addTweets = function(tweets) {
 													"<div class='row tw-body'>" +
 														"<div class='col-md-4 tw-profile'>" +
 															"<img class='twProfilePic' src='"+ t.user.profile_image_url +"' >" +
-															"<p>" +
+															"<div class='user'>" +
 																"<strong class='tw-username'>"+ t.user.name +"</strong>" +
 																"<br>" +
 																"<span>&#64;"+ t.user.screen_name +"</span>" +
-															"</p>" +
+															"</div>" +
+															"<div>" +
+																"<span class='tw-time'>" + dateStr + "</span>" +
+																"<span class='tw-rt'>RETWEETS "+ t.retweet_count +"</span>" +
+																"<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
+															"</div>" +
 														"</div>" +
-														"<div class='col-md-8 tw-body'>" +
+														"<div class='col-md-4 tw-text'>" +
 															"<p>" + t.text + "</p>" +
+														"</div>" +
+														"<div class='col-md-4 tw-media'>" +
 															"<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" +
 														"</div>" +
-													"</div>" +
-													"<div class='row'>" +
-														"<div class='col-md-12 tw-footer'></div>" +
 													"</div>" +
 												"</div>")
 	}); //end forEach

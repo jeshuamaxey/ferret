@@ -1,10 +1,10 @@
 'use strict';
 
-g.plotGraph = function(dataFilePath) {
+g.plotGraph = function(data) {
 
 	var margin = {top: 50, right: 100, bottom: 50, left: 100},
-	    width = $('#graph').width() - margin.left - margin.right,
-	    height = $('#graph').width()*0.5 - margin.top - margin.bottom;
+	    width = $('#graph').parent().width() - margin.left - margin.right,
+	    height = $('#graph').parent().width()*0.5 - margin.top - margin.bottom;
 
 	var parseDate = d3.time.format("%d-%b-%y").parse;
 
@@ -32,40 +32,40 @@ g.plotGraph = function(dataFilePath) {
 	  .append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	d3.json(dataFilePath, function(error, data) {
-    data = JSON.parse(data);
-	  data.forEach(function(d) {
-	  	//console.log(d.date)
-	  	//convert date to milliseconds
-	    d.date = new Date(parseInt(d.date*1000));
-	    d.tps = +d.tps;
-	  });
+ 	//format data
+ 	data = JSON.parse(data);
+  data.forEach(function(d) {
+  	//console.log(d.date)
+  	//convert date to milliseconds
+    d.date = new Date(parseInt(d.date*1000));
+    d.tps = +d.tps;
+  });
 
-	  console.log(data);
-	  
-	  x.domain(d3.extent(data, function(d) { return d.date; }));
-	  y.domain(d3.extent(data, function(d) { return d.tps; }));
+  window.data = data
+  //console.log(data);
+  
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.tps; }));
 
-	  svg.append("g")
-	      .attr("class", "x axis")
-	      .attr("transform", "translate(0," + height + ")")
-	      .call(xAxis);
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
 
-	  svg.append("g")
-	      .attr("class", "y axis")
-	      .call(yAxis)
-	    .append("text")
-	      .attr("transform", "rotate(-90)")
-	      .attr("y", 6)
-	      .attr("dy", ".71em")
-	      .style("text-anchor", "end")
-	      .text("Tweets per second");
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Tweets per second");
 
-	  svg.append("path")
-	      .datum(data)
-	      .attr("class", "line")
-	      .attr("d", line);
-	});
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
 
 	/*
 	* BRUSH TOOLS
@@ -78,9 +78,11 @@ g.plotGraph = function(dataFilePath) {
 	    .startAngle(0)
 	    .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
 
+	//set initial extent of handles
+	var startExtent = [new Date(data[1].date), new Date(data[data.length - 2].date)]
 	var brush = d3.svg.brush()
 	    .x(x)
-	    .extent([.3, .5])
+	    .extent(startExtent)
 	    .on("brushstart", brushstart)
 	    .on("brush", brushmove)
 	    .on("brushend", brushend);
@@ -97,15 +99,17 @@ g.plotGraph = function(dataFilePath) {
 	    .attr("height", height);
 
 	brushstart();
+	brushmove();
 
 	function brushstart() {
 	  svg.classed("selecting", true);
 	}
 
 	function brushmove() {
+		console.log(brush.extent())
 	  g.dateRange = brush.extent();
-	  $('#dateDisp').html(g.dateRange[0].yyyymmdd())
-	  console.log(g.dateRange);
+	  //$('#dateDisp').html(g.dateRange[0].yyyymmdd())
+	  //console.log(g.dateRange);
 	}
 
 	function brushend() {
