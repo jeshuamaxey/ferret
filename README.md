@@ -45,5 +45,5 @@ You can then install the application by running:
 Then run the application with:
 `npm start`
 
-The app is now accessible at `http://localhost:5000`
+The app is now accessible at `http://localhost:3000`
 
