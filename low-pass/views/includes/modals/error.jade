@@ -1,0 +1,17 @@
+#error.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+        h4.modal-title Whoops!
+      .modal-body
+        .lead Something went wrong. Please refresh the page and start over.
+        p We think it was because of
+          span#cause
+        h4 Error Log
+        pre#log
+      .modal-footer
+        | 
+    //.modal-content 
+  //.modal-dialog 
+//.modal 
