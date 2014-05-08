@@ -66,8 +66,8 @@ g.fetchTimeSeries = function(searchTerm) {
 	$('#graph').html('');
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
-	var url = g.fakeApiCall ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;
-  
+
+	var url = g.fakeApiCall ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
 	//make the call
 	$.ajax({
 		url: url,
@@ -84,12 +84,15 @@ g.presentGraph = function(data) {
 }
 
 g.tweetsAJAX = function() {
-	//console.log(g.dateRange);
-	// var url = 'api/get_tweets?'+
-	// 					'start=' + g.dateRange[0] +
-	// 					'&end='+ g.dateRange[1];
+	 //console.log(g.dateRange);
+	 var url = 'api/select?'+
+            'term=' + g.searchTerm + 
+	 					'start=' + g.dateRange[0] +
+	 					'&end='+ g.dateRange[1];
+
+	console.log('url: '+url)
 	//hack to local data for test
-	var url = 'testData.json';
+	//var url = 'testData.json';
 	$.ajax({
 		url: url,
 		type: 'GET'
