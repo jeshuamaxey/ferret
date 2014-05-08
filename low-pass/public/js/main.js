@@ -57,7 +57,8 @@ g.generateGraph = function(searchTerm) {
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
 	////'http://localhost:3000/api/generate_time_series/'+ hashtag + '/' + date;
-	var url = g.fakeApiCall ? null : 'http://localhost:3000/api/search?q='+ searchTerm;
+	//var url = g.fakeApiCall ? null : 'http://localhost:3000/api/search?q='+ searchTerm;
+	var url = g.fakeApiCall ? null : 'api/search?q='+ searchTerm;
   g.presentGraph(url);
   /*
 	//make the call
