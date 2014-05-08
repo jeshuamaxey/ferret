@@ -80,12 +80,13 @@ g.presentGraph = function(filename) {
 }
 
 g.tweetsAJAX = function() {
-	//console.log(g.dateRange);
-	// var url = 'http://localhost:5000/api/get_tweets?'+
-	// 					'start=' + g.dateRange[0] +
-	// 					'&end='+ g.dateRange[1];
+	 console.log(g.dateRange);
+	 var url = 'api/select?'+
+            'term=' + g.searchTerm + 
+	 					'start=' + g.dateRange[0] +
+	 					'&end='+ g.dateRange[1];
 	//hack to local data for test
-	var url = 'testData.json';
+	//var url = 'testData.json';
 	$.ajax({
 		url: url,
 		type: 'GET'

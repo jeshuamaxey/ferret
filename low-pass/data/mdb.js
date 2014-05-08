@@ -34,6 +34,7 @@ var twitterdb = {
   getSamples: function(term, cb){
                 //TODO:mapreduce this
                 samples.distinct('time', {term: term}, function(err, times){
+                  console.log(term + ' ' + times.length);
                   if(times.length == 0){
                     cb([]);
                     return;

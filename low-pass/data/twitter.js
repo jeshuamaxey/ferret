@@ -232,7 +232,7 @@ var twitter = {
                        points.push({date: s.time/1000, tps: s.density});
                        toAdd--;
                        if (!toAdd){
-                         var end = start + scale;
+                         var end = start - scale;
                          for(r in reference){
                            var reftime = reference[r].time;
                            if(reftime < start && reftime > end){
@@ -280,7 +280,11 @@ var twitter = {
                      checkReference(samples);
                    }
                  });
-               }
+               },
+
+  getAllTweets: function(term, start, end, cb){
+                  cb([]);
+                }
 
 };
 
