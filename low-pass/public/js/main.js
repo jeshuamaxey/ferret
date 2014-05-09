@@ -3,8 +3,11 @@
 //global namespace object
 var g = g || {};
 
-// set to true to fake the api call
-g.fakeApiCall = false;
+// set to true to fake the api calls
+g.fakeApi = {
+	'search': false,
+	'select': true
+};
 
 var filterOptions = ['all','photos','text','video','links','more'];
 
@@ -18,8 +21,8 @@ Date.prototype.yyyymmdd = function() {
 g.main = function() {
 	$('body').addClass('landing');
 	$('#seeTweets').hide();
-	$("#initial-search").on('submit', g.initRefine);
-	$("#navbar-search").on('submit', function(e) {
+	$('#initial-search').on('submit', g.initRefine);
+	$('#navbar-search').on('submit', function(e) {
 		//stop default form submission
 		e.preventDefault();
 		console.log('nav search')
@@ -29,6 +32,7 @@ g.main = function() {
 		g.fetchTimeSeries(g.searchTerm);
 	});
 	$("#seeTweets").on('click', g.initRetrieve);
+	$('.filterOption').on('click', g.filterTweets);
 }
 
 g.initRefine = function(e) {
@@ -68,7 +72,7 @@ g.fetchTimeSeries = function(searchTerm) {
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
 
-	var url = g.fakeApiCall ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
+	var url = g.fakeApi.search ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
 	//make the call
 	$.ajax({
 		url: url,
@@ -85,15 +89,15 @@ g.presentGraph = function(data) {
 }
 
 g.tweetsAJAX = function() {
-	 //console.log(g.dateRange);
-	 var url = 'api/select?'+
-            'term=' + g.searchTerm + 
+	var url;
+	if(!g.fakeApi.select)
+		url = 'api/select?'+'term=' + g.searchTerm + 
 	 					'start=' + g.dateRange[0] +
 	 					'&end='+ g.dateRange[1];
-
+	 else
+	 	url = 'testData.json';
+	
 	console.log('url: '+url)
-	//hack to local data for test
-	//var url = 'testData.json';
 	$.ajax({
 		url: url,
 		type: 'GET'
@@ -167,6 +171,33 @@ g.addTweets = function(tweets) {
 													"</div>" +
 												"</div>")
 	}); //end forEach
+}
+
+g.filterTweets = function(e) {
+	//halt link
+	e.preventDefault();
+	var $self = $(this);
+	$('.filterOption').parent().removeClass('active');
+	$self.parent().addClass('active');
+
+	var filterBy = $self.data('filter-by');
+	switch(filterBy) {
+		case 'all':
+			//
+			break;
+		case 'photos':
+			//
+			break;
+		case 'text':
+			//
+			break;
+		case 'video':
+			//
+			break;
+		case 'links':
+			//
+			break;
+	}
 }
 
 $(document).ready(g.main);
