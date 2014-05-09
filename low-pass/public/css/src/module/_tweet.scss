@@ -9,6 +9,8 @@
 	border-radius: 6px;
 
 	.tw-profile {
+		padding-right: 0;
+		
 		.twProfilePic {
 			float: left;
 		  width: 48px;
@@ -16,7 +18,9 @@
 		  border-radius: 5px;
 		}
 		.user {
-			margin-left: 15px;
+			strong, span {
+				margin-left: 10px;
+			}
 		}
 	}
 	//CONTENT

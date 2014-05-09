@@ -74,7 +74,7 @@ g.fetchTimeSeries = function(searchTerm) {
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
 
-	var url = g.fakeApi.search ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
+	var url = g.fakeApi.search ? 'testseries.json' : 'api/search?q='+ searchTerm;  
 	//make the call
 	$.ajax({
 		url: url,
@@ -163,12 +163,14 @@ g.addTweets = function(tweets) {
 															"<div class='user'>" +
 																"<strong class='tw-username'>"+ t.user.name +"</strong>" +
 																"<br>" +
-																"<span>&#64;"+ t.user.screen_name +"</span>" +
+																"<span class='tw-handle'>&#64;"+ t.user.screen_name +"</span>" +
 															"</div>" +
 															"<div>" +
-																"<span class='tw-time'>" + dateStr + "</span>" +
-																"<span class='tw-rt'>RETWEETS "+ t.retweet_count +"</span>" +
-																"<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
+																"<p class='tw-date'>" + dateStr + "</p>" +
+																"<p>" +
+																	"<span class='tw-rt'>RETWEETS "+ t.retweet_count +"</span><br>" +
+																	"<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
+																"</p>" +
 															"</div>" +
 														"</div>" +
 														"<div class='col-md-"+ (media ? "4" : "8") +" tw-text'>" +
