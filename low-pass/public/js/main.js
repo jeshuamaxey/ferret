@@ -155,7 +155,7 @@ g.addTweets = function(tweets) {
 		// 										"</li>");
 
     
-    var media = t.entities.media ? "<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" : "";
+    var media = t.entities.media ? "<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" : false;
 		$('#tweets').append("<div class='tweet'>" +
 													"<div class='row tw-body'>" +
 														"<div class='col-md-4 tw-profile'>" +
@@ -171,12 +171,10 @@ g.addTweets = function(tweets) {
 																"<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
 															"</div>" +
 														"</div>" +
-														"<div class='col-md-4 tw-text'>" +
+														"<div class='col-md-"+ (media ? "4" : "8") +" tw-text'>" +
 															"<p>" + t.text + "</p>" +
 														"</div>" +
-														"<div class='col-md-4 tw-media'>" +
-                              media +
-														"</div>" +
+														(media ? "<div class='col-md-4 tw-media'>" + media +"</div>" : "") +
 													"</div>" +
 												"</div>")
 	}); //end forEach
