@@ -6,7 +6,7 @@ var g = g || {};
 // set to true to fake the api calls
 g.fakeApi = {
 	'search': false,
-	'select': true
+	'select': false
 };
 
 var filterOptions = ['all','photos','text','video','links','more'];
@@ -92,9 +92,9 @@ g.tweetsAJAX = function() {
 	var url;
 	if(!g.fakeApi.select)
 		url = 'api/select?'+'term=' + g.searchTerm + 
-	 					'start=' + g.dateRange[0] +
+	 					'&start=' + g.dateRange[0] +
 	 					'&end='+ g.dateRange[1];
-	 else
+	else
 	 	url = 'testData.json';
 	
 	console.log('url: '+url)

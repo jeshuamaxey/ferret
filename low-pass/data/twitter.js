@@ -281,25 +281,46 @@ var twitter = {
                },
 
   getAllTweets: function(term, start, end, cb){
+                  var me = this;
                   db.getTweetsTime(term, start, end, function(tweets){
-                    //fill in the gaps
-                    cb(null, tweets);
+                    console.log(tweets)
+                    if(tweets.length == 0){
+                      console.log('trying more');
+                      //try some more
+                      db.getSamples(term, function(samples){
+                        var reference = samples
+                        var nref = samples.length;
+
+                        //copied code
+                        for (var ref = 0; ref < nref - 1; ref++){
+                          reference[ref].gradient = idgradient(reference[ref], reference[ref+1]);
+                        }
+                        reference[nref-1].gradient = reference[nref-2].gradient;
+
+                        for (var ref = 0; ref < nref - 1; ref++){
+                          reference[ref].gradient = idgradient(reference[ref], reference[ref + 1]);
+                        }
+                        reference[nref-1].gradient = reference[nref-2].gradient;
+
+                        var t = end;
+                        var ref = closestReference(t, reference);
+                        var refid = (ref.maxid + ref.minid)/2;
+                        var deltaid = ref.gradient*(t - ref.time);
+                        var id = Math.round(refid + deltaid);
+
+                        var sampletype = {sample: 'id', time: t, id:refid};
+                        
+                        me.getTweets(term, sampletype, 15, cb);
+
+                      });
+                     } else {
+                       //fill in the gaps
+                       cb(null, tweets);
+                     }
+
                   });
-                  /*
-                  db.getSamples(term, function(samples){
 
-                    //copied code
-                    for (var ref = 0; ref < nref - 1; ref++){
-                      reference[ref].gradient = idgradient(reference[ref], reference[ref+1]);
-                    }
-                    reference[nref-1].gradient = reference[nref-2].gradient;
-                    //end copied
-
-                    closestReference(start, samples);
-
-                  });
-                  */
-                }
+                 }
 
 };
 

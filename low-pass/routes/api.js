@@ -35,7 +35,8 @@ router.get('/select', function(req, res){
   var term = req.query.term;
   var start = req.query.start;
   var end = req.query.end;
-  console.log('select');
+  console.log(start);
+  console.log(end);
   if(start && end){
     console.log('selecting');
     twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
