@@ -57,6 +57,15 @@ var twitterdb = {
                 });
               },
 
+  getTweetsTime: function(term, start, end, cb){
+               var q = {lpterm: term,
+               lptime: {$gte : start, $lte: end}};
+               console.log(q);
+               tweets.find(q, function(err, doc){
+                 cb(doc);
+               });
+             },
+
   getTweets: function(term, startid, size, cb){
                var q = {lpterm: term};
                if (startid){
