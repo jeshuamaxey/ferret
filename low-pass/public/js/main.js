@@ -24,6 +24,7 @@ g.main = function() {
 		e.preventDefault();
 		console.log('nav search')
 		//collect search term
+		$("#seeTweets").hide();
 		g.searchTerm = $('#hashtag').val();
 		g.fetchTimeSeries(g.searchTerm);
 	});
