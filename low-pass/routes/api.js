@@ -6,13 +6,25 @@ var dataMin = 50;
 
 //TODO:fix for api prefix
 router.get('/search', function(req, res){
-  var term = req.query.q
+  var term = req.query.q;
+  var start = req.query.start;
+  var end = req.query.end;
   if (!term){
     res.json({message: 'bad query'});
     res.end();
   }else{
-    var scale = 12*60*60*1000; //minute, will soon be relevant
-    twitter.sampleTerm(term, scale, function(err, series){
+    if (!start){
+      start = Date.now();
+    } else {
+      start = new Date(start).getTime()
+    }
+    if (!end){
+      scale = 7*24*60*60*1000; 
+    } else {
+      scale = new Date(end).getTime() - start;
+    }
+
+    twitter.sampleTerm(term, start, scale, function(err, series){
       res.json(JSON.stringify(series));
       res.end();
     });
@@ -23,8 +35,10 @@ router.get('/select', function(req, res){
   var term = req.query.term;
   var start = req.query.start;
   var end = req.query.end;
+  console.log('select');
   if(start && end){
-    twitter.getAllTweets(term, start*1000, end*1000, function(err, tweets){
+    console.log('selecting');
+    twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
       res.json(JSON.stringify(tweets));
       res.end();
     });

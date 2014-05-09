@@ -87,7 +87,7 @@ g.tweetsAJAX = function() {
 	 //console.log(g.dateRange);
 	 var url = 'api/select?'+
             'term=' + g.searchTerm + 
-	 					'start=' + g.dateRange[0] +
+	 					'&start=' + g.dateRange[0] +
 	 					'&end='+ g.dateRange[1];
 
 	console.log('url: '+url)
@@ -116,7 +116,7 @@ g.addTweets = function(tweets) {
 		return false;
 	}
 	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	//tweets = $.parseJSON(tweets)
+	tweets = $.parseJSON(tweets)
 	tweets.forEach(function(t, i) {
 		var dateStamp = new Date(t.created_at);
 		var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
@@ -142,6 +142,8 @@ g.addTweets = function(tweets) {
 		// 													"</div>" +
 		// 										"</li>");
 
+    
+    var media = t.entities.media ? "<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" : "";
 		$('#tweets').append("<div class='tweet'>" +
 													"<div class='row tw-body'>" +
 														"<div class='col-md-4 tw-profile'>" +
@@ -161,7 +163,7 @@ g.addTweets = function(tweets) {
 															"<p>" + t.text + "</p>" +
 														"</div>" +
 														"<div class='col-md-4 tw-media'>" +
-															"<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" +
+                              media +
 														"</div>" +
 													"</div>" +
 												"</div>")

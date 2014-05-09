@@ -23,6 +23,28 @@ var timeSort = function(a,b){
                      }
                      return 0;
                    };
+
+var idgradient = function(start, end){
+                   
+                   var startid = (start.maxid + start.minid) / 2;
+                   var endid = (end.maxid + end.minid) / 2;
+                   did = startid - endid;
+                   dtime = start.time - end.time;
+                   return did/dtime;
+
+                 }
+
+var closestReference = function(t, reference){
+                   var r = 1;
+                   while (r < reference.length){
+                     if(reference[r].time > t){
+                       break;
+                     }
+                     r++;
+                   }
+                   return reference[r-1]
+                 }
+
 var twitter = {
   
   _T: null, 
@@ -175,34 +197,10 @@ var twitter = {
                this.getTweets(term, type, samplesize, useTweets);
              },
 
-  sampleTerm: function(term, scale, cb){
+  sampleTerm: function(term, start, scale, cb){
                  //scale is milliseconds
                  var me = this;
-
-                 //could be changed 
-                 var start = Date.now();
-
-                 var closestReference = function(t, reference){
-                   var r = 1;
-                   while (r < reference.length){
-                     if(reference[r].time > t){
-                       break;
-                     }
-                     r++;
-                   }
-                   return reference[r-1]
-                 }
-
-                 var idgradient = function(start, end){
-                   
-                   var startid = (start.maxid + start.minid) / 2;
-                   var endid = (end.maxid + end.minid) / 2;
-                   did = startid - endid;
-                   dtime = start.time - end.time;
-                   return did/dtime;
-
-                 }
-
+                 
                  var getTimeScale = function(reference){
 
                    reference.sort(timeSort);
@@ -210,7 +208,7 @@ var twitter = {
                    var nref = reference.length;
                    var startref = reference[0];
                    var endref = reference[nref - 1];
-                   var gradient = idgradient(startref, endref);
+
                    for (var ref = 0; ref < nref - 1; ref++){
                      reference[ref].gradient = idgradient(reference[ref], reference[ref + 1]);
                    }
@@ -235,7 +233,7 @@ var twitter = {
                          var end = start - scale;
                          for(r in reference){
                            var reftime = reference[r].time;
-                           if(reftime < start && reftime > end){
+                           if(reftime <= start && reftime >= end){
                              points.push({date: reftime/1000, tps: reference[r].density});
                            } else {
                              console.log(new Date(reftime) + ' not between ' + new Date(start) + new Date(end));
@@ -283,7 +281,24 @@ var twitter = {
                },
 
   getAllTweets: function(term, start, end, cb){
-                  cb([]);
+                  db.getTweetsTime(term, start, end, function(tweets){
+                    //fill in the gaps
+                    cb(null, tweets);
+                  });
+                  /*
+                  db.getSamples(term, function(samples){
+
+                    //copied code
+                    for (var ref = 0; ref < nref - 1; ref++){
+                      reference[ref].gradient = idgradient(reference[ref], reference[ref+1]);
+                    }
+                    reference[nref-1].gradient = reference[nref-2].gradient;
+                    //end copied
+
+                    closestReference(start, samples);
+
+                  });
+                  */
                 }
 
 };
