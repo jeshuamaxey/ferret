@@ -319,7 +319,7 @@ var twitter = {
                         //buggy
                         var t = end;
                         var ref = closestReference(t, reference);
-                        var refid = (ref.maxid + ref.minid)/2;
+                        var refid = ref.minid; //may as well try
                         var deltaid = ref.gradient*(t - ref.time);
                         var id = Math.round(refid + deltaid);
 
