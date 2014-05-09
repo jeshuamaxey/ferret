@@ -95,7 +95,10 @@ g.fetchTimeSeries = function(searchTerm) {
 };
 
 g.popGraph = function(){
-  if(g.ranges.length == 0){
+  if(g.ranges.length <= 1){
+    if(g.ranges.length == 1){
+      g.ranges.pop();
+    }
     g.fetchTimeSeries(g.searchTerm);
   } else {
     var interval = g.ranges.pop();
