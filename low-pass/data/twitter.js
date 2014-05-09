@@ -139,7 +139,7 @@ var twitter = {
                  var minid = 0;
                  var maxid = 0;
 
-                 if (tweets.length < 4){
+                 if (tweets.length < 2){
                    console.log('not enough tweets');
                  } else {
                    var mintime = Number.MAX_VALUE;
