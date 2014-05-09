@@ -263,17 +263,31 @@ var twitter = {
                  db.getSamples(term, function(samples){
                    //TODO: remove redundant sample
                    if (samples.length < 2){
-                     var date = new Date();
-                     var sampletype = {sample: 'time', time: date.getTime(), id: null};
-                     me.getSample(term, sampletype, samples, function(err, today){
-                       date.setDate(date.getDate() - 1);
-                       sampletype = {sample: 'time', time: date.getTime(), id: null};
-                       me.getSample(term, sampletype, samples, function(err, yesterday){
-                         samples.push(today);
-                         samples.push(yesterday);
+                     var startdate = new Date(start);
+                     var enddate = new Date(start - scale);
+                     var oneday = 24*60*60*1000;
+                     var sampletype = {sample: 'time', time: startdate.getTime(), id: null};
+
+                     var dates = Math.ceil((startdate.getTime()-enddate.getTime())/oneday);
+                     var toAdd = dates;
+
+                     console.dir(sampletype);
+                     var sampleAdder = function(err, dateSample){
+                       samples.push(dateSample);
+                       toAdd--;
+                       console.log(toAdd);
+                       if (toAdd == 0){
                          checkReference(samples);
-                       });
-                     });
+                       }
+                     }
+
+                     for (var d = 0; d < dates; d++){
+                       console.dir(sampletype);
+                       me.getSample(term, sampletype, samples, sampleAdder);
+                       startdate.setDate(startdate.getDate() - 1);
+                       sampletype = {sample: 'time', time: startdate.getTime(), id: null};
+                     } 
+
                    } else {
                      checkReference(samples);
                    }
