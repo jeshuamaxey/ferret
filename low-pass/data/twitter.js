@@ -139,7 +139,7 @@ var twitter = {
                  var minid = 0;
                  var maxid = 0;
 
-                 if (tweets.length < 4){
+                 if (tweets.length < 2){
                    console.log('not enough tweets');
                  } else {
                    var mintime = Number.MAX_VALUE;
@@ -263,17 +263,31 @@ var twitter = {
                  db.getSamples(term, function(samples){
                    //TODO: remove redundant sample
                    if (samples.length < 2){
-                     var date = new Date();
-                     var sampletype = {sample: 'time', time: date.getTime(), id: null};
-                     me.getSample(term, sampletype, samples, function(err, today){
-                       date.setDate(date.getDate() - 1);
-                       sampletype = {sample: 'time', time: date.getTime(), id: null};
-                       me.getSample(term, sampletype, samples, function(err, yesterday){
-                         samples.push(today);
-                         samples.push(yesterday);
+                     var startdate = new Date(start);
+                     var enddate = new Date(start - scale);
+                     var oneday = 24*60*60*1000;
+                     var sampletype = {sample: 'time', time: startdate.getTime(), id: null};
+
+                     var dates = Math.ceil((startdate.getTime()-enddate.getTime())/oneday);
+                     var toAdd = dates;
+
+                     console.dir(sampletype);
+                     var sampleAdder = function(err, dateSample){
+                       samples.push(dateSample);
+                       toAdd--;
+                       console.log(toAdd);
+                       if (toAdd == 0){
                          checkReference(samples);
-                       });
-                     });
+                       }
+                     }
+
+                     for (var d = 0; d < dates; d++){
+                       console.dir(sampletype);
+                       me.getSample(term, sampletype, samples, sampleAdder);
+                       startdate.setDate(startdate.getDate() - 1);
+                       sampletype = {sample: 'time', time: startdate.getTime(), id: null};
+                     } 
+
                    } else {
                      checkReference(samples);
                    }
@@ -281,25 +295,47 @@ var twitter = {
                },
 
   getAllTweets: function(term, start, end, cb){
+                  var me = this;
                   db.getTweetsTime(term, start, end, function(tweets){
-                    //fill in the gaps
-                    cb(null, tweets);
+                    console.log(tweets)
+                    if(tweets.length == 0){
+                      console.log('trying more');
+                      //try some more
+                      db.getSamples(term, function(samples){
+                        var reference = samples
+                        var nref = samples.length;
+
+                        //copied code
+                        for (var ref = 0; ref < nref - 1; ref++){
+                          reference[ref].gradient = idgradient(reference[ref], reference[ref+1]);
+                        }
+                        reference[nref-1].gradient = reference[nref-2].gradient;
+
+                        for (var ref = 0; ref < nref - 1; ref++){
+                          reference[ref].gradient = idgradient(reference[ref], reference[ref + 1]);
+                        }
+                        reference[nref-1].gradient = reference[nref-2].gradient;
+
+                        //buggy
+                        var t = end;
+                        var ref = closestReference(t, reference);
+                        var refid = (ref.maxid + ref.minid)/2;
+                        var deltaid = ref.gradient*(t - ref.time);
+                        var id = Math.round(refid + deltaid);
+
+                        var sampletype = {sample: 'id', time: t, id:refid};
+                        
+                        me.getTweets(term, sampletype, 15, cb);
+
+                      });
+                     } else {
+                       //fill in the gaps
+                       cb(null, tweets);
+                     }
+
                   });
-                  /*
-                  db.getSamples(term, function(samples){
 
-                    //copied code
-                    for (var ref = 0; ref < nref - 1; ref++){
-                      reference[ref].gradient = idgradient(reference[ref], reference[ref+1]);
-                    }
-                    reference[nref-1].gradient = reference[nref-2].gradient;
-                    //end copied
-
-                    closestReference(start, samples);
-
-                  });
-                  */
-                }
+                 }
 
 };
 

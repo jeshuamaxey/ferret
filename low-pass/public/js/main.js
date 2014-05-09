@@ -3,8 +3,13 @@
 //global namespace object
 var g = g || {};
 
-// set to true to fake the api call
-g.fakeApiCall = false;
+g.allTweets = [];
+
+// set to true to fake the api calls
+g.fakeApi = {
+	'search': false,
+	'select': false
+};
 
 // store zooming ranges
 g.ranges = [];
@@ -29,12 +34,14 @@ g.main = function() {
 		e.preventDefault();
 		console.log('nav search')
 		//collect search term
+		$("#seeTweets").hide();
 		g.searchTerm = $('#hashtag').val();
 		g.fetchTimeSeries(g.searchTerm);
 	});
 	$("#seeTweets").on('click', g.initRetrieve);
 	$("#zoom").on('click', g.zoom);
 	$("#zoomOut").on('click', g.popGraph);
+	$('.filterOption').on('click', g.filterTweets);
 }
 
 g.initRefine = function(e) {
@@ -84,7 +91,7 @@ g.fetchTimeSeries = function(searchTerm) {
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
 
-	var url = g.fakeApiCall ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
+	var url = g.fakeApi.search ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
 	//make the call
 	$.ajax({
 		url: url,
@@ -142,20 +149,25 @@ g.presentGraph = function(data) {
 }
 
 g.tweetsAJAX = function() {
-	 //console.log(g.dateRange);
-	 var url = 'api/select?'+
-            'term=' + g.searchTerm + 
+	var url;
+	if(!g.fakeApi.select)
+		url = 'api/select?'+'term=' + g.searchTerm + 
 	 					'&start=' + g.dateRange[0] +
 	 					'&end='+ g.dateRange[1];
-
+	else
+	 	url = 'testData.json';
+	
 	console.log('url: '+url)
-	//hack to local data for test
-	//var url = 'testData.json';
 	$.ajax({
 		url: url,
 		type: 'GET'
 	})
-	.done(g.addTweets)
+	.done(g.saveTweets)
+}
+
+g.saveTweets = function(tweets){
+  g.allTweets = $.parseJSON(tweets);
+  g.addTweets(g.allTweets);
 }
 
 g.failedAjax = function(err) {
@@ -174,7 +186,7 @@ g.addTweets = function(tweets) {
 		return false;
 	}
 	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	tweets = $.parseJSON(tweets)
+	$('#tweets').html('');
 	tweets.forEach(function(t, i) {
 		var dateStamp = new Date(t.created_at);
 		var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
@@ -201,7 +213,7 @@ g.addTweets = function(tweets) {
 		// 										"</li>");
 
     
-    var media = t.entities.media ? "<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" : "";
+    var media = t.entities.media ? "<img class='tweetPic' src='"+ t.entities.media[0].media_url +"'/>" : false;
 		$('#tweets').append("<div class='tweet'>" +
 													"<div class='row tw-body'>" +
 														"<div class='col-md-4 tw-profile'>" +
@@ -217,15 +229,66 @@ g.addTweets = function(tweets) {
 																"<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
 															"</div>" +
 														"</div>" +
-														"<div class='col-md-4 tw-text'>" +
+														"<div class='col-md-"+ (media ? "4" : "8") +" tw-text'>" +
 															"<p>" + t.text + "</p>" +
 														"</div>" +
-														"<div class='col-md-4 tw-media'>" +
-                              media +
-														"</div>" +
+														(media ? "<div class='col-md-4 tw-media'>" + media +"</div>" : "") +
 													"</div>" +
 												"</div>")
 	}); //end forEach
+}
+
+g.filterTweets = function(e) {
+	//halt link
+	e.preventDefault();
+	var $self = $(this);
+	$('.filterOption').parent().removeClass('active');
+	$self.parent().addClass('active');
+
+	var filterBy = $self.data('filter-by');
+	switch(filterBy) {
+		case 'all':
+			//
+      g.addTweets(g.allTweets);
+			break;
+		case 'photos':
+			//
+      var ts = [];
+      for (var t in g.allTweets){
+        var tweet = g.allTweets[t];
+        if (tweet.entities.media && tweet.entities.media.length > 0){
+          ts.push(g.allTweets[t]);
+        }
+      }
+      g.addTweets(ts);
+
+			break;
+		case 'text':
+			//
+      var ts = [];
+      for (var t in g.allTweets){
+        var tweet = g.allTweets[t];
+        if (tweet.entities.media || tweet.entities.media.length > 0){
+          ts.push(g.allTweets[t]);
+        }
+      }
+      g.addTweets(ts);
+
+			break;
+		case 'video':
+			//
+			break;
+		case 'links':
+			//no links
+      var ts = [];
+      for (var t in g.allTweets){
+        if (g.allTweets[t].entities.urls.length == 0){
+          ts.push(g.allTweets[t]);
+        }
+      }
+      g.addTweets(ts);
+			break;
+	}
 }
 
 $(document).ready(g.main);

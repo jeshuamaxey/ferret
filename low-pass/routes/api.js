@@ -19,7 +19,7 @@ router.get('/search', function(req, res){
       start = new Date(start).getTime()
     }
     if (!end){
-      scale = 7*24*60*60*1000; 
+      scale = 14*24*60*60*1000; 
     } else {
       scale = new Date(end).getTime() - start;
     }
@@ -35,7 +35,8 @@ router.get('/select', function(req, res){
   var term = req.query.term;
   var start = req.query.start;
   var end = req.query.end;
-  console.log('select');
+  console.log(start);
+  console.log(end);
   if(start && end){
     console.log('selecting');
     twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
