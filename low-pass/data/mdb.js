@@ -58,12 +58,36 @@ var twitterdb = {
               },
 
   getTweetsTime: function(term, start, end, cb){
+                  tweets.distinct('id', {term: term, lptime :{$gte: start, $lte: end}}, function(err, ids){
+                  console.log(term + ' ' + ids.length);
+                  if(ids.length == 0){
+                    cb([]);
+                    return;
+                  }
+                  var toAdd = ids.length;
+                  var ts = [];
+                  var adder = function(err, t){
+                    ts.push(t);
+                    toAdd--;
+                    if(!toAdd){
+                      cb(ts);
+                      toAdd = 0;
+                    }
+                  }
+
+                  for (id in ids){
+                    tweets.findOne({id: ids[id]}, adder);
+                  }
+                  });
+
+                  /*
                var q = {lpterm: term,
                lptime: {$gte : start, $lte: end}};
                console.log(q);
                tweets.find(q, function(err, doc){
                  cb(doc);
                });
+               */
              },
 
   getTweets: function(term, startid, size, cb){

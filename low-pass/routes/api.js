@@ -19,7 +19,7 @@ router.get('/search', function(req, res){
       start = new Date(start).getTime()
     }
     if (!end){
-      scale = 7*24*60*60*1000; 
+      scale = 14*24*60*60*1000; 
     } else {
       scale = new Date(end).getTime() - start;
     }

@@ -3,6 +3,8 @@
 //global namespace object
 var g = g || {};
 
+g.allTweets = [];
+
 // set to true to fake the api calls
 g.fakeApi = {
 	'search': false,
@@ -102,7 +104,12 @@ g.tweetsAJAX = function() {
 		url: url,
 		type: 'GET'
 	})
-	.done(g.addTweets)
+	.done(g.saveTweets)
+}
+
+g.saveTweets = function(tweets){
+  g.allTweets = $.parseJSON(tweets);
+  g.addTweets(g.allTweets);
 }
 
 g.failedAjax = function(err) {
@@ -121,7 +128,7 @@ g.addTweets = function(tweets) {
 		return false;
 	}
 	var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	tweets = $.parseJSON(tweets)
+	$('#tweets').html('');
 	tweets.forEach(function(t, i) {
 		var dateStamp = new Date(t.created_at);
 		var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
@@ -186,18 +193,44 @@ g.filterTweets = function(e) {
 	switch(filterBy) {
 		case 'all':
 			//
+      g.addTweets(g.allTweets);
 			break;
 		case 'photos':
 			//
+      var ts = [];
+      for (var t in g.allTweets){
+        var tweet = g.allTweets[t];
+        if (tweet.entities.media && tweet.entities.media.length > 0){
+          ts.push(g.allTweets[t]);
+        }
+      }
+      g.addTweets(ts);
+
 			break;
 		case 'text':
 			//
+      var ts = [];
+      for (var t in g.allTweets){
+        var tweet = g.allTweets[t];
+        if (tweet.entities.media || tweet.entities.media.length > 0){
+          ts.push(g.allTweets[t]);
+        }
+      }
+      g.addTweets(ts);
+
 			break;
 		case 'video':
 			//
 			break;
 		case 'links':
-			//
+			//no links
+      var ts = [];
+      for (var t in g.allTweets){
+        if (g.allTweets[t].entities.urls.length == 0){
+          ts.push(g.allTweets[t]);
+        }
+      }
+      g.addTweets(ts);
 			break;
 	}
 }
