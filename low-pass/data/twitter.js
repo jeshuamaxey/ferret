@@ -316,6 +316,7 @@ var twitter = {
                         }
                         reference[nref-1].gradient = reference[nref-2].gradient;
 
+                        //buggy
                         var t = end;
                         var ref = closestReference(t, reference);
                         var refid = (ref.maxid + ref.minid)/2;
