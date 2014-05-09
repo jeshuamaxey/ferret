@@ -58,12 +58,15 @@ var twitterdb = {
               },
 
   getTweetsTime: function(term, start, end, cb){
-                  tweets.distinct('id', {term: term, lptime :{$gte: start, $lte: end}}, function(err, ids){
+                   var q = {lpterm: term, lptime :{$gte: start, $lte: end}};
+                   console.log(q);
+                  tweets.distinct('id', q, function(err, ids){
                   console.log(term + ' ' + ids.length);
                   if(ids.length == 0){
                     cb([]);
                     return;
                   }
+
                   var toAdd = ids.length;
                   var ts = [];
                   var adder = function(err, t){

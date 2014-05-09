@@ -139,7 +139,7 @@ var twitter = {
                  var minid = 0;
                  var maxid = 0;
 
-                 if (tweets.length < 4){
+                 if (tweets.length < 2){
                    console.log('not enough tweets');
                  } else {
                    var mintime = Number.MAX_VALUE;
@@ -316,6 +316,7 @@ var twitter = {
                         }
                         reference[nref-1].gradient = reference[nref-2].gradient;
 
+                        //buggy
                         var t = end;
                         var ref = closestReference(t, reference);
                         var refid = (ref.maxid + ref.minid)/2;
