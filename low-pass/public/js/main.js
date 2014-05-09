@@ -6,6 +6,9 @@ var g = g || {};
 // set to true to fake the api call
 g.fakeApiCall = false;
 
+// store zooming ranges
+g.ranges = [];
+
 var filterOptions = ['all','photos','text','video','links','more'];
 
 Date.prototype.yyyymmdd = function() {
@@ -18,6 +21,8 @@ Date.prototype.yyyymmdd = function() {
 g.main = function() {
 	$('body').addClass('landing');
 	$('#seeTweets').hide();
+	$('#zoom').hide();
+	$('#zoomOut').hide();
 	$("#initial-search").on('submit', g.initRefine);
 	$("#navbar-search").on('submit', function(e) {
 		//stop default form submission
@@ -28,6 +33,8 @@ g.main = function() {
 		g.fetchTimeSeries(g.searchTerm);
 	});
 	$("#seeTweets").on('click', g.initRetrieve);
+	$("#zoom").on('click', g.zoom);
+	$("#zoomOut").on('click', g.popGraph);
 }
 
 g.initRefine = function(e) {
@@ -46,6 +53,16 @@ g.initRefine = function(e) {
 			$('body').addClass('refine');
 		});
 	});	
+}
+
+g.zoom = function(e){
+	console.log('zooming')
+	//stop default form submission
+	e.preventDefault();
+	//collect search term
+	g.searchTerm = $('#hashtag').val();
+	$('nav input').val(g.searchTerm);
+	g.fetchIntervalTimeSeries(g.searchTerm);
 }
 
 g.initRetrieve = function() {
@@ -77,10 +94,48 @@ g.fetchTimeSeries = function(searchTerm) {
 	.fail(g.failedAjax);
 };
 
+g.popGraph = function(){
+  if(g.ranges.length == 0){
+    g.fetchTimeSeries(g.searchTerm);
+  } else {
+    var interval = g.ranges.pop();
+    g.callRanges(g.searchTerm, interval.start, interval.end);
+  }
+}
+
+g.callRanges = function(term, start, end){
+  //these URLs should be relative so that it doesn't look like
+  //we're violating same origin policy when hosting remotely
+	$('#graph').html('');
+	var url = g.fakeApiCall ? 'testseries.json' : 'http://localhost:3000/api/search?' + 
+    'q=' + term +
+    '&start=' + g.dateRange[0] +
+    '&end=' + g.dateRange[1];  
+	//make the call
+	$.ajax({
+		url: url,
+		type: 'GET'
+	})
+	.done(g.presentGraph)
+	.fail(g.failedAjax);
+}
+
+g.fetchIntervalTimeSeries = function(searchTerm) {
+	//clear any previous graphs (this should be improved I guess)
+	//show loading gif cos the api call takes a while
+  //TODO: add percentage
+	$('#loadingGif').show();
+
+  g.ranges.push({start: g.dateRange[0], end: g.dateRange[1]});
+  g.callRanges(searchTerm, g.dateRange[0], g.dateRange[1]);
+};
+
 g.presentGraph = function(data) {
 	g.plotGraph(data);
 	$('#seeTweets').show();
-	$('#loadingGif').hide()
+	$('#zoom').show();
+	$('#zoomOut').show();
+	$('#loadingGif').hide();
 }
 
 g.tweetsAJAX = function() {
