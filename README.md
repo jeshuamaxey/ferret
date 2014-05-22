@@ -32,12 +32,14 @@ Clone low-pass and navigate to low-pass/low-pass.
 Create a file in the `data` folder called `twitterapi.json` 
 
 Write your app information in the following format:
+```
 {
   "key": "APP KEY",
   "keySecret": "APP KEY SECRET",
   "token": "APP TOKEN",
   "tokenSecret": "APP TOKEN SECRET"
 }
+```
 
 You can then install the application by running:
 `npm install`
