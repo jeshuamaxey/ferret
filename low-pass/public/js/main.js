@@ -74,7 +74,7 @@ g.fetchTimeSeries = function(searchTerm) {
 	//show loading gif cos the api call takes a while
 	$('#loadingGif').show();
 
-	var url = g.fakeApi.search ? 'testseries.json' : 'http://localhost:3000/api/search?q='+ searchTerm;  
+	var url = g.fakeApi.search ? 'testseries.json' : 'api/search?q='+ searchTerm;  
 	//make the call
 	$.ajax({
 		url: url,
@@ -132,6 +132,16 @@ g.addTweets = function(tweets) {
 	tweets.forEach(function(t, i) {
 		var dateStamp = new Date(t.created_at);
 		var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
+
+/*
+    $.ajax({
+            url: "https://api.twitter.com/1/statuses/oembed.json?url="+url,
+            dataType: "jsonp",
+            success: function(data){
+              $('#tweets').append(data.html);
+            }
+        });
+*/
 
 		console.log(t, dateStr);
 		//scan tweet for media
