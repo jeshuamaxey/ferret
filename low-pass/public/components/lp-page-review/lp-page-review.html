@@ -1,0 +1,71 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../lp-tweet-list/lp-tweet-list.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-page-review></lp-page-review>
+
+@element lp-page-review
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-page-review
+-->
+<polymer-element name="lp-page-review" attributes="tweets">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-page-review.css" />
+
+    <h1>Review Stuff</h1>
+
+    <lp-tweet-list tweets="{{tweets}}"></lp-tweet-list>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-page-review', {
+      /**
+       * The `noevent` event is not actually fired from here,
+       * we document it as an example of documenting events.
+       *
+       * @event noevent
+       */
+
+      /**
+       * The `notitle` attribute does not yet have a purpose.
+       *
+       * @attribute notitle
+       * @type string
+       */
+      notitle: '',
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+      aProp: false,
+
+      ready: function() {
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

@@ -7,8 +7,10 @@ misc/*
 #node
 node_modules
 npm-debug.log
+
 #bower
-low-pass/public/components
+# the components dir has it's own .gitignore file
+# to exclude only 3rd patry modules
 
 #vim buffer
 *.swp
@@ -34,6 +36,6 @@ mongodata
 *.swp
 mongodata
 
-low-pass
+#low-pass
 
 .DS_Store

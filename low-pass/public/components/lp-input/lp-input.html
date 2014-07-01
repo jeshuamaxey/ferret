@@ -1,0 +1,35 @@
+<!--
+Input element to be used with Low Pass searches
+
+##### Example
+
+    <lp-input on-lp-input-commit="{{commitAction}}" on-lp-input-cancel="{{cancelAction}}">
+    </lp-input>
+
+@element lp-input
+@blurb Input element to be used with Low Pass searches
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-input
+-->
+<polymer-element name="lp-input" extends="input" on-keyup="keyupAction" on-keypress="keypressAction">
+  <script>
+    (function() {
+      var ENTER_KEY = 13;
+      var ESC_KEY = 27;
+      Polymer('lp-input', {
+        keypressAction: function (e, detail, sender) {
+          // Listen for enter on keypress but esc on keyup, because
+          // IE doesn't fire keyup for enter.
+          if (e.keyCode === ENTER_KEY) {
+            this.fire('lp-input-commit');
+          }
+        },
+        keyupAction: function (e, detail, sender) {
+          if (e.keyCode === ESC_KEY) {
+            this.fire('lp-input-cancel');
+          }
+        }
+      });
+    })();
+  </script>
+</polymer-element>

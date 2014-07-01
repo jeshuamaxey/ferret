@@ -1,0 +1,73 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../lp-graph/lp-graph.html">
+<link rel="import" href="../lp-retrieve-tweets/lp-retrieve-tweets.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-page-refine></lp-page-refine>
+
+@element lp-page-refine
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-page-refine
+-->
+<polymer-element name="lp-page-refine" attributes="series tweets">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-page-refine.css" />
+
+    <h1>REFINE STUFF</h1>
+
+    <lp-graph series="{{series}}" plotted="{{plotted}}" dateRange="{{dateRange}}"></lp-graph>
+    <lp-retrieve-tweets query="{{query}}" range="{{dateRange}}" tweets="{{tweets}}" ></lp-retrieve-tweets>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-page-refine', {
+      /**
+       * The `noevent` event is not actually fired from here,
+       * we document it as an example of documenting events.
+       *
+       * @event noevent
+       */
+
+      /**
+       * The `notitle` attribute does not yet have a purpose.
+       *
+       * @attribute notitle
+       * @type string
+       */
+      notitle: '',
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+      aProp: false,
+
+      ready: function() {
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

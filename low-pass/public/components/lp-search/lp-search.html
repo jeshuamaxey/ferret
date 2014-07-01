@@ -1,0 +1,86 @@
+<link rel="import" href="../lp-input/lp-input.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-search></lp-search>
+
+@element lp-search
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-search
+-->
+<polymer-element name="lp-search" attributes="query series waiting">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-search.css" />
+
+    <core-ajax
+      auto="{{auto}}"
+      url="http://localhost:3000/testseries.json"
+      x-url="http://localhost:3000/api/search"
+      params="{{params}}"
+      handleAs="json"
+      response="{{response}}"
+      on-core-response="{{handleResponse}}">
+    </core-ajax>
+
+    <div class="form-group">
+      <input
+        is="lp-input"
+        id="query"
+        class="form-control"
+        placeholder="Search..."
+        value="{{query}}"
+        on-lp-input-commit="{{searchLowpass}}" />
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-search', {
+      'applyAuthorStyles': true,
+      'auto': false,
+      'params': {'q': null},
+      'waiting': false,
+      
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      searchLowpass: function(e) {
+        if(this.$.query.value) {
+          this.params.q = this.query;
+          this.auto = true;
+          this.waiting = true;
+          this.fire('lp-search-initiated')
+        }
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      handleResponse: function(e) {
+        console.log(this.response)
+        this.waiting = false;
+        this.series = this.response;
+      }
+
+
+
+    });
+
+  </script>
+
+</polymer-element>

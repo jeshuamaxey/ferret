@@ -1,0 +1,62 @@
+:host {
+  display: block;
+}
+
+/* graph styles */
+
+.graph {
+  background: #fff;
+  border-radius: 6px;
+
+  /* Make axis text unselectable */
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  /*//#5AA9E0;*/
+  stroke: rgb(0,0,0);
+  stroke-width: 0.5px;
+}
+
+/**/
+
+svg {
+  margin: 0 auto;
+  font-size: 10px;
+}
+
+circle {
+  -webkit-transition: fill-opacity 250ms linear;
+}
+
+.selecting circle {
+  fill-opacity: .2;
+}
+
+.selecting circle.selected {
+  stroke: #f00;
+}
+
+.resize path {
+  fill: #ccc;
+  fill-opacity: .8;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.brush .extent {
+  /*//#5AA9E0;*/
+  fill: rgb(255,0,255);
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}

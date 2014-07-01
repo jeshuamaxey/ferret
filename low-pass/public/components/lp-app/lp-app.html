@@ -1,0 +1,114 @@
+<link rel="import" href="../polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../core-animated-pages/core-animated-pages.html">
+
+<link rel="import" href="../lp-page-landing/lp-page-landing.html">
+<link rel="import" href="../lp-page-refine/lp-page-refine.html">
+<link rel="import" href="../lp-page-review/lp-page-review.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-app></lp-app>
+
+@element lp-app
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-app
+-->
+<polymer-element name="lp-app" attributes="">
+
+  <template>
+    
+    <link rel="stylesheet" href="lp-app.css" />
+
+<!--     <polymer-ui-toolbar id="toolbar" class="toolbar init">
+      <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+      <div class="brand">Low Pass</div>
+      <lp-search series="{{series}}"></lp-search>
+      <polymer-ui-toolbar responsive>
+        <polymer-ui-icon-button icon="add"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="trash"></polymer-ui-icon-button>
+        <polymer-ui-icon-button icon="search"></polymer-ui-icon-button>
+      </polymer-ui-toolbar>
+    </polymer-ui-toolbar>
+
+    <div id="landingContent" class="landingContent">
+      <section id="lead-copy" class="lead-copy">
+        <h1>Low Pass</h1>
+        <p>{{leadText}}</p>
+      </section>
+
+      <lp-search class="init" series="{{series}}" query="{{query}}"></lp-search>
+
+      <lp-homepage-links></lp-homepage-links>
+    </div>
+
+    <lp-graph series="{{series}}" plotted="{{plotted}}" dateRange="{{dateRange}}"></lp-graph>
+    <lp-retrieve query="{{query}}" range="{{dateRange}}" tweets="" ></lp-retrieve> -->
+
+    <core-animated-pages selected="{{selected}}">
+      <lp-page-landing
+        name="landing"
+        series="{{series}}"
+        on-lp-search-initiated="{{searchInitiated}}">
+      </lp-page-landing>
+      <lp-page-refine
+        name="refine"
+        series="{{series}}"
+        tweets="{{tweets}}"
+        on-lp-review-initiated="{{reviewInitiated}}">
+      </lp-page-refine>
+      <lp-page-review
+        name="review"
+        tweets="{{tweets}}">
+      </lp-page-review>
+    </core-animated-pages>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-app', {
+
+      /**
+       * Time series:
+       */
+      'series' : null,
+
+      /**
+       * This is a function with a view to being able to
+       * easily alter copy for different languages.
+       */
+      leadText: (function() {
+        return 'Be first to breaking news on Twitter';
+      })(),
+
+      searchInitiated: function() {
+        //change to lp-refine-page
+        this.selected = 1;
+      },
+      /**
+       *
+       */
+      plottedChanged: function() {
+        if(this.plotted) {
+          this.$.toolbar;
+          this.$.landingContent.remove();
+        }
+      },
+
+      /**
+       *
+       */
+      reviewInitiated: function() {
+        //change to lp-review-page
+        this.selected = 2;
+      },
+
+    });
+
+  </script>
+
+</polymer-element>
