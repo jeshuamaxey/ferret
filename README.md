@@ -58,3 +58,10 @@ Then run the application with:
 
 The app is now accessible at `http://localhost:3000`
 
+## Polymer branch (still more beta)
+
+There are certain things to note if you want to use this incredibly experimental (read: broken) branch:
+
+* `bower install` hasn't been fully tested for this branch
+* `gulp-sass` doesn't consider certain obscure, shadowDOM specific CSS selectors valid. To compile sass run `sass --watch public/css/src/main.scss:public/css/main.css` from the `low-pass` directory and run `gulp serve`, NOT simply `gulp`
+* the app can be reach at `http://localhost:3000/poly`
