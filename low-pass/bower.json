@@ -2,6 +2,26 @@
   "name": "Low Pass",
   "dependencies": {
     "jquery": "~2.1.1",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "polymer": "~0.2.3"
+  },
+  "resolutions": {
+    "platform": "master",
+    "core-component-page": "master",
+    "polymer": "master",
+    "core-drawer-panel": "0.2.4",
+    "core-icon": "0.2.4",
+    "core-header-panel": "0.2.4",
+    "core-icon-button": "0.2.4",
+    "core-icons": "0.2.4",
+    "core-input": "0.2.4",
+    "core-item": "0.2.4",
+    "core-media-query": "0.2.4",
+    "core-menu": "0.2.4",
+    "core-overlay": "0.2.4",
+    "core-transition": "0.2.4",
+    "core-range": "0.2.4",
+    "core-selector": "0.2.4",
+    "core-toolbar": "0.2.4"
   }
 }
