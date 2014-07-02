@@ -28,6 +28,7 @@ Element providing solution to no problem in particular.
     </div>
 
     <div class="meta-data row">
+      <p class='tw-date'> {{tweet.created_at | formatTwitterDate}} </p>
       <span class='tw-rt'>RETWEETS {{tweet.retweet_count}}</span><br>
       <span class='tw-fav'>FAVOURITES {{tweet.favorite_count}}</span>
     </div>
@@ -91,7 +92,17 @@ Element providing solution to no problem in particular.
        */
       aProp: false,
 
-      ready: function() {
+      /**
+       * Formats the date of a tweet for display
+       * along with other meta data.
+       * To be used as a filter, eg:
+       * {{tweet.created_at | formatTwitterDate}}
+       */
+      formatTwitterDate: function(twitterDate) {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var dateStamp = new Date(twitterDate);
+        var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
+        return dateStr;
       },
 
       /**
