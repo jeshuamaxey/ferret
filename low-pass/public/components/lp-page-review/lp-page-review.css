@@ -1,4 +1,13 @@
 :host {
   display: block;
-  color: red;
+}
+
+.core-header {
+	background: #fff;
+}
+
+.content {
+	background: rgb(240,240,240);
+
+	padding-left: 100px;
 }

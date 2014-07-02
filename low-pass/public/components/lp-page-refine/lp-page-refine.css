@@ -1,3 +1,11 @@
 :host {
   display: block;
 }
+
+.core-header {
+	background: #fff;
+}
+
+.content {
+	background: rgb(240,240,240);;
+}

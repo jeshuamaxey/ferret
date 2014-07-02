@@ -19,6 +19,7 @@ body {
 body /deep/ {
   font-family: 'Lato', 'Helvetica', sans-serif; }
   body /deep/ h1, body /deep/ h2, body /deep/ .brand {
+    font-weight: bold;
     color: #00b7ff; }
   body /deep/ .lead-copy {
     max-width: 400px;
