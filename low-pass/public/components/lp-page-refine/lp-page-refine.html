@@ -1,4 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
 <link rel="import" href="../lp-graph/lp-graph.html">
 <link rel="import" href="../lp-retrieve-tweets/lp-retrieve-tweets.html">
 
@@ -20,10 +24,22 @@ Element providing solution to no problem in particular.
 
     <link rel="stylesheet" href="lp-page-refine.css" />
 
-    <h1>REFINE STUFF</h1>
+    <core-header-panel fit mode="standard">
+      <div class="core-header">
+      <core-toolbar>
+        <core-icon-button icon="menu" on-tap="{{menuAction}}"></core-icon-button>
+        <div class="brand" flex>Low Pass</div>
+        <core-icon-button icon="more" on-tap="{{moreAction}}"></core-icon-button>
+      </core-toolbar>
+      </div>
+      <div class="content">
+        <lp-graph series="{{series}}" plotted="{{plotted}}" dateRange="{{dateRange}}"></lp-graph>
+        <lp-retrieve-tweets query="{{query}}" range="{{dateRange}}" tweets="{{tweets}}" ></lp-retrieve-tweets>
+      </div>
+    </core-header-panel>
 
-    <lp-graph series="{{series}}" plotted="{{plotted}}" dateRange="{{dateRange}}"></lp-graph>
-    <lp-retrieve-tweets query="{{query}}" range="{{dateRange}}" tweets="{{tweets}}" ></lp-retrieve-tweets>
+    <!-- <lp-graph series="{{series}}" plotted="{{plotted}}" dateRange="{{dateRange}}"></lp-graph>
+    <lp-retrieve-tweets query="{{query}}" range="{{dateRange}}" tweets="{{tweets}}" ></lp-retrieve-tweets> -->
 
   </template>
 

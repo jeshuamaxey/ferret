@@ -1,4 +1,8 @@
 :host {
   display: block;
-  /*margin-top: 100px;*/
+  height: 100%;
+}
+
+core-animated-pages {
+	height: 100%;	
 }
