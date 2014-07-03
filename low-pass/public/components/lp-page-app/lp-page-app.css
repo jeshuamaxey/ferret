@@ -7,7 +7,7 @@ core-header-panel core-toolbar {
 }
 
 lp-retrieve-tweets {
-	/*margin: 0 auto;*/
+	
 }
 
 :host(.initial) {
