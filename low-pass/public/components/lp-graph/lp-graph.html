@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -12,7 +13,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-graph
 -->
-<polymer-element name="lp-graph" attributes="series plotted dateRange">
+<polymer-element name="lp-graph" attributes="series plotted dateRange size">
 
   <template>
 
@@ -48,9 +49,13 @@ Element providing solution to no problem in particular.
        * @param {String} dummy Serves no purpose today.
        */
        seriesChanged: function() {
-        var margin = {top: 50, right: 100, bottom: 50, left: 100},
-            width = 600;//this.$.graph.parent().width() - margin.left - margin.right,
-            height = 400;//this.$.graph.parent().width()*0.5 - margin.top - margin.bottom;
+        //
+        console.log(this)
+        //this ought to be calculated via js detecting element dimensions
+        //and be wrappeded in a function which is called on window resizing
+        var margin = {top: 50, right: 50, bottom: 50, left: 50},
+            width = 500;
+            height = 300;
 
         var parseDate = d3.time.format("%d-%b-%y").parse;
 

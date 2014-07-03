@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+core-header-panel core-toolbar {
+	background: #fff;
+}
+
+lp-retrieve-tweets {
+	/*margin: 0 auto;*/
+}
+
+:host(.initial) {
+
+}
+
+:host(.main) {
+	
+}

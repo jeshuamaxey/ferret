@@ -1,6 +1,25 @@
 :host {
   display: block;
+  width: 100%;
+  height: 100%;
 }
+
+/**
+ *  This shouldn't be required when paper-shadow updates to the current guthub version
+ *  http://stackoverflow.com/questions/24552320/using-paper-shadow-makes-sibling-elements-unclickable
+ */
+.paper-shadow {
+  pointer-events: none;
+}
+
+/*
+These need to be implemented to unify
+the refine and revie views
+
+:host .refine
+
+:host .review
+*/
 
 /* graph styles */
 

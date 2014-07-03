@@ -14,7 +14,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-retrieve-tweets
 -->
-<polymer-element name="lp-retrieve-tweets" attributes="range tweets">
+<polymer-element name="lp-retrieve-tweets" attributes="range tweets label">
 
   <template>
 
@@ -30,7 +30,7 @@ Element providing solution to no problem in particular.
       on-core-response="{{handleResponse}}">
     </core-ajax>
 
-    <paper-button id="my-button" label="Get le Tweets" raisedButton on-tap="{{retrieveTweets}}"></paper-button>
+    <paper-button id="my-button" label="{{label}}" on-tap="{{retrieveTweets}}"></paper-button>
 
 
 

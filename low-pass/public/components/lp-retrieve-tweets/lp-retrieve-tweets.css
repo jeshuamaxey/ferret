@@ -1,3 +1,8 @@
 :host {
   display: block;
 }
+
+paper-button {
+	background: #fff;
+	margin-bottom: 20px;
+}
