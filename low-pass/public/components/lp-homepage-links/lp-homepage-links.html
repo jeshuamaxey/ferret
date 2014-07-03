@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-button/paper-button.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -19,49 +21,42 @@ Element providing solution to no problem in particular.
     <link rel="stylesheet" href="lp-homepage-links.css" />
     
     <ul class="links">
-      <li><a href="http://github.com/jeshuamaxey/lowpass">About</a></li>
-      <li><a href="http://github.com/jeshuamaxey/lowpass">GitHub</a></li>
+      <li>
+        <a id="about"
+          on-tap="{{openDialog}}">
+          About</a>
+      </li>
+      <li><a href="http://github.com/jeshuamaxey/low-pass">GitHub</a></li>
     </ul>
+
+    <paper-dialog id="aboutDialog" horizontal center-justified layout
+      opened="false">
+      <p><span class="brand">Low Pass</span> is a powerful tool for finding first-person, eye-witness accounts of major events through Twitter.</p>
+
+      <p>It allows journalists to go back in time and find tweets immediately before the flood of noise and activity that accompanies heavily-reported news.</p>
+
+      <p>After entering your search term, Low Pass returns a graphical representation of the density of tweets over time. The interactive interface lets you pull tweets from the beginnings of an event, before the noise of opinion and outrage takes over.</p>
+
+      <p>Low Pass was created by <a href="http://twitter.com/gdcharles">&#64;gdcharles</a>, <a href="http://twitter.com/jeshuamaxey">&#64;jeshuamaxey</a>, <a href="http://twitter.com/philipnye">&#64;philipnye</a>, <a href="http://twitter.com/ashmpace">&#64;ashmpace</a> and <a href="http://twitter.com/kadhimshubber">&#64;kadhimshubber</a> at <a href="http://buildthenews.wordpress.com">Build the News</a>.</p>
+
+      <p>All the code for Low Pass is open source, released under the MIT license.</p>
+
+      <paper-button id="closeDialog"
+        label="close"
+        on-tap="{{closeDialog}}"></paper-button>
+    </paper-dialog>
 
   </template>
 
   <script>
 
     Polymer('lp-homepage-links', {
-      /**
-       * The `noevent` event is not actually fired from here,
-       * we document it as an example of documenting events.
-       *
-       * @event noevent
-       */
-
-      /**
-       * The `notitle` attribute does not yet have a purpose.
-       *
-       * @attribute notitle
-       * @type string
-       */
-      notitle: '',
-
-      /**
-       * The `aProp` is a property that does something cool.
-       *
-       * @property aProp
-       * @type bool
-       */
-      aProp: false,
-
-      ready: function() {
+      openDialog: function() {
+        this.$.aboutDialog.opened = true;
       },
 
-      /**
-       * The `task` method does no work at this time.
-       *
-       * @method task
-       * @return {Object} Returns undefined.
-       * @param {String} dummy Serves no purpose today.
-       */
-      task: function(dummy) {
+      closeDialog: function() {
+        this.$.aboutDialog.opened = false;
       }
 
     });
