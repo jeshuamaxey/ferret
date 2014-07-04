@@ -126,7 +126,10 @@ var twitterdb = {
                     });
                   }
                 });
-              }
+              },
+  close: function(){
+           db.close();
+         }
 };
 
 module.exports = twitterdb;
