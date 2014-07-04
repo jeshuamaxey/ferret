@@ -1,3 +1,5 @@
+<link rel="import" href="../paper-input/paper-input.html">
+
 <!--
 Input element to be used with Low Pass searches
 
@@ -11,21 +13,31 @@ Input element to be used with Low Pass searches
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-input
 -->
-<polymer-element name="lp-input" extends="input" on-keyup="keyupAction" on-keypress="keypressAction">
+<polymer-element name="lp-input" attributes="placeholder value" on-keyup="keyupAction" on-keypress="keypressAction">
+  <template>
+    <paper-input
+      label="{{placeholder}}"
+      value="{{value}}">
+    </paper-input>
+  </template>
   <script>
     (function() {
       var ENTER_KEY = 13;
       var ESC_KEY = 27;
       Polymer('lp-input', {
+        ready: function() {
+          this.value = '';
+        },
         keypressAction: function (e, detail, sender) {
+          console.log(this.value)
           // Listen for enter on keypress but esc on keyup, because
           // IE doesn't fire keyup for enter.
-          if (e.keyCode === ENTER_KEY) {
+          if(e.keyCode === ENTER_KEY) {
             this.fire('lp-input-commit');
           }
         },
         keyupAction: function (e, detail, sender) {
-          if (e.keyCode === ESC_KEY) {
+          if(e.keyCode === ESC_KEY) {
             this.fire('lp-input-cancel');
           }
         }

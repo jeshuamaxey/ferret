@@ -2,6 +2,15 @@
   display: block;
 }
 
+.lp-search-card {
+	background: #fff;
+	padding: 10px;
+}
+
+.lp-search-card lp-input {
+	margin: 0 auto;
+}
+
 /* borrowed from bootstrap */
 .form-control {
 	display: block;

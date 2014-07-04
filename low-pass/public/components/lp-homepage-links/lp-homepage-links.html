@@ -50,7 +50,12 @@ Element providing solution to no problem in particular.
 
   <script>
 
+  var fadeIn, fadeOut;
+
     Polymer('lp-homepage-links', {
+      ready: function() {
+        //
+      },
       openDialog: function() {
         this.$.aboutDialog.opened = true;
       },

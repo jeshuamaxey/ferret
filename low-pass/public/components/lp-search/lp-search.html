@@ -1,5 +1,7 @@
 <link rel="import" href="../lp-input/lp-input.html">
 <link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
 <!--
 Element providing solution to no problem in particular.
 
@@ -28,14 +30,12 @@ Element providing solution to no problem in particular.
       on-core-response="{{handleResponse}}">
     </core-ajax>
 
-    <div class="form-group">
-      <input
-        is="lp-input"
-        id="query"
-        class="form-control"
+    <div class="lp-search-card">
+      <lp-input
         placeholder="Search..."
         value="{{query}}"
         on-lp-input-commit="{{searchLowpass}}" />
+        <paper-shadow z="2"></paper-shadow>
     </div>
 
   </template>
@@ -44,6 +44,7 @@ Element providing solution to no problem in particular.
 
     Polymer('lp-search', {
       'applyAuthorStyles': true,
+      'query': '',
       'auto': false,
       'params': {'q': null},
       'waiting': false,
@@ -55,12 +56,13 @@ Element providing solution to no problem in particular.
        * @return {Object} Returns undefined.
        * @param {String} dummy Serves no purpose today.
        */
-      searchLowpass: function(e) {
-        if(this.$.query.value) {
+      searchLowpass: function() {
+        console.log('lp-input-commit detected', this.query);
+        if(this.query) {
           this.params.q = this.query;
           this.auto = true;
           this.waiting = true;
-          this.fire('lp-search-initiated')
+          this.fire('lp-search-initiated');
         }
       },
 
