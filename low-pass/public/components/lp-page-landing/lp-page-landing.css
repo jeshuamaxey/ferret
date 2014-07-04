@@ -2,8 +2,23 @@
   display: block;
 }
 
-.landingContent {
-	margin-top: 50px;
+.landing-content {
+	width: 100%;
+}
+
+.leadCopy {
+	width: 100%;
+	
+	/*padding-top: 50px;*/
+
+	padding: 25px;
+	background: rgb(0, 183, 255);
+	color: #555;
+	text-align: center;
+}
+
+.leadCopy h1 {
+	color: #fff;
 }
 
 lp-search {

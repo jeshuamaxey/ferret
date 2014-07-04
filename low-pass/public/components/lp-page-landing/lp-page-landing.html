@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 
+<link rel="import" href="../paper-shadow/paper-shadow.html">
 <link rel="import" href="../lp-search/lp-search.html">
 <link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
 
@@ -21,10 +22,11 @@ Element providing solution to no problem in particular.
 
     <link rel="stylesheet" href="lp-page-landing.css">
 
-    <div id="landingContent" class="landingContent">
-      <section id="lead-copy" class="lead-copy">
+    <div id="landingContent" class="landing-content">
+      <section id="leadCopy" class="leadCopy">
         <h1>Low Pass</h1>
         <p>{{leadText}}</p>
+        <paper-shadow z="1"></paper-shadow>
       </section>
 
       <lp-search class="init" series="{{series}}" query="{{query}}"></lp-search>
