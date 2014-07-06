@@ -1,6 +1,14 @@
 var db = require('monk')('localhost/low-pass');
 var tweets = db.get('tweets');
 var samples = db.get('samples');
+var Q = require('q');
+
+var dayFilter = function(time) {
+  var d = new Date(time);
+  var dayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  var startTime = dayStart.getTime();
+  return {$gte: startTime, $lte: time + 24*60*60*1000};
+};
 
 var tweetFilter = function(time) {
   return {$gte: (time - 1000), $lte: (time + 1000)};
@@ -16,8 +24,11 @@ var twitterdb = {
   storeTweets: function(term, newTweets){
                  for (var t in newTweets){
                    newTweets[t].lpterm = term;
+                   newTweets[t].lptime = new Date(newTweets[t].created_at).getTime();
                  }
+                 //console.log(newTweets);
                  tweets.insert(newTweets);
+                 return Q(newTweets);
                },
 
   storeSample: function(sample, ts){
@@ -127,6 +138,12 @@ var twitterdb = {
                   }
                 });
               },
+
+  haveTweetsForDate: function(term, time, cb){
+                       //TODO:change to sample
+                       tweets.find({lpterm: term, lptime: dayFilter(time)}, cb);
+                     },
+
   close: function(){
            db.close();
          }

@@ -1,4 +1,5 @@
 var fs = require('fs');
+var Q = require('q');
 var path = require('path');
 var Twit = require('twit');
 var samplesize = 15;
@@ -68,10 +69,39 @@ var twitter = {
     return this._T;
   },
 
-  getTweetsFromDate: function(search, time, pages, cb){
+  getTweetsFromDate: function(search, time, pages){
+                       
+                       var api = this.T;
+                       var deferred = Q.defer();
 
-               var api = this.T;
+                       var query = { q: search, result_type: 'recent'};
 
+                       var d = new Date(time);
+                       var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                       query.until = ds;
+
+                       return Q.ninvoke(api, "get", 'search/tweets', query)
+                         .then(function(response){
+                           return Q(response[0].statuses);
+                         });
+                     },
+
+  getCachedTweetsFromDate: function(search, time, pages){
+                             var me = this;
+                             var promise = Q.ninvoke(db, "haveTweetsForDate", search, time)
+                               .then(function(tweets){
+                                 if(tweets.length == 0){
+                                   return me.getTweetsFromDate(search, time, pages)
+                                            .then(function(newtweets){
+                                              return db.storeTweets(search, newtweets)
+                                            });
+                                 } else {
+                                   console.log("have tweets");
+                                   return Q(tweets);
+                                 }
+                               });
+                             return promise;
+/*
                var pullTweets = function(){
                  var tweets = [];
 
@@ -107,14 +137,14 @@ var twitter = {
                  api.get('search/tweets', query, adder);
                };
 
-               db.haveTweets(search, time, function(err, docs){
+               db.haveTweetsForDate(search, time, function(err, docs){
                  if(err){
                    pullTweets(api);
                  } else {
                    cb(null, docs);
                  }
                });
-
+*/
              },
 
   getTweets: function(search, type, n, cb){
@@ -381,6 +411,7 @@ var twitter = {
                   });
 
                  },
+
   finished: function(){
               db.close();
             }

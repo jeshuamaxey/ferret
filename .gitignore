@@ -34,6 +34,4 @@ mongodata
 *.swp
 mongodata
 
-low-pass
-
 .DS_Store
