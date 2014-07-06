@@ -33,6 +33,43 @@ describe('twitter', function(){
           }
         }).then(done).fail(done);
     });
-    //test for caching
+
+    it('should cache what we have just seen', function(done){
+      var day = new Date(Date.now() - 5*24*60*60*1000);
+      var dayStart = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
+      twitter.getCachedTweetsFromDate('twitter', day.getTime(), 1)
+        .then(function(tweets){
+          var statuses = tweets;
+          statuses.length.should.be.above(0);
+          for(var t in statuses){
+            //silly check
+            statuses[t].should.have.property('lptime')
+              .which.is.greaterThan(dayStart)
+              .and.is.lessThan(dayStart + 24*60*60*1000);
+          }
+        }).then(done).fail(done);
+    });
+
   });
+
+
+  describe('#getCachedTweetsFromSample', function(){
+
+    it('should cache what we have just seen', function(done){
+      var day = new Date(Date.now() - 5*24*60*60*1000);
+      var dayStart = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
+      twitter.getCachedTweetsFromDate('twitter', day.getTime(), 1)
+        .then(function(tweets){
+          var statuses = tweets;
+          statuses.length.should.be.above(0);
+          for(var t in statuses){
+            //silly check
+            statuses[t].should.have.property('lptime')
+              .which.is.greaterThan(dayStart)
+              .and.is.lessThan(dayStart + 24*60*60*1000);
+          }
+        }).then(done).fail(done);
+    });
+
+  }
 });

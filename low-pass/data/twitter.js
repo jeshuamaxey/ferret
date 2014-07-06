@@ -96,56 +96,11 @@ var twitter = {
                                               return db.storeTweets(search, newtweets)
                                             });
                                  } else {
-                                   console.log("have tweets");
                                    return Q(tweets);
                                  }
                                });
                              return promise;
-/*
-               var pullTweets = function(){
-                 var tweets = [];
-
-                 var query = { q: search, result_type: 'recent'};
-
-                 var d = new Date(time);
-                 var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                 query.until = ds;
-
-                 var adder = function (err, data, res){
-                   //lots of copying
-                   if (err){
-                     console.log(err);
-                     return;
-                   }
-                   tweets = tweets.concat(data.statuses);
-                   pages = pages - 1;
-
-                   if(err){
-                     cb(err);
-                   }
-
-                   if (pages <= 0){
-                     cb(err, tweets);
-                   } else {
-                     var maxid = data.search_metadata.sinceid;
-                     query.max_id = maxid;
-                     api.get('search/tweets', query, adder);
-                   }
-                 };
-
-                 console.dir(query);
-                 api.get('search/tweets', query, adder);
-               };
-
-               db.haveTweetsForDate(search, time, function(err, docs){
-                 if(err){
-                   pullTweets(api);
-                 } else {
-                   cb(null, docs);
-                 }
-               });
-*/
-             },
+                           },
 
   getTweets: function(search, type, n, cb){
 
