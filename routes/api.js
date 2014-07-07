@@ -48,4 +48,25 @@ router.get('/select', function(req, res){
     res.end();
   }
 });
+
+/*
+router.get('/oauth', function(req, res){
+  var term = req.query.term;
+  var start = req.query.start;
+  var end = req.query.end;
+  console.log(start);
+  console.log(end);
+  if(start && end){
+    console.log('selecting');
+    twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
+      res.json(JSON.stringify(tweets));
+      res.end();
+    });
+  }else{
+    res.json({message: 'bad query'});
+    res.end();
+  }
+});
+*/
+
 module.exports = router;
