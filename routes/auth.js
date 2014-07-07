@@ -1,3 +1,4 @@
+var twitter = require('../data/twitter');
 var express = require('express');
 var router = express.Router();
 
@@ -9,14 +10,14 @@ passport.use('twitter', new OAuthStrategy({
     userAuthorizationURL: 'https://api.twitter.com/oauth/authorize',
     requestTokenURL: 'https://api.twitter.com/oauth/request_token',
     accessTokenURL: 'https://api.twitter.com/oauth/access_token',
-    callbackURL: 'http://localhost:3000/auth/twitter/callback',
-    consumerKey: '1',
-    consumerSecret: '1'
+    callbackURL: 'http://localhost:3000/auth/twitter/callback', // to change
+    consumerKey: twitter.key.key,
+    consumerSecret: twitter.key.keySecret
   },
 
-  function(accessToken, refreshToken, profile, done) {
+  function(token, tokenSecret, profile, done) {
     console.log('access token:' + accessToken);
-    done(null, null);
+    done(null, profile);
     //done(err, user);
   }
 ));

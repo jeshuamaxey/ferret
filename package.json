@@ -19,7 +19,8 @@
     "mongodb": "^1.4.3",
     "monk": "^0.8.1",
     "passport": "^0.2.0",
-    "passport-oauth": "^1.0.0"
+    "passport-oauth": "^1.0.0",
+    "express-session": "^1.6.4"
   },
   "devDependencies": {
     "nodemon": "~1.0.17",
