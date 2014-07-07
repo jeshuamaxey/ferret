@@ -2,19 +2,47 @@
   display: block;
   background: #fff;
   margin-bottom: 5px;
+  padding: 10px;
+
+  font-size: 80%;
 }
 
 .twProfilePic {
 	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border-radius: 4px;
 }
 
 .tw-username {
 	font-weight: bold;
 	display: block;
+
+	padding-top: 8px;
+}
+
+.tw-handle {
+	font-size: 90%;
+	margin-bottom: 10px;
+}
+
+.meta-data span {
+	padding-right: 10px;
+
+	color: #555;
+}
+
+.meta-data span.num {
+	color: rgb(0, 183, 255);
+}
+
+.user-info {
+	margin-right: 10px;
 }
 
 .tw-text {
 	max-width: 100%;
+	margin; 0
 }
 
 .tweetPic {
@@ -23,12 +51,12 @@
 }
 
 
-.tw-media {
+/*.tw-media {
 	img {
 		max-width: 100%;
 	  max-height: 100%;
 	}
-}
+}*/
 
 
 

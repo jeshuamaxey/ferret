@@ -19,19 +19,19 @@ Element providing solution to no problem in particular.
 
     <link rel="stylesheet" href="lp-tweet.css" />
 
-    <div class="tw-content row">
-      <div class="user-info">
+    <div class="tw-content row" horizontal layout>
+      <div class="user-info" flex>
         <img class='twProfilePic' src="{{tweet.user.profile_image_url}}" >
         <span class='tw-username'>{{tweet.user.name}}</span>
         <span class='tw-handle'>&#64;{{tweet.user.screen_name}} </span>
       </div>
-      <p class="tw-text">{{tweet.text}}</p>
+      <p class="tw-text" flex two>{{tweet.text}}</p>
     </div>
 
-    <div class="meta-data row">
-      <p class='tw-date'> {{tweet.created_at | formatTwitterDate}} </p>
-      <span class='tw-rt'>RETWEETS {{tweet.retweet_count}}</span><br>
-      <span class='tw-fav'>FAVOURITES {{tweet.favorite_count}}</span>
+    <div class="meta-data row" horizontal layout>
+      <span class='tw-date'> {{tweet.created_at | formatTwitterDate}}</span>
+      <span class='tw-rt'>RETWEETS <span class="num">{{tweet.retweet_count}}</span></span><br>
+      <span class='tw-fav'>FAVOURITES <span class="num">{{tweet.favorite_count}}</span></span>
     </div>
 
     <paper-shadow z="1"></paper-shadow>
