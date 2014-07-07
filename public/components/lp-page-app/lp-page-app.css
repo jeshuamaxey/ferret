@@ -9,11 +9,20 @@ core-header-panel core-toolbar {
 	background: #fff;
 }
 
+.content, .content div {
+	overflow: hidden;
+}
+
 .content .col {
 	overflow: scroll;
 	max-height: 100%;
 
 	padding: 20px;
+}
+
+/*hide column scrollbar*/
+.content .col::-webkit-scrollbar {
+	display: none;
 }
 
 :host(.initial) {
