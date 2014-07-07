@@ -27,7 +27,6 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/api', api);
 // app.use('/users', users);
-app.use('/poly', polyRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
