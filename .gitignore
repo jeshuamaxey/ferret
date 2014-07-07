@@ -5,7 +5,7 @@ public/data/*
 misc/*
 
 #node
-node_modules
+low-pass/node_modules/*
 npm-debug.log
 #bower
 low-pass/public/bower_components
