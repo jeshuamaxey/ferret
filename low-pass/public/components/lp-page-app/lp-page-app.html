@@ -33,14 +33,22 @@ Element providing solution to no problem in particular.
       </div>
       <div id="content" class="content" horizontal around-justified layout
         on-lp-review-initiated="{{reviewInitiated}}">
-        <lp-tweet-list id="tweetList" hidden
-          tweets="{{tweets}}">
-        </lp-tweet-list>
-        <lp-refine-tools
-          size="{{(mode == 'initial') ? 'large' : 'small'}}"
-          series="{{series}}"
-          tweets="{{tweets}}">
-        </lp-refine-tools>
+        <div horizontal layout>
+          <!-- left column -->
+          <div id="tweetCol" flex hidden>
+            <lp-tweet-list id="tweetList"
+            tweets="{{tweets}}">
+          </lp-tweet-list>
+          </div>
+          <!-- right column -->
+          <div flex>
+            <lp-refine-tools
+              size="{{(mode == 'initial') ? 'large' : 'small'}}"
+              series="{{series}}"
+              tweets="{{tweets}}">
+            </lp-refine-tools>
+          </div>
+        </div>
       </div>
     </core-header-panel>
 
@@ -64,7 +72,7 @@ Element providing solution to no problem in particular.
       tweetsChanged: function() {
         //unhide tweetlist
         this.mode = 'main';
-        this.$.tweetList.hidden = false;
+        this.$.tweetCol.hidden = false;
       }
     });
 
