@@ -22,7 +22,7 @@ Element providing solution to no problem in particular.
 
     <core-ajax
       auto="{{auto}}"
-      url="http://localhost:3000/testData.json"
+      url="http://localhost:3000/rolftweets.json"
       x-url="http://localhost:3000/api/select"
       params="{{params}}"
       handleAs="json"
@@ -55,7 +55,7 @@ Element providing solution to no problem in particular.
       },
 
       handleResponse: function() {
-        this.tweets = this.response;
+        this.tweets = typeof this.response == 'string' ? JSON.parse(this.response) : this.response;
         this.fire('lp-review-initiated');
       }
 
