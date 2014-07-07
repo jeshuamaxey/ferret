@@ -86,6 +86,21 @@ var twitter = {
                        return this.makeSample(query);
                      },
 
+  getTweetsAtTime: function(search, time){
+                     db.getSamplesAround(time)
+                       .then(function(samples){
+
+                         //A < B
+                         var sampleA = samples[0];
+                         var sampleB = samples[1];
+                         estimatedId = sampleA.minid + 
+                           (sampleB.maxid - sampleA.minid)*
+                           (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);
+
+                         return me.getCachedTweetsFromId(search, estimatedId);
+                       });
+                   },
+
   getTweetsBetweenTimes: function(search, startTime, endTime){
                            var me = this;
                            return db.getSamples(search)

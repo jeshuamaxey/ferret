@@ -21,12 +21,33 @@ var sampleFilter = function(time) {
 };
 
 var twitterdb = {
+  getSamplesAroundTime: function(time){
+                          return Q.ninvoke(samples, "find", {$sort: {time: 1}})
+                            .then(function(ss){
+                              var deferred = Q.defer();
+                              if (ss.length() < 2){
+                                deferred.reject(new Error('not enough samples'));
+                                return deferred;
+                              } else {
+                                var i = 0;
+                                while (i < ss.length - 1){
+                                  if(ss[i].maxtime >= time){
+                                    deferred.resolve([ss[i], ss[i+1]]);
+                                    return deferred;
+                                  }
+                                  i++;
+                                }
+                                deferred.resolve([ss[i-1], ss[i]]);
+                                return deferred;
+                              }
+                            });
+                        },
+
   storeTweets: function(term, newTweets){
                  for (var t in newTweets){
                    newTweets[t].lpterm = term;
                    newTweets[t].lptime = new Date(newTweets[t].created_at).getTime();
                  }
-                 //console.log(newTweets);
                  tweets.insert(newTweets);
                  return Q(newTweets);
                },
