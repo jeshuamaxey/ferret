@@ -2,14 +2,27 @@ body {
 	font-family: 'Lato', 'Helvetica', sans-serif;
 }
 
-h1, h2 {
-	color: $light-blue;
-}
+body /deep/ {
+	font-family: 'Lato', 'Helvetica', sans-serif;
 
-.lead-copy {
-	max-width: 400px;
-	margin: 0 auto;
+	h1, h2, .brand {
+		font-weight: bold;
+		color: $light-blue;
+	}
 
-	font-size: 150%;
-	text-align: center;
+	.lead-copy {
+		max-width: 400px;
+		margin: 0 auto;
+
+		font-size: 150%;
+		text-align: center;
+	}
+	
+	a {
+		color: #428bca;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }

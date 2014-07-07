@@ -1,0 +1,61 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../lp-graph/lp-graph.html">
+<link rel="import" href="../lp-retrieve-tweets/lp-retrieve-tweets.html">
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-refine-tools></lp-refine-tools>
+
+@element lp-refine-tools
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-refine-tools
+-->
+<polymer-element name="lp-refine-tools" attributes="series plotted dateRange size query tweets btnLabel">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-refine-tools.css" />
+
+    <div id="refineTools" vertical layout >
+
+      <div class="graph-wrapper" horizontal center-justified layout>
+        <lp-graph
+          size="{{size}}"
+          series="{{series}}"
+          plotted="{{plotted}}"
+          dateRange="{{dateRange}}">
+        </lp-graph>
+      </div>
+      
+      <div class="lp-retrieve-wrapper" horizontal center-justified layout>
+        <lp-retrieve-tweets
+          query="{{query}}"
+          range="{{dateRange}}"
+          tweets="{{tweets}}"
+          label="{{btnLabel}}">
+        </lp-retrieve-tweets>  
+      </div>
+
+      <paper-shadow z="1"></paper-shadow>
+      
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-refine-tools', {
+      'btnLabel': 'Get Tweets',
+
+      tweetsChanged: function() {
+        this.btnLabel = 'Refresh Tweets';
+      }
+    });
+
+  </script>
+
+</polymer-element>

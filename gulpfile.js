@@ -48,7 +48,7 @@ gulp.task('sass', function () {
     gulp.src(paths.styles.src)
       .pipe(sass({
         // outputStyle: 'compressed',
-        sourceComments: 'map',
+        // sourceComments: 'map',
         includePaths : [paths.styles.src]
       }))
       // If there is an error, don't stop compiling but use the custom displayError function

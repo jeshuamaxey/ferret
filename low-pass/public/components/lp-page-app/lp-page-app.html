@@ -1,0 +1,81 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+
+<link rel="import" href="../lp-tweet-list/lp-tweet-list.html">
+<link rel="import" href="../lp-refine-tools/lp-refine-tools.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-page-app mode="initial" series="{{timeSeries}}"></lp-page-app>
+
+@element lp-page-app
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-page-app
+-->
+<polymer-element name="lp-page-app" attributes="mode series">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-page-app.css" />
+
+    <core-header-panel fit mode="standard">
+      <div class="core-header">
+      <core-toolbar>
+        <div class="brand" flex>Low Pass</div>
+      </core-toolbar>
+      </div>
+      <div id="content" class="content" horizontal around-justified layout
+        on-lp-review-initiated="{{reviewInitiated}}">
+        <div horizontal layout>
+          <!-- left column -->
+          <div id="tweetCol" flex hidden>
+            <lp-tweet-list id="tweetList"
+            tweets="{{tweets}}">
+          </lp-tweet-list>
+          </div>
+          <!-- right column -->
+          <div flex>
+            <lp-refine-tools
+              size="{{(mode == 'initial') ? 'large' : 'small'}}"
+              series="{{series}}"
+              tweets="{{tweets}}">
+            </lp-refine-tools>
+          </div>
+        </div>
+      </div>
+    </core-header-panel>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-page-app', {
+      /**
+       * Mode: initial -> main:
+       */
+      'mode' : 'initial',
+
+      'btnLabel': 'Get Tweets',
+
+      modeChanged: function() {
+        if(this.mode === 'main') {
+          console.log('main sequence');
+        }
+      },
+      tweetsChanged: function() {
+        //unhide tweetlist
+        this.mode = 'main';
+        this.$.tweetCol.hidden = false;
+      }
+    });
+
+  </script>
+
+</polymer-element>
