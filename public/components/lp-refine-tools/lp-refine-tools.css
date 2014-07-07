@@ -2,7 +2,7 @@
   display: block;
 
   width: 600px;
-  height: 455px;
+  /*height: 455px;*/
   margin-top: 50px;
 
 	background: #fff;
@@ -24,4 +24,8 @@
  */
 .paper-shadow {
   pointer-events: none;
+}
+
+.lp-tools-wrapper {
+	padding: 0 40px;
 }

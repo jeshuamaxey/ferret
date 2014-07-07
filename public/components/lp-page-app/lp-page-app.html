@@ -19,7 +19,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-page-app
 -->
-<polymer-element name="lp-page-app" attributes="mode series">
+<polymer-element name="lp-page-app" attributes="series">
 
   <template>
 
@@ -43,6 +43,7 @@ Element providing solution to no problem in particular.
           <!-- right column -->
           <div class="col" flex>
             <lp-refine-tools
+              mode="{{mode}}"
               size="{{(mode == 'initial') ? 'large' : 'small'}}"
               series="{{series}}"
               tweets="{{tweets}}">

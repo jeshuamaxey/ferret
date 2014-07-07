@@ -1,0 +1,76 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-sort-tools></lp-sort-tools>
+
+@element lp-sort-tools
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-sort-tools
+-->
+<polymer-element name="lp-sort-tools" attributes="sortBy">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-sort-tools.css" />
+
+    <b>Sort by most:</b>
+
+    <paper-radio-group selected="sortBy">
+      <paper-radio-button name="followers" label="followers"></paper-radio-button>
+      <paper-radio-button name="rts" label="RTs"></paper-radio-button>
+      <paper-radio-button name="replies" label="replies"></paper-radio-button>
+    </paper-radio-group>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-sort-tools', {
+      /**
+       * The `noevent` event is not actually fired from here,
+       * we document it as an example of documenting events.
+       *
+       * @event noevent
+       */
+
+      /**
+       * The `notitle` attribute does not yet have a purpose.
+       *
+       * @attribute notitle
+       * @type string
+       */
+      notitle: '',
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+      aProp: false,
+
+      ready: function() {
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

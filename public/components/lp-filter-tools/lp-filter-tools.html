@@ -1,0 +1,80 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-filter-tools></lp-filter-tools>
+
+@element lp-filter-tools
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-filter-tools
+-->
+<polymer-element name="lp-filter-tools" attributes="filter">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-filter-tools.css" />
+
+    <b>Filter by:</b>
+
+    <paper-radio-group selected="{{filter}}">
+      <paper-radio-button name="media" label="Photo/Video"></paper-radio-button>
+      <paper-radio-button name="links" label="Link"></paper-radio-button>
+      <paper-radio-button name="rts" label="RTs"></paper-radio-button>
+      <paper-radio-button name="text" label="Text"></paper-radio-button>
+      <paper-radio-button name="location" label="Location Data"></paper-radio-button>
+    </paper-radio-group>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-filter-tools', {
+      /**
+       * The `noevent` event is not actually fired from here,
+       * we document it as an example of documenting events.
+       *
+       * @event noevent
+       */
+
+      /**
+       * The `notitle` attribute does not yet have a purpose.
+       *
+       * @attribute notitle
+       * @type string
+       */
+      notitle: '',
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+      aProp: false,
+
+      ready: function() {
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>
