@@ -37,16 +37,19 @@ Element providing solution to no problem in particular.
           <!-- left column -->
           <div id="tweetCol" class="col" flex hidden>
             <lp-tweet-list id="tweetList"
-            tweets="{{tweets}}">
+            tweets="{{tweets}}"
+            filterBy="{{filterBy}}"
+            sortBy="{{sortBy}}">
           </lp-tweet-list>
           </div>
           <!-- right column -->
           <div class="col" flex>
             <lp-refine-tools
               mode="{{mode}}"
-              size="{{(mode == 'initial') ? 'large' : 'small'}}"
               series="{{series}}"
-              tweets="{{tweets}}">
+              tweets="{{tweets}}"
+              filterBy="{{filterBy}}"
+              sortBy="{{sortBy}}">
             </lp-refine-tools>
           </div>
         </div>

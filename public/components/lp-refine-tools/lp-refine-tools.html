@@ -17,7 +17,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-refine-tools
 -->
-<polymer-element name="lp-refine-tools" attributes="series plotted dateRange mode query tweets btnLabel">
+<polymer-element name="lp-refine-tools" attributes="mode series tweets plotted query sortBy filterBy">
 
   <template>
 
@@ -44,8 +44,8 @@ Element providing solution to no problem in particular.
       </div>
 
       <div id="lpToolsWrapper" class="lp-tools-wrapper" hidden vertical layout>
-        <lp-filter-tools></lp-filter-tools>
-        <lp-sort-tools></lp-sort-tools>
+        <lp-filter-tools filterBy="{{filterBy}}"></lp-filter-tools>
+        <lp-sort-tools sortBy="{{sortBy}}"></lp-sort-tools>
       </div>
 
       <paper-shadow z="1"></paper-shadow>
