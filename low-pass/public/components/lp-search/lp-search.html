@@ -14,7 +14,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-search
 -->
-<polymer-element name="lp-search" attributes="query series waiting">
+<polymer-element name="lp-search" attributes="series waiting">
 
   <template>
 
@@ -30,12 +30,12 @@ Element providing solution to no problem in particular.
       on-core-response="{{handleResponse}}">
     </core-ajax>
 
-    <div class="lp-search-card">
-      <lp-input
+    <div class="lp-search-card" flex>
+      <paper-shadow z="1"></paper-shadow>
+      <lp-input horizontal center-justified layout
         placeholder="Search..."
         value="{{query}}"
         on-lp-input-commit="{{searchLowpass}}" />
-        <paper-shadow z="2"></paper-shadow>
     </div>
 
   </template>
@@ -57,7 +57,6 @@ Element providing solution to no problem in particular.
        * @param {String} dummy Serves no purpose today.
        */
       searchLowpass: function() {
-        console.log('lp-input-commit detected', this.query);
         if(this.query) {
           this.params.q = this.query;
           this.auto = true;
