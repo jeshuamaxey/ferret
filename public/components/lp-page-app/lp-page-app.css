@@ -1,13 +1,19 @@
 :host {
   display: block;
+	max-height: 100%;
+
+	overflow: hidden;
 }
 
 core-header-panel core-toolbar {
 	background: #fff;
 }
 
-lp-retrieve-tweets {
-	
+.content .col {
+	overflow: scroll;
+	max-height: 100%;
+
+	padding: 20px;
 }
 
 :host(.initial) {

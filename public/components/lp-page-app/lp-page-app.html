@@ -35,13 +35,13 @@ Element providing solution to no problem in particular.
         on-lp-review-initiated="{{reviewInitiated}}">
         <div horizontal layout>
           <!-- left column -->
-          <div id="tweetCol" flex hidden>
+          <div id="tweetCol" class="col" flex hidden>
             <lp-tweet-list id="tweetList"
             tweets="{{tweets}}">
           </lp-tweet-list>
           </div>
           <!-- right column -->
-          <div flex>
+          <div class="col" flex>
             <lp-refine-tools
               size="{{(mode == 'initial') ? 'large' : 'small'}}"
               series="{{series}}"
