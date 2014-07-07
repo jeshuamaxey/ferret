@@ -69,38 +69,125 @@ var twitter = {
     return this._T;
   },
 
-  getTweetsFromDate: function(search, time, pages){
-                       
-                       var api = this.T;
-                       var deferred = Q.defer();
+    getTweetsFromId: function(search, id){
+                       var query = { q: search, result_type: 'recent'};
+                       query.max_id = id;
 
+                       return this.makeSample(query);
+                     },
+
+  getTweetsFromDate: function(search, time){
                        var query = { q: search, result_type: 'recent'};
 
                        var d = new Date(time);
                        var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
                        query.until = ds;
 
-                       return Q.ninvoke(api, "get", 'search/tweets', query)
-                         .then(function(response){
-                           return Q(response[0].statuses);
-                         });
+                       return this.makeSample(query);
                      },
 
-  getCachedTweetsFromDate: function(search, time, pages){
+  getTweetsBetweenTimes: function(search, startTime, endTime){
+                           var me = this;
+                           return db.getSamples(search)
+                             .then(function(samples){
+                               var i = 1;
+                               for(; i < samples.length; i++){
+                                 if(samples[i].maxtime >= endTime){
+                                   break;
+                                 }
+                               }
+
+                               var startSample = samples[i-1];
+                               var endSample = samples[i];
+                               return db.tweetsForSample(startSample);
+                             });
+                         },
+
+
+  getCachedTweetsFromId: function(search, id){
+                             var me = this;
+                             var promise = Q.ninvoke(db, "haveTweetsForId", search, id)
+                               .then(function(tweets){
+                                 if(tweets.length == 0){
+                                   return me.getTweetsFromId(search, id)
+                                    .then(function(bundle){
+                                      return Q(bundle.tweets);
+                                    });
+                                 } else {
+                                   console.log('have tweets');
+                                   return Q(tweets);
+                                 }
+                               });
+                             return promise;
+                         },
+
+  getCachedTweetsFromDate: function(search, time){
                              var me = this;
                              var promise = Q.ninvoke(db, "haveTweetsForDate", search, time)
                                .then(function(tweets){
                                  if(tweets.length == 0){
-                                   return me.getTweetsFromDate(search, time, pages)
-                                            .then(function(newtweets){
-                                              return db.storeTweets(search, newtweets)
-                                            });
+                                   return me.getTweetsFromDate(search, time)
+                                     .then(function(bundle){
+                                       return Q(bundle.tweets);
+                                     });
                                  } else {
                                    return Q(tweets);
                                  }
                                });
                              return promise;
-                           },
+                         },
+
+  sampleFromTweets: function(term, tweets){
+                     var avgTime = 0;
+                     var density = 0;
+                     var minid = 0;
+                     var maxid = 0;
+
+                     if (tweets.length < 2){
+                       console.log('not enough tweets');
+                     } else {
+                       var mintime = Number.MAX_VALUE;
+                       var maxtime = Number.MIN_VALUE;
+                       var sum = 0;
+                       for(var t in tweets){
+                         var itime = new Date(tweets[t].created_at).getTime();
+                         mintime = Math.min(mintime, itime);
+                         maxtime = Math.max(maxtime, itime);
+                         sum = sum + itime;
+                       }
+
+                       avgTime = (maxtime + mintime) / 2;
+
+                       if (maxtime == mintime){
+                         console.log('sample size too small');
+                         density = samplesize;
+                       } else {
+                         density = samplesize / (maxtime - mintime);
+                       }
+
+                       minid = tweets[0].id;
+                       maxid = tweets[tweets.length - 1].id;
+                     }
+                     
+                     var sample = {
+                       term: term,
+                       time: avgTime,
+                       minid: minid,
+                       maxid: maxid,
+                       mintime: mintime,
+                       maxtime: maxtime,
+                       density: density
+                     };
+                     return db.storeSample(sample, tweets);
+                    },
+
+  makeSample: function(query){
+                var me = this;
+                return Q.ninvoke(this.T, "get", 'search/tweets', query)
+                  .then(function(response){
+                    return me.sampleFromTweets(query.q, response[0].statuses);
+                  });
+              },
 
   getTweets: function(search, type, n, cb){
 
