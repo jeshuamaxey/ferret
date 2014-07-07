@@ -5,7 +5,7 @@ misc/*
 node_modules
 npm-debug.log
 #bower
-low-pass/public/bower_components
+public/bower_components
 
 #vim buffer
 *.swp
