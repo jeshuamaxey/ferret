@@ -68,6 +68,55 @@ var twitter = {
     return this._T;
   },
 
+  getTweetsFromDate: function(search, time, pages, cb){
+
+               var api = this.T;
+
+               var pullTweets = function(){
+                 var tweets = [];
+
+                 var query = { q: search, result_type: 'recent'};
+
+                 var d = new Date(time);
+                 var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                 query.until = ds;
+
+                 var adder = function (err, data, res){
+                   //lots of copying
+                   if (err){
+                     console.log(err);
+                     return;
+                   }
+                   tweets = tweets.concat(data.statuses);
+                   pages = pages - 1;
+
+                   if(err){
+                     cb(err);
+                   }
+
+                   if (pages <= 0){
+                     cb(err, tweets);
+                   } else {
+                     var maxid = data.search_metadata.sinceid;
+                     query.max_id = maxid;
+                     api.get('search/tweets', query, adder);
+                   }
+                 };
+
+                 console.dir(query);
+                 api.get('search/tweets', query, adder);
+               };
+
+               db.haveTweets(search, time, function(err, docs){
+                 if(err){
+                   pullTweets(api);
+                 } else {
+                   cb(null, docs);
+                 }
+               });
+
+             },
+
   getTweets: function(search, type, n, cb){
 
                var api = this.T;
@@ -153,7 +202,6 @@ var twitter = {
                    }
 
                    avgTime = (maxtime + mintime) / 2;
-                   console.log(new Date(avgTime));
 
                    if (maxtime == mintime){
                      console.log('sample size too small');
@@ -186,7 +234,7 @@ var twitter = {
                  var distance = Math.abs(type.time - currentSamples[s].time);
                  console.log('distance of ' + distance);
 
-                 if (currentSamples[s].density > 10 && distance < 60*60*1000){
+                 if (distance < 5*60*60*1000){
                    console.log('cached sample');
                    callback(null, currentSamples[s]);
                    return;
@@ -225,6 +273,7 @@ var twitter = {
                      var id = Math.round(refid + deltaid);
 
                      console.log(new Date(t) + ' ' + id);
+                     console.log(refid + ' ' + deltaid);
                      var sampletype = {sample: 'id', time: t, id:id};
                      me.getSample(ref.term, sampletype, reference, function(err, s){
                        points.push({date: s.time/1000, tps: s.density});
@@ -235,8 +284,6 @@ var twitter = {
                            var reftime = reference[r].time;
                            if(reftime <= start && reftime >= end){
                              points.push({date: reftime/1000, tps: reference[r].density});
-                           } else {
-                             console.log(new Date(reftime) + ' not between ' + new Date(start) + new Date(end));
                            }
                          }
                          points.sort(dateSort);
@@ -275,7 +322,6 @@ var twitter = {
                      var sampleAdder = function(err, dateSample){
                        samples.push(dateSample);
                        toAdd--;
-                       console.log(toAdd);
                        if (toAdd == 0){
                          checkReference(samples);
                        }
@@ -297,7 +343,6 @@ var twitter = {
   getAllTweets: function(term, start, end, cb){
                   var me = this;
                   db.getTweetsTime(term, start, end, function(tweets){
-                    console.log(tweets)
                     if(tweets.length == 0){
                       console.log('trying more');
                       //try some more
@@ -319,7 +364,7 @@ var twitter = {
                         //buggy
                         var t = end;
                         var ref = closestReference(t, reference);
-                        var refid = (ref.maxid + ref.minid)/2;
+                        var refid = ref.minid; //may as well try
                         var deltaid = ref.gradient*(t - ref.time);
                         var id = Math.round(refid + deltaid);
 
@@ -335,7 +380,10 @@ var twitter = {
 
                   });
 
-                 }
+                 },
+  finished: function(){
+              db.close();
+            }
 
 };
 

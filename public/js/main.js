@@ -133,6 +133,16 @@ g.addTweets = function(tweets) {
 		var dateStamp = new Date(t.created_at);
 		var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
 
+/*
+    $.ajax({
+            url: "https://api.twitter.com/1/statuses/oembed.json?url="+url,
+            dataType: "jsonp",
+            success: function(data){
+              $('#tweets').append(data.html);
+            }
+        });
+*/
+
 		console.log(t, dateStr);
 		//scan tweet for media
 		//make tweet

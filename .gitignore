@@ -1,6 +1,3 @@
-# all intermediate data files
-public/data/*
-
 # files that pertain to the project but aren't code/trackable
 misc/*
 
@@ -8,7 +5,7 @@ misc/*
 node_modules
 npm-debug.log
 #bower
-low-pass/public/bower_components
+public/bower_components
 
 #vim buffer
 *.swp
@@ -27,13 +24,8 @@ r.js
 #twitter api key
 twitterapi.json
 
-#database folder
-mongodata
-
 #ignore
 *.swp
 mongodata
-
-low-pass
 
 .DS_Store
