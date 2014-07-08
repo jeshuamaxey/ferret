@@ -25,6 +25,10 @@ core-header-panel core-toolbar {
 	display: none;
 }
 
+.tweet-col {
+	max-width: 400px;
+}
+
 :host(.initial) {
 
 }

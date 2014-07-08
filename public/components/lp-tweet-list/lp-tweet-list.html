@@ -95,7 +95,6 @@ Element providing solution to no problem in particular.
               newTweets.push(tweet)
             };
           });
-          console.log('newTweets', newTweets)
           return newTweets;
         }
       },
@@ -112,7 +111,11 @@ Element providing solution to no problem in particular.
       },
        
       filterByChanged: function() {
-        this.tweets =  this.filters[this.filterBy](this.allTweets);
+        if(this.filterBy != 'none') {
+          this.tweets =  this.filters[this.filterBy](this.allTweets);
+        } else {
+          this.tweets = this.allTweets;
+        }
       },
 
       sortByChanged: function() {

@@ -23,22 +23,26 @@ Element providing solution to no problem in particular.
     <link rel="stylesheet" href="lp-filter-tools.css" />
 
     <b>Filter by:</b>
-
+    <br>
     <paper-radio-group selected="{{filterBy}}">
       <paper-radio-button name="media" label="Photo/Video"></paper-radio-button>
       <paper-radio-button name="links" label="Links"></paper-radio-button>
       <paper-radio-button name="rts" label="Exclude RTs"></paper-radio-button>
+      <br>
       <paper-radio-button name="text" label="Text"></paper-radio-button>
       <paper-radio-button name="location" label="Location Data"></paper-radio-button>
+      <paper-button label="Clear Filters" class="clearFilters" on-tap="{{clearFilters}}"></paper-button>
     </paper-radio-group>
+
 
   </template>
 
   <script>
 
     Polymer('lp-filter-tools', {
-
-      
+      clearFilters: function() {
+        this.filterBy = 'none';
+      }
 
     });
 
