@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var twitter = require('../data/twitter');
+var series = require('../data/series');
 
 var dataMin = 50;
 
@@ -24,7 +24,8 @@ router.get('/search', function(req, res){
       scale = new Date(end).getTime() - start;
     }
 
-    twitter.sampleTerm(term, start, scale, function(err, series){
+    series.getSeriesFromSamples(term, start, scale)
+    .then(function(series){
       res.json(JSON.stringify(series));
       res.end();
     });
