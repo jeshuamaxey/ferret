@@ -83,8 +83,8 @@ Element providing solution to no problem in particular.
         
         //console.log(typeof this.series);
         //format data
-        var data = this.series;
-        //var data = JSON.parse(this.series)
+        var data = this.series; //used for fake data
+        // var data = JSON.parse(this.series) //used for real (api) data
         //typeof this.series != 'object' ? data = JSON.parse(this.series) : data = this.series;
         data.forEach(function(d) {
           //convert date to milliseconds
@@ -159,7 +159,6 @@ Element providing solution to no problem in particular.
 
       brushmove: function() {
         this.dateRange = glob.brush.extent();
-        // console.log(this.dateRange);
       },
 
       brushend: function() {
