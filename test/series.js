@@ -18,9 +18,10 @@ describe('series', function(){
         for (var s in series){
           series[s].time.should.be.lessThan(start);
           series[s].time.should.be.greaterThan(end - scale/4); //we can't be too far off
-          series[s].time.should.be.ok
-          series[s].minid.should.be.ok
-          series[s].maxid.should.be.ok
+          series[s].time.should.be.ok;
+          series[s].minid.should.be.ok;
+          series[s].maxid.should.be.ok;
+          (series[s].mintime <= series[s].maxtime).should.be.true;
         }
       }).then(done).fail(done);
     });
