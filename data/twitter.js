@@ -1,4 +1,5 @@
 var fs = require('fs');
+var Q = require('q');
 var path = require('path');
 var Twit = require('twit');
 var samplesize = 15;
@@ -68,54 +69,232 @@ var twitter = {
     return this._T;
   },
 
-  getTweetsFromDate: function(search, time, pages, cb){
+    getSampleFromId: function(search, id){
+                       var query = { q: search, result_type: 'recent'};
+                       query.max_id = id;
 
-               var api = this.T;
+                       return this.makeSample(query);
+                     },
 
-               var pullTweets = function(){
-                 var tweets = [];
+  getSampleFromDate: function(search, time){
+                       var query = { q: search, result_type: 'recent'};
 
-                 var query = { q: search, result_type: 'recent'};
+                       var d = new Date(time);
+                       var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+                       query.until = ds;
 
-                 var d = new Date(time);
-                 var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                 query.until = ds;
+                       return this.makeSample(query);
+                     },
 
-                 var adder = function (err, data, res){
-                   //lots of copying
-                   if (err){
-                     console.log(err);
-                     return;
-                   }
-                   tweets = tweets.concat(data.statuses);
-                   pages = pages - 1;
+  getSampleAtTime: function(search, time, allow){
+                     var me = this;
+                     var uncached = function(){
+                       return me.getSamplesAroundTime(search, time)
+                       .then(function(samples){
+                         //A < B
+                         var sampleA = samples[0];
+                         var sampleB = samples[1];
+                         estimatedId = sampleA.minid + 
+                           (sampleB.maxid - sampleA.minid)*
+                           (time - sampleA.time)/(sampleB.time - sampleA.time);
 
-                   if(err){
-                     cb(err);
-                   }
+                         return me.getCachedSampleFromId(search, estimatedId);
+                       });
+                     };
 
-                   if (pages <= 0){
-                     cb(err, tweets);
-                   } else {
-                     var maxid = data.search_metadata.sinceid;
-                     query.max_id = maxid;
-                     api.get('search/tweets', query, adder);
-                   }
-                 };
+                     if(!allow){
+                       allow = 0;
+                     }
 
-                 console.dir(query);
-                 api.get('search/tweets', query, adder);
-               };
+                     return db.haveSampleForInterval(
+                       search, time - allow, time + allow)
+                       .then(function(sample){
+                         if(sample){
+                           return Q({sample:sample});
+                         } else {
+                           return uncached();
+                         }
+                       });
 
-               db.haveTweets(search, time, function(err, docs){
-                 if(err){
-                   pullTweets(api);
-                 } else {
-                   cb(null, docs);
-                 }
-               });
+                   },
 
-             },
+  getSamplesAroundTime: function(term, time){
+                          var me = this;
+                          return db.getAllSamplesSorted()
+                            .then(function(ss){
+                              if (ss.length < 2){
+                                return Q.all([
+                                  me.getCachedSampleFromDate(term, time),
+                                  me.getCachedSampleFromDate(term, time - 24*60*60*1000)
+                                  ])
+                                  .then(function(bundleArray){
+                                    return bundleArray.map(function(bundle){
+                                      return bundle.sample;
+                                    });
+                                  });
+                              } else {
+                                return Q([ss[0], ss[ss.length - 1]]);
+                              }
+                              /*
+                              return Q.promise(function (resolve, reject, notify){
+                                if (ss.length < 2){
+                                  reject(new Error('not enough samples'));
+                                } else {
+                                  var i = 0;
+                                  while (i < ss.length - 1){
+                                    if(ss[i].maxtime >= time){
+                                      resolve([ss[i], ss[i+1]]);
+                                    }
+                                    i++;
+                                  }
+                                  reject(new Error('not yet willing to extrapolate'));
+                                }
+                              });
+                              */
+                            });
+                        },
+
+  getTweetsBetweenTimes: function(search, startTime, endTime){
+                           var me = this;
+                           return db.getSamples(search)
+                             .then(function(samples){
+                               var i = 1;
+                               for(; i < samples.length; i++){
+                                 if(samples[i].maxtime >= endTime){
+                                   break;
+                                 }
+                               }
+
+                               var startSample = samples[i-1];
+                               var endSample = samples[i];
+                               return db.tweetsForSample(startSample);
+                             });
+                         },
+
+  getCachedSampleFromId: function(search, id){
+                            var me = this;
+                            return db.haveSampleForId(search, id)
+                              .then(function(sample){
+                                if(!sample){
+                                  return me.getSampleFromId(search, id)
+                                } else {
+                                  console.log('have sample');
+                                  return Q(sample);
+                                }
+                              });
+                          },
+
+  getCachedTweetsFromId: function(search, id){
+                           var me = this;
+                           return me.getCachedSampleFromId(search, id)
+                             .then(function(bundle){
+                                     return Q(bundle.tweets);
+                                    });
+                         },
+
+  getCachedSampleFromDate: function(search, time){
+                             var me = this;
+                             return db.haveSampleForDate(search, time)
+                               .then(function(sample){
+                                 if(sample){
+                                   return db.tweetsForSample(sample)
+                                    .then(function(tweets){
+                                      return Q({sample:sample, tweets:tweets});
+                                    });
+                                 }
+                                 return me.getSampleFromDate(search, time);
+                               });
+                            },
+
+  getCachedTweetsFromDate: function(search, time){
+                             var me = this;
+                             var promise = Q.ninvoke(db, "haveTweetsForDate", search, time)
+                               .then(function(tweets){
+                                 if(tweets.length == 0){
+                                   return me.getCachedSampleFromDate(search, time)
+                                     .then(function(bundle){
+                                       return Q(bundle.tweets);
+                                     });
+                                 } else {
+                                   return Q(tweets);
+                                 }
+                               });
+                             return promise;
+                         },
+
+  sampleFromTweets: function(term, tweets){
+                     var avgTime = 0;
+                     var density = 0;
+                     var minid = 0;
+                     var maxid = 0;
+
+                     if (tweets.length < 2){
+                       console.log('not enough tweets');
+                     } else {
+                       tweets.sort(function(a,b){
+                         if(a.lptime < b.lptime){
+                           return -1;
+                         }
+                         if(a.lptime > b.lptime){
+                           return 1;
+                         }
+                         return 0;
+                       });
+
+                       var mintime = tweets[0].lptime;
+                       var maxtime = tweets[tweets.length - 1].lptime;
+
+                       /*
+                       var mintime = Number.MAX_VALUE;
+                       var maxtime = Number.MIN_VALUE;
+                       var sum = 0;
+                       for(var t in tweets){
+                         var itime = new Date(tweets[t].created_at).getTime();
+                         mintime = Math.min(mintime, itime);
+                         maxtime = Math.max(maxtime, itime);
+                         sum = sum + itime;
+                       }
+                       */
+
+                       avgTime = (maxtime + mintime) / 2;
+
+                       if (maxtime == mintime){
+                         console.log('sample size too small');
+                         density = samplesize;
+                       } else {
+                         density = samplesize / (maxtime - mintime);
+                       }
+
+                       minid = tweets[0].id;
+                       maxid = tweets[tweets.length - 1].id;
+                     }
+                     
+                     var sample = {
+                       term: term,
+                       time: avgTime,
+                       minid: minid,
+                       maxid: maxid,
+                       mintime: mintime,
+                       maxtime: maxtime,
+                       density: density
+                     };
+                     return db.storeSample(sample, tweets);
+                    },
+
+  makeSample: function(query){
+                var me = this;
+                console.log(query);
+                return Q.ninvoke(this.T, "get", 'search/tweets', query)
+                  .then(function(response){
+                    var tweets = response[0].statuses;
+                    var term = query.q;
+                    tweets.map(function(t){
+                      t.lpterm = query.q;
+                      t.lptime = new Date(t.created_at).getTime();
+                    });
+                    return me.sampleFromTweets(term, tweets);
+                  });
+              },
 
   getTweets: function(search, type, n, cb){
 
@@ -381,6 +560,7 @@ var twitter = {
                   });
 
                  },
+
   finished: function(){
               db.close();
             }
