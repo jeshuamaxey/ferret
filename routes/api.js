@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var series = require('../data/series');
+var twitter = require('../data/twitter');
 
 var dataMin = 50;
 
@@ -34,10 +35,19 @@ router.get('/search', function(req, res){
 
 router.get('/select', function(req, res){
   var term = req.query.term;
+  var id = req.query.id;
+  twitter.getCachedTweetsFromId(term, id)
+  .then(function(tweets){
+    res.json(JSON.stringify(tweets));
+    res.end();
+  });
+});
+
+/*
+router.get('/select', function(req, res){
+  var term = req.query.term;
   var start = req.query.start;
   var end = req.query.end;
-  console.log(start);
-  console.log(end);
   if(start && end){
     console.log('selecting');
     twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
@@ -49,4 +59,6 @@ router.get('/select', function(req, res){
     res.end();
   }
 });
+  */
+
 module.exports = router;

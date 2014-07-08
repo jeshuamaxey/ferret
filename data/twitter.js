@@ -121,16 +121,19 @@ var twitter = {
                           var me = this;
                           return db.getAllSamplesSorted()
                             .then(function(ss){
-                              return Q.promise(function (resolve, reject, notify){
-                                if (ss.length < 2){
-                                  return Q.all([
-                                    me.getCachedSampleFromDate(term, time),
-                                    me.getCachedSampleFromDate(term, time - 24*60*60*1000)
-                                    ]);
-                                } else {
-                                  return resolve([ss[0], ss[ss.length - 1]]);
-                                }
-                              });
+                              if (ss.length < 2){
+                                return Q.all([
+                                  me.getCachedSampleFromDate(term, time),
+                                  me.getCachedSampleFromDate(term, time - 24*60*60*1000)
+                                  ])
+                                  .then(function(bundleArray){
+                                    return bundleArray.map(function(bundle){
+                                      return bundle.sample;
+                                    });
+                                  });
+                              } else {
+                                return Q([ss[0], ss[ss.length - 1]]);
+                              }
                               /*
                               return Q.promise(function (resolve, reject, notify){
                                 if (ss.length < 2){
@@ -169,18 +172,19 @@ var twitter = {
 
   getCachedSampleFromId: function(search, id){
                             var me = this;
-                            return Q.ninvoke(db, "haveTweetsForId", search, id)
-                              .then(function(tweets){
-                                if(tweets.length == 0){
+                            return db.haveSampleForId(search, id)
+                              .then(function(sample){
+                                if(!sample){
                                   return me.getSampleFromId(search, id)
                                 } else {
-                                  console.log('have tweets');
-                                  return Q(tweets);
+                                  console.log('have sample');
+                                  return Q(sample);
                                 }
                               });
                           },
 
   getCachedTweetsFromId: function(search, id){
+                           var me = this;
                            return me.getCachedSampleFromId(search, id)
                              .then(function(bundle){
                                      return Q(bundle.tweets);
@@ -189,16 +193,17 @@ var twitter = {
 
   getCachedSampleFromDate: function(search, time){
                              var me = this;
-                             var promise = Q.ninvoke(db, "haveTweetsForDate", search, time)
-                               .then(function(tweets){
-                                 if(tweets.length == 0){
-                                   return me.getSampleFromDate(search, time)
-                                 } else {
-                                   return Q(tweets);
+                             return db.haveSampleForDate(search, time)
+                               .then(function(sample){
+                                 if(sample){
+                                   return db.tweetsForSample(sample)
+                                    .then(function(tweets){
+                                      return Q({sample:sample, tweets:tweets});
+                                    });
                                  }
+                                 return me.getSampleFromDate(search, time);
                                });
-                             return promise;
-                         },
+                            },
 
   getCachedTweetsFromDate: function(search, time){
                              var me = this;
@@ -225,6 +230,20 @@ var twitter = {
                      if (tweets.length < 2){
                        console.log('not enough tweets');
                      } else {
+                       tweets.sort(function(a,b){
+                         if(a.lptime < b.lptime){
+                           return -1;
+                         }
+                         if(a.lptime > b.lptime){
+                           return 1;
+                         }
+                         return 0;
+                       });
+
+                       var mintime = tweets[0].lptime;
+                       var maxtime = tweets[tweets.length - 1].lptime;
+
+                       /*
                        var mintime = Number.MAX_VALUE;
                        var maxtime = Number.MIN_VALUE;
                        var sum = 0;
@@ -234,6 +253,7 @@ var twitter = {
                          maxtime = Math.max(maxtime, itime);
                          sum = sum + itime;
                        }
+                       */
 
                        avgTime = (maxtime + mintime) / 2;
 
@@ -265,7 +285,13 @@ var twitter = {
                 console.log(query);
                 return Q.ninvoke(this.T, "get", 'search/tweets', query)
                   .then(function(response){
-                    return me.sampleFromTweets(query.q, response[0].statuses);
+                    var tweets = response[0].statuses;
+                    var term = query.q;
+                    tweets.map(function(t){
+                      t.lpterm = query.q;
+                      t.lptime = new Date(t.created_at).getTime();
+                    });
+                    return me.sampleFromTweets(term, tweets);
                   });
               },
 

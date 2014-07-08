@@ -20,6 +20,7 @@ var sampler = {
                             });
                         },
 
+  /*
   getSeries: function(term, start, end){
                
                db.getSample
@@ -35,6 +36,8 @@ var sampler = {
                }
 
              }
+             */
+
 }
 
 module.exports = sampler;
