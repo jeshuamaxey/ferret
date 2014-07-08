@@ -10,14 +10,22 @@ core-header-panel core-toolbar {
 }
 
 .content, .content div {
+	/*
+	 * don't allow the content height to exceed the full
+	 * height of the viewport (-64px accounts for static header)
+	 **/
+	max-height: calc(100% - 64px);
 	overflow: hidden;
 }
 
 .content .col {
 	overflow: scroll;
-	max-height: 100%;
-
+	max-height: calc(100% - 64px);
 	padding: 20px;
+}
+
+.refine-col {
+	padding: 0;
 }
 
 /*hide column scrollbar*/
