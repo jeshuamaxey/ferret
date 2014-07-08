@@ -2,6 +2,12 @@
   "name": "Low Pass",
   "dependencies": {
     "jquery": "~2.1.1",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "polymer": "~0.2.3",
+    "core-animation": "Polymer/core-animation#~0.3.3"
+  },
+  "resolutions": {
+    "platform": "0.2.3",
+    "polymer": "~0.2.3"
   }
 }
