@@ -4,7 +4,9 @@
     "jquery": "~2.1.1",
     "bootstrap": "~3.1.1",
     "polymer": "~0.2.3",
-    "core-animation": "Polymer/core-animation#~0.3.3"
+    "core-animation": "Polymer/core-animation#~0.3.3",
+    "paper-elements": "Polymer/paper-elements#~0.3.3",
+    "core-elements": "Polymer/core-elements#~0.3.3"
   },
   "resolutions": {
     "platform": "master",
@@ -23,6 +25,29 @@
     "core-transition": "0.2.4",
     "core-range": "0.2.4",
     "core-selector": "0.2.4",
-    "core-toolbar": "0.2.4"
+    "core-toolbar": "0.2.4",
+    "core-iconset": "0.2.4",
+    "core-meta": "0.2.4",
+    "core-selection": "0.2.4",
+    "core-iconset-svg": "0.2.4",
+    "core-layout": "0.2.4",
+    "core-collapse": "0.2.4",
+    "core-elements": "~0.2.4",
+    "core-ajax": "0.2.4",
+    "core-doc-viewer": "0.2.4",
+    "marked-element": "master",
+    "highlightjs-element": "master",
+    "core-drag-drop": "0.2.4",
+    "core-field": "0.2.4",
+    "core-layout-grid": "0.2.4",
+    "core-layout-trbl": "0.2.4",
+    "core-list": "0.2.4",
+    "core-localstorage": "0.2.4",
+    "core-menu-button": "0.2.4",
+    "core-pages": "0.2.4",
+    "core-scaffold": "0.2.4",
+    "core-splitter": "0.2.4",
+    "core-tests": "0.2.4",
+    "core-tooltip": "0.2.4"
   }
 }
