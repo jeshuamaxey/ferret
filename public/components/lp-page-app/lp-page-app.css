@@ -1,0 +1,46 @@
+:host {
+  display: block;
+	max-height: 100%;
+
+	overflow: hidden;
+}
+
+core-header-panel core-toolbar {
+	background: #fff;
+}
+
+.content, .content div {
+	/*
+	 * don't allow the content height to exceed the full
+	 * height of the viewport (-64px accounts for static header)
+	 **/
+	max-height: calc(100% - 64px);
+	overflow: hidden;
+}
+
+.content .col {
+	overflow: scroll;
+	max-height: calc(100% - 64px);
+	padding: 20px;
+}
+
+.refine-col {
+	padding: 0;
+}
+
+/*hide column scrollbar*/
+.content .col::-webkit-scrollbar {
+	display: none;
+}
+
+.tweet-col {
+	max-width: 400px;
+}
+
+:host(.initial) {
+
+}
+
+:host(.main) {
+	
+}

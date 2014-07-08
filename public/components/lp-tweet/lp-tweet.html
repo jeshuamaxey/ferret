@@ -1,0 +1,125 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-tweet></lp-tweet>
+
+@element lp-tweet
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-tweet
+-->
+<polymer-element name="lp-tweet" attributes="tweet">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-tweet.css" />
+
+    <div class="tw-content row" horizontal layout>
+      <div class="user-info" flex>
+        <img class='twProfilePic' src="{{tweet.user.profile_image_url}}" >
+        <span class='tw-username'>{{tweet.user.name}}</span>
+        <span class='tw-handle'>&#64;{{tweet.user.screen_name}} </span>
+      </div>
+      <p class="tw-text" flex two>{{tweet.text}}</p>
+    </div>
+
+    <div class="meta-data row" horizontal layout>
+      <span class='tw-date'> {{tweet.created_at | formatTwitterDate}}</span>
+      <span class='tw-rt'>RETWEETS <span class="num">{{tweet.retweet_count}}</span></span><br>
+      <span class='tw-fav'>FAVOURITES <span class="num">{{tweet.favorite_count}}</span></span>
+    </div>
+
+    <paper-shadow z="1"></paper-shadow>
+
+
+  </template>
+
+  <!-- 
+
+  
+  "<div class='tweet'>" +
+    "<div class='row tw-body'>" +
+      "<div class='col-md-4 tw-profile'>" +
+        "<img class='twProfilePic' src='"+ t.user.profile_image_url +"' >" +
+        "<div class='user'>" +
+          "<strong class='tw-username'>"+ t.user.name +"</strong>" +
+          "<br>" +
+          "<span class='tw-handle'>&#64;"+ t.user.screen_name +"</span>" +
+        "</div>" +
+        "<div>" +
+          "<p class='tw-date'>" + dateStr + "</p>" +
+          "<p>" +
+            "<span class='tw-rt'>RETWEETS "+ t.retweet_count +"</span><br>" +
+            "<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
+          "</p>" +
+        "</div>" +
+      "</div>" +
+      "<div class='col-md-"+ (media ? "4" : "8") +" tw-text'>" +
+        "<p>" + t.text + "</p>" +
+      "</div>" +
+      (media ? "<div class='col-md-4 tw-media'>" + media +"</div>" : "") +
+    "</div>" +
+  "</div>")
+
+
+   -->
+
+  <script>
+
+    Polymer('lp-tweet', {
+      /**
+       * The `noevent` event is not actually fired from here,
+       * we document it as an example of documenting events.
+       *
+       * @event noevent
+       */
+
+      /**
+       * The `notitle` attribute does not yet have a purpose.
+       *
+       * @attribute notitle
+       * @type string
+       */
+      notitle: '',
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+      aProp: false,
+
+      /**
+       * Formats the date of a tweet for display
+       * along with other meta data.
+       * To be used as a filter, eg:
+       * {{tweet.created_at | formatTwitterDate}}
+       */
+      formatTwitterDate: function(twitterDate) {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var dateStamp = new Date(twitterDate);
+        var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
+        return dateStr;
+      },
+
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+      task: function(dummy) {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

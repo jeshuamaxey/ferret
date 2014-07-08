@@ -1,0 +1,11 @@
+:host {
+  display: block;
+
+  width: 100%;
+}
+
+.clearFilters {
+	padding: 0;
+	bottom: 5px;
+	float: right;
+}
