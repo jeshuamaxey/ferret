@@ -35,7 +35,7 @@ Element providing solution to no problem in particular.
       </div>
       
       <div class="lp-retrieve-wrapper" horizontal center-justified layout>
-        <lp-retrieve-tweets
+        <lp-retrieve-tweets id="retrieveTweets"
           query="{{query}}"
           range="{{dateRange}}"
           tweets="{{tweets}}"
@@ -60,6 +60,7 @@ Element providing solution to no problem in particular.
       'btnLabel': 'Get Tweets',
 
       tweetsChanged: function() {
+        this.$.retrieveTweets.hidden = true;
         this.btnLabel = 'Refresh Tweets';
       },
 
