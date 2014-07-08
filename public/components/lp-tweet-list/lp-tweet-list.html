@@ -107,6 +107,20 @@ Element providing solution to no problem in particular.
         // test sorting function
         reverse: function(arr) {
           return arr.reverse();
+        },
+        followers: function(arr) {
+          //coming soon
+        },
+        rts: function(arr) {
+          return arr.sort(function(tw1, tw2) {
+            if(tw1.retweet_count < tw2.retweet_count)
+              return 1;
+            if(tw1.retweet_count > tw2.retweet_count)
+              return -1;
+            else
+              return 0;
+
+          })
         }
       },
        
@@ -120,7 +134,11 @@ Element providing solution to no problem in particular.
 
       sortByChanged: function() {
         console.log('sortBy = '+ this.sortBy);
-        this.tweets =  this.sorters[this.sortBy](this.allTweets);
+        if(this.sortBy != 'recent') {
+          this.tweets =  this.sorters[this.sortBy](this.allTweets);
+        } else {
+          this.tweets = this.allTweets;
+        }
       }
 
     });
