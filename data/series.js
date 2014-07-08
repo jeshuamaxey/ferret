@@ -15,7 +15,8 @@ var sampler = {
                             .then(function(samples){
                               //make them look good
                               return Q(samples.map(function(sample){
-                                return sample.sample;
+                                var s = sample.sample;
+                                return {date: s.time, tps: s.density};
                               }));
                             });
                         },

@@ -35,8 +35,8 @@ router.get('/search', function(req, res){
 
 router.get('/select', function(req, res){
   var term = req.query.term;
-  var id = req.query.id;
-  twitter.getCachedTweetsFromId(term, id)
+  var time = req.query.time;
+  twitter.getSampleAtTime(term, time)
   .then(function(tweets){
     res.json(JSON.stringify(tweets));
     res.end();

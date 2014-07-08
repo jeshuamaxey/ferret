@@ -102,19 +102,20 @@ var twitter = {
                        });
                      };
 
-                     if (allow){
-                       return db.haveSampleForInterval(
-                         search, time - allow, time + allow)
-                         .then(function(sample){
-                           if(sample){
-                             return Q({sample:sample});
-                           } else {
-                             return uncached();
-                           }
-                         });
+                     if(!allow){
+                       allow = 0;
                      }
 
-                     return uncached();
+                     return db.haveSampleForInterval(
+                       search, time - allow, time + allow)
+                       .then(function(sample){
+                         if(sample){
+                           return Q({sample:sample});
+                         } else {
+                           return uncached();
+                         }
+                       });
+
                    },
 
   getSamplesAroundTime: function(term, time){
