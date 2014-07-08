@@ -69,14 +69,14 @@ var twitter = {
     return this._T;
   },
 
-    getTweetsFromId: function(search, id){
+    getSampleFromId: function(search, id){
                        var query = { q: search, result_type: 'recent'};
                        query.max_id = id;
 
                        return this.makeSample(query);
                      },
 
-  getTweetsFromDate: function(search, time){
+  getSampleFromDate: function(search, time){
                        var query = { q: search, result_type: 'recent'};
 
                        var d = new Date(time);
@@ -86,20 +86,69 @@ var twitter = {
                        return this.makeSample(query);
                      },
 
-  getTweetsAtTime: function(search, time){
-                     db.getSamplesAround(time)
+  getSampleAtTime: function(search, time, allow){
+                     var me = this;
+                     var uncached = function(){
+                       return me.getSamplesAroundTime(search, time)
                        .then(function(samples){
-
                          //A < B
                          var sampleA = samples[0];
                          var sampleB = samples[1];
                          estimatedId = sampleA.minid + 
                            (sampleB.maxid - sampleA.minid)*
-                           (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);
+                           (time - sampleA.time)/(sampleB.time - sampleA.time);
 
-                         return me.getCachedTweetsFromId(search, estimatedId);
+                         return me.getCachedSampleFromId(search, estimatedId);
                        });
+                     };
+
+                     if (allow){
+                       return db.haveSampleForInterval(
+                         search, time - allow, time + allow)
+                         .then(function(sample){
+                           if(sample){
+                             return Q({sample:sample});
+                           } else {
+                             return uncached();
+                           }
+                         });
+                     }
+
+                     return uncached();
                    },
+
+  getSamplesAroundTime: function(term, time){
+                          var me = this;
+                          return db.getAllSamplesSorted()
+                            .then(function(ss){
+                              return Q.promise(function (resolve, reject, notify){
+                                if (ss.length < 2){
+                                  return Q.all([
+                                    me.getCachedSampleFromDate(term, time),
+                                    me.getCachedSampleFromDate(term, time - 24*60*60*1000)
+                                    ]);
+                                } else {
+                                  return resolve([ss[0], ss[ss.length - 1]]);
+                                }
+                              });
+                              /*
+                              return Q.promise(function (resolve, reject, notify){
+                                if (ss.length < 2){
+                                  reject(new Error('not enough samples'));
+                                } else {
+                                  var i = 0;
+                                  while (i < ss.length - 1){
+                                    if(ss[i].maxtime >= time){
+                                      resolve([ss[i], ss[i+1]]);
+                                    }
+                                    i++;
+                                  }
+                                  reject(new Error('not yet willing to extrapolate'));
+                                }
+                              });
+                              */
+                            });
+                        },
 
   getTweetsBetweenTimes: function(search, startTime, endTime){
                            var me = this;
@@ -118,18 +167,33 @@ var twitter = {
                              });
                          },
 
+  getCachedSampleFromId: function(search, id){
+                            var me = this;
+                            return Q.ninvoke(db, "haveTweetsForId", search, id)
+                              .then(function(tweets){
+                                if(tweets.length == 0){
+                                  return me.getSampleFromId(search, id)
+                                } else {
+                                  console.log('have tweets');
+                                  return Q(tweets);
+                                }
+                              });
+                          },
 
   getCachedTweetsFromId: function(search, id){
+                           return me.getCachedSampleFromId(search, id)
+                             .then(function(bundle){
+                                     return Q(bundle.tweets);
+                                    });
+                         },
+
+  getCachedSampleFromDate: function(search, time){
                              var me = this;
-                             var promise = Q.ninvoke(db, "haveTweetsForId", search, id)
+                             var promise = Q.ninvoke(db, "haveTweetsForDate", search, time)
                                .then(function(tweets){
                                  if(tweets.length == 0){
-                                   return me.getTweetsFromId(search, id)
-                                    .then(function(bundle){
-                                      return Q(bundle.tweets);
-                                    });
+                                   return me.getSampleFromDate(search, time)
                                  } else {
-                                   console.log('have tweets');
                                    return Q(tweets);
                                  }
                                });
@@ -141,7 +205,7 @@ var twitter = {
                              var promise = Q.ninvoke(db, "haveTweetsForDate", search, time)
                                .then(function(tweets){
                                  if(tweets.length == 0){
-                                   return me.getTweetsFromDate(search, time)
+                                   return me.getCachedSampleFromDate(search, time)
                                      .then(function(bundle){
                                        return Q(bundle.tweets);
                                      });
@@ -198,6 +262,7 @@ var twitter = {
 
   makeSample: function(query){
                 var me = this;
+                console.log(query);
                 return Q.ninvoke(this.T, "get", 'search/tweets', query)
                   .then(function(response){
                     return me.sampleFromTweets(query.q, response[0].statuses);

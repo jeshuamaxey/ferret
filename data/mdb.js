@@ -21,26 +21,8 @@ var sampleFilter = function(time) {
 };
 
 var twitterdb = {
-  getSamplesAroundTime: function(time){
-                          return Q.ninvoke(samples, "find", {$sort: {time: 1}})
-                            .then(function(ss){
-                              var deferred = Q.defer();
-                              if (ss.length() < 2){
-                                deferred.reject(new Error('not enough samples'));
-                                return deferred;
-                              } else {
-                                var i = 0;
-                                while (i < ss.length - 1){
-                                  if(ss[i].maxtime >= time){
-                                    deferred.resolve([ss[i], ss[i+1]]);
-                                    return deferred;
-                                  }
-                                  i++;
-                                }
-                                deferred.resolve([ss[i-1], ss[i]]);
-                                return deferred;
-                              }
-                            });
+  getAllSamplesSorted: function(time){
+                          return samples.find({},{sort: {time: 1}})
                         },
 
   storeTweets: function(term, newTweets){
@@ -176,10 +158,10 @@ var twitterdb = {
                        });
                    },
 
-  haveTweetsForInterval: function(term, start, end){
-                       return Q.ninvoke(tweets, "find", {lpterm: term, 
-                         lptime: {$gte:start, $lte:end}});
-                     },
+  haveSampleForInterval: function(term, start, end){
+                           return samples.findOne({term: term, 
+                                   time: {$gte:start, $lte:end}});
+                         },
 
   haveTweetsForDate: function(term, time, cb){
                        tweets.find({lpterm: term, lptime: dayFilter(time)}, cb);
