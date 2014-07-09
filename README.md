@@ -13,7 +13,7 @@ After entering your search term, **Ferret** returns a graphical representation o
 * [Ashley Pace](http://twitter.com/ashmpace)**
 * [Kadhim Shubber](http://twitter.com/kadhimshubber)**
 
-*hacker
+*hacker  
 **hack
 
 It began life at [Build The News](http://buildthenews.wordpress.com/), a hackathon put on by The Times/Sunday Times digital news team. Further details on its development can be found [here](http://jeshua.co/build-the-news/) and [here](http://timesdigitaldevelopment.tumblr.com/post/85809624900/our-week-working-on-low-pass-with-the-times-and-sunday).
