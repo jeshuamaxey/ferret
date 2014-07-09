@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "postinstall": "bower install",
-        "start": "nodemon ./bin/www"
+        "start": "nodemon ./bin/www",
+        "test": "mocha --timeout 0 -R spec"
     },
     "dependencies": {
         "express": "~4.0.0",
