@@ -6,10 +6,11 @@
     "polymer": "~0.2.3",
     "core-animation": "Polymer/core-animation#~0.3.3",
     "paper-elements": "Polymer/paper-elements#~0.3.3",
-    "core-elements": "Polymer/core-elements#~0.3.3"
+    "core-elements": "Polymer/core-elements#~0.3.3",
+    "paper-input": "Polymer/paper-input#~0.3.3"
   },
   "resolutions": {
-    "platform": "master",
-    "polymer": "master"
+    "platform": "0.2.3",
+    "polymer": "~0.2.3"
   }
 }

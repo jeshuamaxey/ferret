@@ -16,12 +16,14 @@ describe('series', function(){
         //series[0].time.should.be.greaterThan(start - scale/100);
         //new Date(series[series.length - 1].time).getDate().should.equal(new Date(end).getDate());
         for (var s in series){
-          series[s].time.should.be.lessThan(start);
-          series[s].time.should.be.greaterThan(end - scale/4); //we can't be too far off
-          series[s].time.should.be.ok;
-          series[s].minid.should.be.ok;
-          series[s].maxid.should.be.ok;
-          (series[s].mintime <= series[s].maxtime).should.be.true;
+          series[s].date.should.be.lessThan(start);
+          series[s].date.should.be.greaterThan(end - scale/4); //we can't be too far off
+          series[s].date.should.be.ok;
+          (series[s].tps >= 0).should.be.true;
+          (series[s].tps <= 15).should.be.true;
+          //series[s].minid.should.be.ok;
+          //series[s].maxid.should.be.ok;
+          //(series[s].mintime <= series[s].maxtime).should.be.true;
         }
       }).then(done).fail(done);
     });
