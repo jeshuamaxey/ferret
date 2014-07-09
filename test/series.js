@@ -19,6 +19,8 @@ describe('series', function(){
           series[s].date.should.be.lessThan(start);
           series[s].date.should.be.greaterThan(end - scale/4); //we can't be too far off
           series[s].date.should.be.ok;
+          (series[s].tps >= 0).should.be.true;
+          (series[s].tps <= 15).should.be.true;
           //series[s].minid.should.be.ok;
           //series[s].maxid.should.be.ok;
           //(series[s].mintime <= series[s].maxtime).should.be.true;
