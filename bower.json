@@ -9,7 +9,7 @@
     "core-elements": "Polymer/core-elements#~0.3.3"
   },
   "resolutions": {
-    "platform": "master",
-    "polymer": "master"
+    "platform": "0.2.3",
+    "polymer": "~0.2.3"
   }
 }
