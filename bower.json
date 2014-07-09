@@ -19,6 +19,9 @@
     "core-transition": "Polymer/core-transition#~0.2.4",
     "core-range": "Polymer/core-range#~0.2.4",
     "core-selector": "Polymer/core-selector#~0.2.4",
-    "core-toolbar": "Polymer/core-toolbar#~0.2.4"
+    "core-toolbar": "Polymer/core-toolbar#~0.2.4",
+    "polymer-ui-toolbar": "Polymer/polymer-ui-toolbar#~0.3.0",
+    "core-animated-pages": "Polymer/core-animated-pages#~0.3.3",
+    "d3": "~3.4.9"
   }
 }
