@@ -1,0 +1,23 @@
+nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+  .container-fluid
+    //Brand and toggle get grouped for better mobile display 
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='#') Low Pass
+    //Collect the nav links, forms, and other content for toggling     
+    div#collapse.navbar-collapse
+      form#navbar-search.navbar-form.top-search-bar(role='form', action="/")
+          div.form-group
+            input.form-control(type='text', placeholder='search term')
+      ul.nav.navbar-nav.navbar-right
+        li.active: a(href='#', class='filterOption', data-filter-by='all') All
+        li: a(href='#', class='filterOption', data-filter-by='photos') Photos
+        //li: a(href='#', class='filterOption', data-filter-by='text') Text
+        //li: a(href='#', class='filterOption', data-filter-by='video') Video
+        li: a(href='#', class='filterOption', data-filter-by='links') No links
+        //li: a(href='#', class='filterOption', data-filter-by='more') More
+

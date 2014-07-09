@@ -1,0 +1,41 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-sort-tools></lp-sort-tools>
+
+@element lp-sort-tools
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-sort-tools
+-->
+<polymer-element name="lp-sort-tools" attributes="sortBy">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-sort-tools.css" />
+
+    <b>Sort by most:</b>
+    <br>
+    <paper-radio-group selected="{{sortBy}}">
+      <paper-radio-button name="recent" label="Recent"></paper-radio-button>
+      <!-- <paper-radio-button name="followers" label="Followers"></paper-radio-button> -->
+      <paper-radio-button name="rts" label="Retweets"></paper-radio-button>
+    </paper-radio-group>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-sort-tools', {
+      // 'sortBy': 'recent'
+    });
+
+  </script>
+
+</polymer-element>

@@ -1,0 +1,34 @@
+var should = require('should')
+var series = require('../data/series');
+
+describe('series', function(){
+
+  describe('#getSeries', function(){
+
+    it('should return a sensible series', function(done){
+      var start = Date.now();
+      var scale = 5*24*60*60*1000;
+      var end = Date.now() - scale;
+      var term = 'neymar';
+      series.getSeriesFromSamples(term, start, end)
+      .then(function(series){
+        series.length.should.be.greaterThan(7);
+        var seen = [];
+        for (var s in series){
+          series[s].date.should.be.ok;
+          series[s].date.should.be.lessThan(start*100);
+          series[s].date.should.be.greaterThan(end*100);
+
+          series[s].tps.should.be.ok;
+          (series[s].tps >= 0).should.be.true;
+          (series[s].tps <= 15).should.be.true;
+
+          seen.should.not.containDeep(series[s]);
+          seen.push(series[s])
+        }
+      }).then(done).fail(done);
+    });
+
+  });
+
+});

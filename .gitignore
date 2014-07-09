@@ -1,16 +1,38 @@
-# all intermediate data files
-public/data/*
-
 # files that pertain to the project but aren't code/trackable
 misc/*
 
 #node
 node_modules
+npm-debug.log
+
+#bower
+bower.json
+# the components dir has it's own .gitignore file
+# to exclude only 3rd patry modules
+
+#vim buffer
+*.swp
+#sass cache
+*.sass-cache
+
+#other buffer
+*.swo
+
+#test file
+r.js
+
+#Apple
+.DS_Store
+
+#twitter api key
+twitterapi.json
 
 #ignore
 *.swp
-mongodata
 
-low-pass
-
+#low-pass
 .DS_Store
+
+rolftweets.json
+public/rolftweets.json
+mongodata

@@ -1,88 +1,184 @@
+/*
+*	Master Stylesheet
+*/
+/*
+*	Base
+*/
+/*
+*	Colours
+*/
 body {
-	/** for static header **/
-	padding-top: 70px;
-}
+  /** for static header **/
+  background: #f0f0f0; }
+  body svg {
+    font: 10px sans-serif; }
 
-.scroll-lock {
-	overflow: hidden;
-}
+body {
+  font-family: 'Lato', 'Helvetica', sans-serif; }
 
-body svg {
-  font: 10px sans-serif;
-}
+body /deep/ {
+  font-family: 'Lato', 'Helvetica', sans-serif; }
+  body /deep/ h1, body /deep/ h2, body /deep/ .brand {
+    font-weight: bold;
+    color: #00b7ff; }
+  body /deep/ .lead-copy {
+    max-width: 400px;
+    margin: 0 auto;
+    font-size: 150%;
+    text-align: center; }
+  body /deep/ a {
+    color: #428bca;
+    text-decoration: none; }
+    body /deep/ a:hover {
+      text-decoration: underline; }
 
-.navbar-brand {
-  padding: 0 0 0 10px;
-}
-.logo {
-  max-height: 100%;
-  max-width: 100%;
-}
+/*
+*	Layout
+*/
+.l-initial-search input {
+  margin: 100px auto;
+  max-width: 400px; }
+.l-initial-search .links {
+  max-width: 400px;
+  margin: 200px auto;
+  padding: 0;
+  text-align: center;
+  list-style: none; }
+  .l-initial-search .links li {
+    display: inline-block;
+    padding: 0 10px;
+    text-align: center; }
 
-.glyphicon-info-sign:hover {
-  cursor: pointer;
-}
+.l-refine-search #seetweets {
+  display: block;
+  margin: 50px auto; }
 
-#loadingGif {
-  display: none;
-}
+.retrieve .l-initial-search {
+  display: none; }
+.retrieve .l-refine-search {
+  display: none; }
+.retrieve .l-retrieve {
+  display: block; }
 
-#loadingGif img {
-  height: 150px;
-}
-
+/*
+*	Modules
+*/
 /* graph styles */
+.graph {
+  background: #fff;
+  border-radius: 6px; }
 
 .axis path,
 .axis line {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
-}
+  shape-rendering: crispEdges; }
 
 .line {
   fill: none;
-  stroke: #5AA9E0;
-  stroke-width: 1.5px;
-}
+  stroke: black;
+  stroke-width: 0.5px; }
 
 /**/
-
 svg {
-  font: 10px sans-serif;
-}
+  font: 10px sans-serif; }
 
 circle {
-  -webkit-transition: fill-opacity 250ms linear;
-}
+  -webkit-transition: fill-opacity 250ms linear; }
 
 .selecting circle {
-  fill-opacity: .2;
-}
+  fill-opacity: .2; }
 
 .selecting circle.selected {
-  stroke: #f00;
-}
+  stroke: #f00; }
 
 .resize path {
   fill: #ccc;
   fill-opacity: .8;
   stroke: #000;
-  stroke-width: 1.5px;
-}
+  stroke-width: 1.5px; }
 
 .axis path, .axis line {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
-}
+  shape-rendering: crispEdges; }
 
 .brush .extent {
-  fill: #5AA9E0;
+  fill: magenta;
   fill-opacity: .125;
-  shape-rendering: crispEdges;
-}
+  shape-rendering: crispEdges; }
+
+.logo {
+  max-height: 100%;
+  max-width: 100%; }
+
+.navbar {
+  background-color: #fff; }
+  .navbar .top-search-bar {
+    max-width: 50%;
+    float: left; }
+  .navbar .navbar-brand {
+    transition: all 0.2s ease;
+    color: #00b7ff; }
+
+/* tweets */
+.tweet {
+  padding: 15px;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 6px; }
+  .tweet .tw-profile {
+    padding-right: 0; }
+    .tweet .tw-profile .twProfilePic {
+      float: left;
+      width: 48px;
+      height: 48px;
+      border-radius: 5px; }
+    .tweet .tw-profile .user strong, .tweet .tw-profile .user span {
+      margin-left: 10px; }
+  .tweet .tw-text p {
+    max-width: 100%; }
+  .tweet .tw-text .tweetPic {
+    max-width: 100%;
+    max-height: 100%; }
+  .tweet .tw-media img {
+    max-width: 100%;
+    max-height: 100%; }
+
+.loading {
+  text-align: center; }
+  .loading img {
+    max-width: 50px;
+    margin: 0 auto; }
+
+.top-search-bar {
+  width: 300px; }
+
+/*
+*	State
+*/
+.hidden {
+  display: none; }
+
+.landing .navbar {
+  margin-top: -50px; }
+.landing .l-initial-search {
+  display: block; }
+.landing .l-refine-search {
+  display: none; }
+.landing .l-retrieve {
+  display: none; }
+
+.refine .l-initial-search {
+  display: none; }
+.refine .l-refine-search {
+  display: block; }
+.refine .l-retrieve {
+  display: none; }
+
+.retrieve .l-initial-search {
+  display: none; }
+.retrieve .l-refine-search {
+  display: none; }
+.retrieve .l-retrieve {
+  display: block; }

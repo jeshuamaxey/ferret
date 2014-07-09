@@ -14,20 +14,16 @@ All the code for **Ferret** is open source, released under the MIT license.
 
 Once you have the repo cloned run:
 
-`pip install -r requirements.txt`
-
-Then to spin up the server type:
-
-`python twitter.py`
-
-The app is now accessible at `http://localhost:5000/public/index.html`
-
-## Node branch (more beta)
+`npm install`
 
 You must have a mongod instance running on your machine.
 Information can be found here: http://docs.mongodb.org/manual/installation/
 
-Clone low-pass and navigate to low-pass/low-pass.
+Then to spin up the server type:
+
+`npm start`
+
+The app is now accessible at `http://localhost:3000`
 
 Create a file in the `data` folder called `twitterapi.json` 
 
@@ -41,11 +37,9 @@ Write your app information in the following format:
 }
 ```
 
-You can then install the application by running:
-`npm install`
+### Notes on Polymer
 
-Then run the application with:
-`npm start`
+Some things yet to be addressed:
 
-The app is now accessible at `http://localhost:3000`
-
+* the `bower install` step (executed automatically after `npm install`) hasn't been fully tested
+* `gulp-sass` doesn't consider certain obscure, shadowDOM specific CSS selectors valid. To compile sass run `sass --watch public/css/src/main.scss:public/css/main.css` from the `low-pass` directory and run `gulp serve`, NOT simply `gulp`. This requires sass to be installed (run `gem install sass`).

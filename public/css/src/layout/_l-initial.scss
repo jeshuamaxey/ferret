@@ -1,0 +1,20 @@
+.l-initial-search {
+	input {
+	  margin: 100px auto;
+	  max-width: 400px;
+	}
+
+	.links {
+		max-width: 400px;
+		margin: 200px auto;
+		padding: 0;
+		text-align: center;
+
+		list-style: none;
+		li {
+			display: inline-block;
+			padding: 0 10px;
+			text-align: center;
+		}
+	}
+}

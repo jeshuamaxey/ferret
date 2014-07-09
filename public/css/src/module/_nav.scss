@@ -1,0 +1,13 @@
+.navbar {
+	background-color: #fff;
+	.top-search-bar {
+		max-width: 50%;
+
+		float: left;
+	}
+
+	.navbar-brand {
+	  transition: all 0.2s ease;
+	  color: $light-blue;
+	}
+}
