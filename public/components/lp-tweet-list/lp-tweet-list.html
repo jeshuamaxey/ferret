@@ -29,13 +29,15 @@ Element providing solution to no problem in particular.
   <script>
 
     Polymer('lp-tweet-list', {
+      'filterBy': 'none',
+      'sortBy': 'recent',
       'allTweets': [],
       /*
        * Store a backup of all tweets the first time they come in
        **/
       tweetsChanged: function() {
         if(!this.allTweets.length)
-          this.allTweets = this.tweets;
+          this.allTweets = this.sorters.recent(this.tweets);
       },
       /**
        * An object containing all the filter functions
@@ -53,7 +55,6 @@ Element providing solution to no problem in particular.
               newTweets.push(tweet);
             }
           });
-          console.log(tweets)
           return newTweets;
         },
         // returns array of tweets with links
@@ -64,7 +65,6 @@ Element providing solution to no problem in particular.
               newTweets.push(tweet);
             }
           });
-          console.log(newTweets)
           return newTweets;
         },
         // returns array of retweets
@@ -105,8 +105,17 @@ Element providing solution to no problem in particular.
        */
       'sorters': {
         // test sorting function
-        reverse: function(arr) {
-          return arr.reverse();
+        recent: function(arr) {
+          return arr.sort(function(tw1, tw2) {
+            var d1 = new Date(tw1.created_at);
+            var d2 = new Date(tw2.created_at);
+            if(d1 < d2)
+              return 1;
+            if(d1 > d2)
+              return -1;
+            else
+              return 0;
+          })
         },
         followers: function(arr) {
           //coming soon
@@ -119,26 +128,26 @@ Element providing solution to no problem in particular.
               return -1;
             else
               return 0;
-
-          })
+          });
         }
       },
        
       filterByChanged: function() {
+        var tempTwArr;
+        //if the user isn't clearing the filter...
         if(this.filterBy != 'none') {
-          this.tweets =  this.filters[this.filterBy](this.allTweets);
+          ///create temp array of filtered items
+          tempTwArr =  this.filters[this.filterBy](this.allTweets);
+          //and apply current sorting preference
+          this.tweets = this.sorters[this.sortBy](tempTwArr);
         } else {
-          this.tweets = this.allTweets;
+          //just sort all tweets according to current sorting preference
+          this.tweets = this.sorters[this.sortBy](this.allTweets);
         }
       },
 
       sortByChanged: function() {
-        console.log('sortBy = '+ this.sortBy);
-        if(this.sortBy != 'recent') {
-          this.tweets =  this.sorters[this.sortBy](this.allTweets);
-        } else {
-          this.tweets = this.allTweets;
-        }
+        this.tweets =  this.sorters[this.sortBy](this.tweets);
       }
 
     });
