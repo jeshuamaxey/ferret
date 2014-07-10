@@ -15,4 +15,11 @@ router.get('/about', function(req, res) {
 	});
 });
 
+/* GET about login. */
+router.get('/login', function(req, res) {
+	res.render('login', {
+		'title': 'Login to Ferret'
+	});
+});
+
 module.exports = router;
