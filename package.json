@@ -1,9 +1,9 @@
 {
-  "name": "low-pass",
+  "name": "Ferret",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower install -F",
     "start": "nodemon ./bin/www",
     "test": "mocha --timeout 0 -R spec"
   },
