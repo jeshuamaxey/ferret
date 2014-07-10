@@ -41,7 +41,7 @@ router.get('/search', function(req, res){
 router.get('/select', function(req, res){
   var term = req.query.term;
   var time = req.query.time;
-  twitter.getSampleAtTime(term, time)
+  twitter.withUser(req.session.passport).getSampleAtTime(term, time)
   .then(function(tweets){
     res.json(JSON.stringify(tweets));
     res.end();

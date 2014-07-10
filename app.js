@@ -36,7 +36,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use('twitter', new OAuthStrategy({
-    //authorizationURL: 'https://www.provider.com/oauth2/authorize',
     userAuthorizationURL: 'https://api.twitter.com/oauth/authorize',
     requestTokenURL: 'https://api.twitter.com/oauth/request_token',
     accessTokenURL: 'https://api.twitter.com/oauth/access_token',
