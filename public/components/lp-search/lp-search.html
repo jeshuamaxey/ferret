@@ -22,8 +22,8 @@ Element providing solution to no problem in particular.
 
     <core-ajax
       auto="{{auto}}"
-      url="http://localhost:3000/testseries.json"
-      x-url="http://localhost:3000/api/search"
+      url="../../testseries.json"
+      x-url="{{url}}"
       params="{{params}}"
       handleAs="json"
       response="{{response}}"
@@ -48,6 +48,10 @@ Element providing solution to no problem in particular.
       'auto': false,
       'params': {'q': null},
       'waiting': false,
+
+      ready: function() {
+        this.url = window.location.origin + '/api/search';
+      },
       
       /**
        * The `task` method does no work at this time.

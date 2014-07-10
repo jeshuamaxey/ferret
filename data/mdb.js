@@ -1,6 +1,14 @@
 var db = require('monk')('localhost/low-pass');
 var tweets = db.get('tweets');
 var samples = db.get('samples');
+var Q = require('q');
+
+var dayFilter = function(time) {
+  var d = new Date(time);
+  var dayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  var startTime = dayStart.getTime();
+  return {$gte: startTime, $lte: time + 24*60*60*1000};
+};
 
 var tweetFilter = function(time) {
   return {$gte: (time - 1000), $lte: (time + 1000)};
@@ -13,25 +21,41 @@ var sampleFilter = function(time) {
 };
 
 var twitterdb = {
+  getReferenceBefore: function(time){
+                          return samples.findOne({mintime: {$lt: time}});
+                      },
+
+  getReferenceAfter: function(time){
+                          return samples.findOne({maxtime: {$gt: time}});
+                      },
+
+  getAllSamplesSorted: function(time){
+                          return samples.find({},{sort: {time: 1}})
+                        },
+
   storeTweets: function(term, newTweets){
                  for (var t in newTweets){
                    newTweets[t].lpterm = term;
+                   newTweets[t].lptime = new Date(newTweets[t].created_at).getTime();
                  }
                  tweets.insert(newTweets);
+                 return Q(newTweets);
                },
 
   storeSample: function(sample, ts){
-                 samples.insert(sample, function(err, doc){
+                 return Q.ninvoke(samples, "insert", sample)
+                 .then(function(doc){
                    for (t in ts){
                      ts[t].lpsample = doc._id;
-                     ts[t].lpterm = doc.term;
-                     ts[t].lptime = new Date(ts[t].created_at).getTime();
                    }
                    tweets.insert(ts);
+                   return Q({tweets: ts, sample: doc})
                  });
                },
 
   getSamples: function(term, cb){
+                return Q.ninvoke(samples, "find", {term: term});
+
                 //TODO:mapreduce this
                 samples.distinct('time', {term: term}, function(err, times){
                   console.log(term + ' ' + times.length);
@@ -127,9 +151,43 @@ var twitterdb = {
                   }
                 });
               },
+
+  haveSampleForId: function(term, id, cb){
+                       var me = this;
+                       return samples.findOne( 
+                           {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}});
+                   },
+
+  haveTweetsForId: function(term, id, cb){
+                       var me = this;
+                       return samples.findOne( 
+                           {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}})
+                       .then(function(sample){
+                         return me.tweetsForSample(term, sample);
+                       });
+                   },
+
+  haveSampleForInterval: function(term, start, end){
+                           return samples.findOne({term: term, 
+                                   time: {$gte:start, $lte:end}});
+                         },
+
+  haveSampleForDate: function(term, time){
+                       return samples.findOne({term: term, time: dayFilter(time)});
+                     },
+
+  haveTweetsForDate: function(term, time){
+                       return tweets.find({lpterm: term, lptime: dayFilter(time)});
+                     },
+
+  tweetsForSample: function(sample){
+                       return tweets.find({lpsample: sample});
+                   },
+
   close: function(){
            db.close();
          }
+
 };
 
 module.exports = twitterdb;

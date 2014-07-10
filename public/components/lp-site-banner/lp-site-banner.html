@@ -1,0 +1,45 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-site-banner></lp-site-banner>
+
+@element lp-site-banner
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-site-banner
+-->
+<polymer-element name="lp-site-banner" attributes="">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-site-banner.css" />
+
+    <section id="leadCopy" class="leadCopy">
+      <img class="logo" src="img/logo.png" alt="Ferret">
+      <paper-shadow z="1"></paper-shadow>
+    </section>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-site-banner', {
+      /**
+       * This is a function with a view to being able to
+       * easily alter copy for different languages.
+       */
+      leadText: (function() {
+        return 'Be first to breaking news on Twitter';
+      })()
+
+    });
+
+  </script>
+
+</polymer-element>

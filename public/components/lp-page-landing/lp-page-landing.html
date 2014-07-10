@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 
-<link rel="import" href="../paper-shadow/paper-shadow.html">
+<link rel="import" href="../lp-site-banner/lp-site-banner.html">
 <link rel="import" href="../lp-search/lp-search.html">
 <link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
 
@@ -23,16 +23,12 @@ Element providing solution to no problem in particular.
     <link rel="stylesheet" href="lp-page-landing.css">
 
     <div id="landingContent" class="landing-content">
-      <section id="leadCopy" class="leadCopy">
-        <h1>Low Pass</h1>
-        <p>{{leadText}}</p>
-        <paper-shadow z="1"></paper-shadow>
-      </section>
-
+      <lp-site-banner></lp-site-banner>
       <lp-search class="init" series="{{series}}" query="{{query}}"></lp-search>
-
       <lp-homepage-links></lp-homepage-links>
     </div>
+
+   
 
   </template>
 
@@ -40,14 +36,7 @@ Element providing solution to no problem in particular.
 
     Polymer('lp-page-landing', {
 
-      'searchInitiated': false,
-      /**
-       * This is a function with a view to being able to
-       * easily alter copy for different languages.
-       */
-      leadText: (function() {
-        return 'Be first to breaking news on Twitter';
-      })()
+      'searchInitiated': false
 
     });
 

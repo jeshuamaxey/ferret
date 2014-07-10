@@ -5,19 +5,34 @@ describe('series', function(){
 
   describe('#getSeries', function(){
 
-    it('should return a series with a good range', function(done){
+    it('should return a sensible series', function(done){
       var start = Date.now();
       var scale = 5*24*60*60*1000;
       var end = Date.now() - scale;
       var term = 'neymar';
-      series.getSeries(term, start, end)
+      series.getSeriesFromSamples(term, start, end)
       .then(function(series){
-        series.should.have.lengthOf(10);
-        series[0].date.should.be.greaterThan(start - scale/100);
-        series[series.length - 1].date.should.be.lessThan(end + scale/100);
-      });
+        series.length.should.be.greaterThan(7);
+        var seen = [];
+        for (var s in series){
+          series[s].date.should.be.ok;
+          series[s].date.should.be.lessThan(start/100);
+          series[s].date.should.be.greaterThan(end/100);
+
+          series[s].tps.should.be.ok;
+          (series[s].tps >= 0).should.be.true;
+          (series[s].tps <= 15).should.be.true; //should this be here?
+
+          seen.should.not.containDeep(series[s]);
+          seen.push(series[s])
+        }
+      }).then(done).fail(done);
     });
 
+    /*
+    it('should cope with busy events', function(done){
+    });
+    */
   });
 
 });
