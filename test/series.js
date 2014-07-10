@@ -13,21 +13,26 @@ describe('series', function(){
       series.getSeriesFromSamples(term, start, end)
       .then(function(series){
         series.length.should.be.greaterThan(7);
-        //series[0].time.should.be.greaterThan(start - scale/100);
-        //new Date(series[series.length - 1].time).getDate().should.equal(new Date(end).getDate());
+        var seen = [];
         for (var s in series){
-          series[s].date.should.be.lessThan(start);
-          series[s].date.should.be.greaterThan(end - scale/4); //we can't be too far off
           series[s].date.should.be.ok;
+          series[s].date.should.be.lessThan(start/100);
+          series[s].date.should.be.greaterThan(end/100);
+
+          series[s].tps.should.be.ok;
           (series[s].tps >= 0).should.be.true;
-          (series[s].tps <= 15).should.be.true;
-          //series[s].minid.should.be.ok;
-          //series[s].maxid.should.be.ok;
-          //(series[s].mintime <= series[s].maxtime).should.be.true;
+          (series[s].tps <= 15).should.be.true; //should this be here?
+
+          seen.should.not.containDeep(series[s]);
+          seen.push(series[s])
         }
       }).then(done).fail(done);
     });
 
+    /*
+    it('should cope with busy events', function(done){
+    });
+    */
   });
 
 });
