@@ -17,6 +17,11 @@
 	text-align: center;
 }
 
+.links li a {
+	color: rgb(66, 139, 202);
+	text-decoration: none;
+}
+
 .links li a:hover {
 	cursor: pointer;
 }
