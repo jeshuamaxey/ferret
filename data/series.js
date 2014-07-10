@@ -12,13 +12,13 @@ var sampler = {
       allSamples.push(twitter.getSampleAtTime(term, time, allow));
     }
     return Q.all(allSamples)
-           .then(function(samples){
-             //make them look good
-             return Q(samples.map(function(sample){
-               var s = sample.sample;
-               return {date: s.time, tps: s.density};
-             }));
-           });
+      .then(function(samples){
+        //make them look good
+        return Q(samples.map(function(sample){
+          var s = sample.sample;
+          return {date: s.time*100, tps: s.density};
+        }));
+      });
   },
 
 }
