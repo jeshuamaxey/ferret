@@ -45,9 +45,6 @@ var twitter = {
     return me.getSamplesAroundTime(term, time)
            .then(function(samples){
              //A < B
-             if(sampleA.time == sampleB.time){
-               return Q(sampleA);
-             }
              var sampleA = samples[0];
              var sampleB = samples[1];
              //if(sampleA.time == sampleB.time){

@@ -186,6 +186,10 @@ var twitterdb = {
 
   close: function(){
            db.close();
+         },
+  clear: function(){
+           samples.drop();
+           tweets.drop();
          }
 
 };
