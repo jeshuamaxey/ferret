@@ -1,4 +1,7 @@
 :host {
   display: block;
-  color: red;
+}
+
+.content {
+	padding-top: 50px;
 }
