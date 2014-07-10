@@ -62,25 +62,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
-/*
-function cleanup () {
-  shutting_down = true;
-  server.close( function () {
-    console.log( "Closed out remaining connections.");
-    // Close db connections, other chores, etc.
-    twitterdb.close();
-    process.exit();
-  });
-
-  setTimeout( function () {
-   console.error("Could not close connections in time, forcing shut down");
-   process.exit(1);
-  }, 30*1000);
-
-}
-
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
-*/
+var http = require('http');
+var server = http.createServer(app);
+server.listen(3000);
 
 module.exports = app;
