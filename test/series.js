@@ -15,10 +15,13 @@ describe('series', function(){
       .then(function(series){
         series.length.should.be.greaterThan(7);
         var seen = [];
+        var lastdate = Number.MAX_VALUE;
         for (var s in series){
           series[s].date.should.be.ok;
           series[s].date.should.be.lessThan(start/100);
           series[s].date.should.be.greaterThan(end/100);
+          series[s].date.should.be.lessThan(lastdate);
+          lastdate = series[s].date;
 
           series[s].tps.should.be.ok;
           (series[s].tps >= 0).should.be.true;
@@ -31,7 +34,7 @@ describe('series', function(){
     });
 
     it('should cache well', function(done){
-      setTimeout(function(){(false).should.be.true;}, 100);
+      //setTimeout(function(){(false).should.be.true;}, 1000);//generous
       var start = Date.now();
       var scale = 5*24*60*60*1000;
       var end = Date.now() - scale;

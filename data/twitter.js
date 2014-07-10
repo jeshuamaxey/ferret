@@ -35,8 +35,11 @@ var twitter = {
   getSampleFromDate: function(search, time){
     var query = { q: search, result_type: 'recent'};
     var d = new Date(time);
+    var de = new Date(time - 24*60*60*1000);
     var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    var des = de.getFullYear() + '-' + (de.getMonth() + 1) + '-' + de.getDate();
     query.until = ds;
+    query.since= des;
     return this.makeSample(query);
   },
 
