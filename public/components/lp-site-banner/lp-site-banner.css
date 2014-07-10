@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+
+.leadCopy {
+	width: 100%;
+	
+	/*padding-top: 50px;*/
+
+	padding: 25px 0;
+	background: rgb(0, 183, 255);
+	color: #555;
+	text-align: center;
+}
+
+.leadCopy h1 {
+	color: #fff;
+}
+
+.brand {
+	margin-top: 0 10px;
+}
