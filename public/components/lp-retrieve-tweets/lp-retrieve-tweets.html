@@ -23,7 +23,7 @@ Element providing solution to no problem in particular.
     <core-ajax
       auto="{{auto}}"
       x-url="rolftweets.json"
-      url="api/select"
+      url="{{url}}"
       params="{{params}}"
       handleAs="json"
       response="{{response}}"
@@ -47,6 +47,10 @@ Element providing solution to no problem in particular.
         'end': null
       },
       'response': null,
+
+      ready: function() {
+        this.url = window.location.origin + '/api/select';
+      },
 
       retrieveTweets: function() {
         this.params.start = this.range[0];
