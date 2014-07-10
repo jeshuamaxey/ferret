@@ -1,0 +1,43 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../lp-site-banner/lp-site-banner.html">
+<link rel="import" href="../lp-faq-card/lp-faq-card.html">
+<link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-page-faq></lp-page-faq>
+
+@element lp-page-faq
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-page-faq
+-->
+<polymer-element name="lp-page-faq" attributes="notitle">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-page-faq.css" />
+
+    <lp-site-banner></lp-site-banner>
+  
+    <div class="content">
+      <lp-faq-card></lp-faq-card>
+    </div>
+
+    <!-- <lp-homepage-links></lp-homepage-links> -->
+
+  </template>
+
+  <script>
+
+    Polymer('lp-page-faq', {
+
+    });
+
+  </script>
+
+</polymer-element>

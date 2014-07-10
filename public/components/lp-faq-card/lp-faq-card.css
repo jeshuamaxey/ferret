@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.card {
+	padding: 40px;
+	
+	background-color: #fff;
+}
+
+.question {
+	margin: 40px 0;
+}
+
+.question p {
+	padding-left: 15px;
+}
