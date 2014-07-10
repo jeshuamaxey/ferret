@@ -23,7 +23,7 @@ describe('series', function(){
           (series[s].tps >= 0).should.be.true;
           (series[s].tps <= 15).should.be.true; //should this be here?
 
-          seen.should.not.containDeep(series[s]);
+          seen.should.not.containEql(series[s]);
           seen.push(series[s])
         }
       }).then(done).fail(done);
