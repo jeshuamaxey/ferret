@@ -49,7 +49,8 @@ var twitter = {
              var sampleB = samples[1];
              estimatedId = sampleA.minid + 
                (sampleB.maxid - sampleA.minid)*
-               (time - sampleA.time)/(sampleB.time - sampleA.time);
+               (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);
+             console.log('' + sampleA.mintime + ' ' + sampleB.maxtime)
 
              return me.getCachedSampleFromId(term, estimatedId);
            });
@@ -71,24 +72,42 @@ var twitter = {
            });
   },
 
+  sampleFromBundle: function(bundle){
+    return Q(bundle.sample);
+  },
+
+  getReferenceBefore: function(term, time){
+    var me = this;
+    return db.getReferenceBefore(time)
+    .then(function(reference){
+      if(!reference){
+        return me.getCachedSampleFromDate(term, time)
+        .then(me.sampleFromBundle);
+      } else {
+        return Q(reference);
+      }
+    });
+  },
+
+  getReferenceAfter: function(term, time){
+    var me = this;
+    return db.getReferenceAfter(time)
+    .then(function(reference){
+      if(!reference){
+        return me.getCachedSampleFromDate(term, time - 24*60*60*1000)
+        .then(me.sampleFromBundle);
+      } else {
+        return Q(reference);
+      }
+    });
+  },
+
   getSamplesAroundTime: function(term, time){
     var me = this;
-    return db.getAllSamplesSorted()
-      .then(function(ss){
-        if (ss.length < 2){
-          return Q.all([
-            me.getCachedSampleFromDate(term, time),
-            me.getCachedSampleFromDate(term, time - 24*60*60*1000)
-            ])
-            .then(function(bundleArray){
-              return bundleArray.map(function(bundle){
-                return bundle.sample;
-              });
-            });
-        } else {
-          return Q([ss[0], ss[ss.length - 1]]);
-        }
-      });
+    return Q.all([
+        me.getReferenceBefore(term, time),
+        me.getReferenceAfter(term, time)
+        ]);
   },
 
   getCachedSampleFromId: function(search, id){

@@ -16,12 +16,12 @@ describe('series', function(){
         var seen = [];
         for (var s in series){
           series[s].date.should.be.ok;
-          series[s].date.should.be.lessThan(start*100);
-          series[s].date.should.be.greaterThan(end*100);
+          series[s].date.should.be.lessThan(start/100);
+          series[s].date.should.be.greaterThan(end/100);
 
           series[s].tps.should.be.ok;
           (series[s].tps >= 0).should.be.true;
-          (series[s].tps <= 15).should.be.true;
+          (series[s].tps <= 15).should.be.true; //should this be here?
 
           seen.should.not.containDeep(series[s]);
           seen.push(series[s])
@@ -29,6 +29,10 @@ describe('series', function(){
       }).then(done).fail(done);
     });
 
+    /*
+    it('should cope with busy events', function(done){
+    });
+    */
   });
 
 });
