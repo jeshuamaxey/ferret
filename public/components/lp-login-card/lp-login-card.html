@@ -1,5 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
 <!--
 Element providing solution to no problem in particular.
 
@@ -18,48 +20,16 @@ Element providing solution to no problem in particular.
 
     <link rel="stylesheet" href="lp-login-card.css" />
 
-    <content></content>
+    <section class="card">
+      <h2>Login coming soon...</h2>
+      <paper-shadow z="1"></paper-shadow>
+    </section>
 
   </template>
 
   <script>
 
     Polymer('lp-login-card', {
-      /**
-       * The `noevent` event is not actually fired from here,
-       * we document it as an example of documenting events.
-       *
-       * @event noevent
-       */
-
-      /**
-       * The `notitle` attribute does not yet have a purpose.
-       *
-       * @attribute notitle
-       * @type string
-       */
-      notitle: '',
-
-      /**
-       * The `aProp` is a property that does something cool.
-       *
-       * @property aProp
-       * @type bool
-       */
-      aProp: false,
-
-      ready: function() {
-      },
-
-      /**
-       * The `task` method does no work at this time.
-       *
-       * @method task
-       * @return {Object} Returns undefined.
-       * @param {String} dummy Serves no purpose today.
-       */
-      task: function(dummy) {
-      }
 
     });
 

@@ -1,4 +1,11 @@
 :host {
   display: block;
-  color: red;
+}
+
+.card {
+	min-height: 400px;
+  max-width: 300px;
+
+  margin: 0 auto;
+  background-color: #fff;
 }
