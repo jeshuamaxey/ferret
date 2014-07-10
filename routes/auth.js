@@ -16,11 +16,20 @@ passport.use('twitter', new OAuthStrategy({
   },
 
   function(token, tokenSecret, profile, done) {
-    console.log('access token:' + accessToken);
+    console.log('access token:' + token);
+    profile.token = token;
+    profile.tokenSecret = tokenSecret;
     done(null, profile);
-    //done(err, user);
   }
 ));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 // Redirect the user to the OAuth 2.0 provider for authentication.  When
 // complete, the provider will redirect the user back to the application at

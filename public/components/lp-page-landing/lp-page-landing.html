@@ -1,0 +1,45 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../lp-site-banner/lp-site-banner.html">
+<link rel="import" href="../lp-search/lp-search.html">
+<link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-page-landing></lp-page-landing>
+
+@element lp-page-landing
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-page-landing
+-->
+<polymer-element name="lp-page-landing" attributes="series">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-page-landing.css">
+
+    <div id="landingContent" class="landing-content">
+      <lp-site-banner></lp-site-banner>
+      <lp-search class="init" series="{{series}}" query="{{query}}"></lp-search>
+      <lp-homepage-links></lp-homepage-links>
+    </div>
+
+   
+
+  </template>
+
+  <script>
+
+    Polymer('lp-page-landing', {
+
+      'searchInitiated': false
+
+    });
+
+  </script>
+
+</polymer-element>

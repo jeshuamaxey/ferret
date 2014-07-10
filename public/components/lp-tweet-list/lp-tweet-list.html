@@ -1,0 +1,157 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../lp-tweet/lp-tweet.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-tweet-list tweets filter></lp-tweet-list>
+
+@element lp-tweet-list
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-tweet-list
+-->
+<polymer-element name="lp-tweet-list" attributes="tweets filterBy sortBy">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-tweet-list.css" />
+
+    <template repeat="{{tweet in tweets}}">
+      <lp-tweet tweet="{{tweet}}"></lp-tweet>
+    </template>
+    
+
+  </template>
+
+  <script>
+
+    Polymer('lp-tweet-list', {
+      'filterBy': 'none',
+      'sortBy': 'recent',
+      'allTweets': [],
+      /*
+       * Store a backup of all tweets the first time they come in
+       **/
+      tweetsChanged: function() {
+        if(!this.allTweets.length)
+          this.allTweets = this.sorters.recent(this.tweets);
+      },
+      /**
+       * An object containing all the filter functions
+       */
+      'filters': {
+        // test filter function
+        firstFive: function(tweets) {
+          return tweets.splice(0,5);
+        },
+        // returns array of tweets with media (pic/vid)
+        media: function(tweets) {
+          var newTweets = [];
+          tweets.forEach(function(tweet) {
+            if(tweet.entities.media) {
+              newTweets.push(tweet);
+            }
+          });
+          return newTweets;
+        },
+        // returns array of tweets with links
+        links: function(tweets) {
+          var newTweets = [];
+          tweets.forEach(function(tweet) {
+            if(tweet.entities.urls.length) {
+              newTweets.push(tweet);
+            }
+          });
+          return newTweets;
+        },
+        // returns array of retweets
+        rts: function(tweets) {
+          var newTweets = [];
+          tweets.forEach(function(tweet) {
+            if(!tweet.retweeted_status) {
+              newTweets.push(tweet);
+            }
+          });
+          return newTweets;
+        },
+        // returns array of tweets which are text only
+        text: function(tweets) {
+          var newTweets = [];
+          tweets.forEach(function(tweet) {
+            if(!tweet.entities.urls.length && !tweet.entities.media) {
+              newTweets.push(tweet);
+            }
+          });
+          return newTweets;
+        },
+        // returns array of tweets with geolocation data
+        location: function(tweets) {
+          var newTweets = [];
+          tweets.forEach(function(tweet) {
+            if(tweet.coordinates) {
+              newTweets.push(tweet)
+            };
+          });
+          return newTweets;
+        }
+      },
+
+      /**
+       * An object containing all the sorting functions
+       *
+       */
+      'sorters': {
+        // test sorting function
+        recent: function(arr) {
+          return arr.sort(function(tw1, tw2) {
+            var d1 = new Date(tw1.created_at);
+            var d2 = new Date(tw2.created_at);
+            if(d1 < d2)
+              return 1;
+            if(d1 > d2)
+              return -1;
+            else
+              return 0;
+          })
+        },
+        followers: function(arr) {
+          //coming soon
+        },
+        rts: function(arr) {
+          return arr.sort(function(tw1, tw2) {
+            if(tw1.retweet_count < tw2.retweet_count)
+              return 1;
+            if(tw1.retweet_count > tw2.retweet_count)
+              return -1;
+            else
+              return 0;
+          });
+        }
+      },
+       
+      filterByChanged: function() {
+        var tempTwArr;
+        //if the user isn't clearing the filter...
+        if(this.filterBy != 'none') {
+          ///create temp array of filtered items
+          tempTwArr =  this.filters[this.filterBy](this.allTweets);
+          //and apply current sorting preference
+          this.tweets = this.sorters[this.sortBy](tempTwArr);
+        } else {
+          //just sort all tweets according to current sorting preference
+          this.tweets = this.sorters[this.sortBy](this.allTweets);
+        }
+      },
+
+      sortByChanged: function() {
+        this.tweets =  this.sorters[this.sortBy](this.tweets);
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

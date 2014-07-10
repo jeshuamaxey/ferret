@@ -12,6 +12,9 @@ var api = require('./routes/api');
 var auth = require('./routes/auth');
 var users = require('./routes/users');
 
+// var users = require('./routes/users');
+// var polyRoutes = require('./routes/poly-routes');
+
 var app = express();
 
 // view engine setup
@@ -34,6 +37,7 @@ app.use('/', routes);
 app.use('/api', api);
 app.use('/auth', auth);
 app.use('/users', users);
+// app.use('/users', users);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

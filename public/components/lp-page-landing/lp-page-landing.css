@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.landing-content {
+	width: 100%;
+	/*
+	 * don't allow the content height to exceed the full
+	 * height of the viewport (-64px accounts for static header)
+	 * calc(100% - 64px);
+	 **/
+	max-height: 100%;
+}
+
+lp-search {
+	width: 80%;
+	max-width: 400px;
+}
+
+lp-search.init {
+	margin: 100px auto;
+}

@@ -1,0 +1,77 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-retrieve-tweets></lp-retrieve-tweets>
+
+@element lp-retrieve-tweets
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-retrieve-tweets
+-->
+<polymer-element name="lp-retrieve-tweets" attributes="range tweets label query">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-retrieve-tweets.css" />
+
+    <core-ajax
+      auto="{{auto}}"
+      x-url="rolftweets.json"
+      url="{{url}}"
+      params="{{params}}"
+      handleAs="json"
+      response="{{response}}"
+      on-core-response="{{handleResponse}}">
+    </core-ajax>
+
+    <paper-button id="my-button" label="{{label}}" on-tap="{{retrieveTweets}}"></paper-button>
+
+
+
+  </template>
+
+  <script>
+
+    Polymer('lp-retrieve-tweets', {
+
+      'auto': false,
+      'params': {
+        'term': this.query,
+        'start': null,
+        'end': null
+      },
+      'response': null,
+
+      ready: function() {
+        this.url = window.location.origin + '/api/select';
+      },
+
+      retrieveTweets: function() {
+        this.params.start = this.range[0];
+        this.params.end = this.range[1];
+        this.auto = true;
+      },
+
+      handleResponse: function() {
+        this.tweets = typeof this.response == 'string' ? JSON.parse(this.response) : this.response;
+        this.fire('lp-review-initiated');
+      }
+
+      /**
+       * The `aProp` is a property that does something cool.
+       *
+       * @property aProp
+       * @type bool
+       */
+
+    });
+
+  </script>
+
+</polymer-element>

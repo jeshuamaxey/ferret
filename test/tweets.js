@@ -4,6 +4,7 @@ var twitter = require('../data/twitter');
 
 describe('twitter', function(){
 
+  /*
   describe('#getCachedTweetsFromDate', function(){
 
     it('should get tweets from today', function(done){
@@ -106,5 +107,6 @@ describe('twitter', function(){
         }).then(done).fail(done);
     });
   });
+  */
 
 });

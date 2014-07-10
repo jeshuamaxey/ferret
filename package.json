@@ -1,26 +1,32 @@
 {
-  "name": "low-pass",
+  "name": "Ferret",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "bower install",
-    "start": "nodemon ./bin/www"
+    "postinstall": "bower install -F",
+    "start": "nodemon ./bin/www",
+    "test": "mocha --timeout 0 -R spec"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
+    "body-parser": "~1.0.2",
     "cookie-parser": "~1.0.1",
-    "body-parser": "~1.0.0",
     "debug": "~0.7.4",
+    "express": "~4.0.0",
+    "gulp": "~3.6.2",
+    "gulp-uglify": "~0.2.1",
     "jade": "~1.3.0",
-    "stylus": "0.42.3",
-    "twit": "^1.1.14",
     "mongodb": "^1.4.3",
     "monk": "^0.8.1",
+    "morgan": "~1.0.1",
+    "nodemon": "~1.0.20",
     "passport": "^0.2.0",
     "passport-oauth": "^1.0.0",
-    "express-session": "^1.6.4"
+    "express-session": "^1.6.4",
+    "should": "^4.0.4",
+    "static-favicon": "~1.0.2",
+    "stylus": "~0.42.3",
+    "twit": "^1.1.14",
+    "yo": "~1.1.2"
   },
   "devDependencies": {
     "nodemon": "~1.0.17",
@@ -34,6 +40,10 @@
     "gulp-autoprefixer": "0.0.7",
     "colors": "~0.6.2",
     "q": "^1.0.1",
-    "mocha": "^1.20.1"
+    "mocha": "^1.20.1",
+    "generator-mocha": "~0.1.3",
+    "grunt-cli": "~0.1.13",
+    "yo": "~1.1.2",
+    "generator-polymer": "~0.2.2"
   }
 }

@@ -1,0 +1,172 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-graph></lp-graph>
+
+@element lp-graph
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-graph
+-->
+<polymer-element name="lp-graph" attributes="series plotted dateRange size">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-graph.css" />
+
+    <div id="graph" class="graph"></div>
+
+  </template>
+  <script src="../d3/d3.min.js"></script>
+  <script>
+    /**
+     * extremely hacky global variable
+     * implemented because I cannot access
+     * this obj from brush functions because
+     * they are callback which set this
+     * to the element listening to the event
+     **/
+    var glob = {};
+
+    Polymer('lp-graph', {
+      'series': null,
+      'plotted': false,
+      'dateRange': null,
+
+      ready: function() {
+        //
+      },
+      /**
+       * The `task` method does no work at this time.
+       *
+       * @method task
+       * @return {Object} Returns undefined.
+       * @param {String} dummy Serves no purpose today.
+       */
+       seriesChanged: function() {
+        //this ought to be calculated via js detecting element dimensions
+        //and be wrappeded in a function which is called on window resizing
+        var margin = {top: 50, right: 50, bottom: 50, left: 50},
+            width = 500;
+            height = 300;
+
+        var parseDate = d3.time.format("%d-%b-%y").parse;
+
+        var x = d3.time.scale()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        var line = d3.svg.line()
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.tps); });
+
+        glob.svg = d3.select(this.$.graph).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        //console.log(typeof this.series);
+        //format data
+        // var data = this.series; //used for fake data
+        var data = JSON.parse(this.series) //used for real (api) data
+        //typeof this.series != 'object' ? data = JSON.parse(this.series) : data = this.series;
+        data.forEach(function(d) {
+          //convert date to milliseconds
+          d.date = new Date(parseInt(d.date*1000));
+          d.tps = +d.tps;
+        });
+        
+        x.domain(d3.extent(data, function(d) { return d.date; }));
+        y.domain(d3.extent(data, function(d) { return d.tps; }));
+
+        glob.svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        glob.svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Tweets per second");
+
+        glob.svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", line);
+
+        /*
+        * BRUSH TOOLS
+        */
+
+        var brushHeight = 40;
+
+        var arc = d3.svg.arc()
+            .outerRadius(brushHeight / 2)
+            .startAngle(0)
+            .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
+
+        //set initial extent of handles
+        var startExtent = [new Date(data[1].date), new Date(data[data.length - 2].date)]
+        glob.brush = d3.svg.brush()
+            .x(x)
+            .extent(startExtent)
+            .on("brushstart", this.brushstart)
+            .on("brush", this.brushmove)
+            .on("brushend", this.brushend);
+
+        var brushg = glob.svg.append("g")
+            .attr("class", "brush")
+            .call(glob.brush);
+
+        brushg.selectAll(".resize").append("path")
+            .attr("transform", "translate(" + 0 + "," +  height / 2 + ")")
+            .attr("d", arc);
+
+        brushg.selectAll("rect")
+            .attr("height", height);
+
+        this.brushstart();
+        this.brushmove();
+
+        this.plotted = true;
+
+      },
+
+      brushstart: function() {
+        glob.svg.classed("selecting", true);
+      },
+
+      brushmove: function() {
+        this.dateRange = glob.brush.extent();
+      },
+
+      brushend: function() {
+        glob.svg.classed("selecting", !d3.event.target.empty());
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

@@ -21,26 +21,16 @@ var sampleFilter = function(time) {
 };
 
 var twitterdb = {
-  getSamplesAroundTime: function(time){
-                          return Q.ninvoke(samples, "find", {$sort: {time: 1}})
-                            .then(function(ss){
-                              var deferred = Q.defer();
-                              if (ss.length() < 2){
-                                deferred.reject(new Error('not enough samples'));
-                                return deferred;
-                              } else {
-                                var i = 0;
-                                while (i < ss.length - 1){
-                                  if(ss[i].maxtime >= time){
-                                    deferred.resolve([ss[i], ss[i+1]]);
-                                    return deferred;
-                                  }
-                                  i++;
-                                }
-                                deferred.resolve([ss[i-1], ss[i]]);
-                                return deferred;
-                              }
-                            });
+  getReferenceBefore: function(time){
+                          return samples.findOne({mintime: {$lt: time}});
+                      },
+
+  getReferenceAfter: function(time){
+                          return samples.findOne({maxtime: {$gt: time}});
+                      },
+
+  getAllSamplesSorted: function(time){
+                          return samples.find({},{sort: {time: 1}})
                         },
 
   storeTweets: function(term, newTweets){
@@ -57,8 +47,6 @@ var twitterdb = {
                  .then(function(doc){
                    for (t in ts){
                      ts[t].lpsample = doc._id;
-                     ts[t].lpterm = doc.term;
-                     ts[t].lptime = new Date(ts[t].created_at).getTime();
                    }
                    tweets.insert(ts);
                    return Q({tweets: ts, sample: doc})
@@ -163,34 +151,45 @@ var twitterdb = {
                   }
                 });
               },
-  
-  haveTweetsForId: function(term, id, cb){
-                       //id in sample
+
+  haveSampleForId: function(term, id, cb){
                        var me = this;
-                       var idFilter = {$gte: id - 7, $lte: id + 8};
-                       tweets.find({lpterm: term, id: idFilter}, cb);
-                       return Q.ninvoke(samples, "findOne", 
+                       return samples.findOne( 
+                           {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}});
+                   },
+
+  haveTweetsForId: function(term, id, cb){
+                       var me = this;
+                       return samples.findOne( 
                            {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}})
                        .then(function(sample){
                          return me.tweetsForSample(term, sample);
                        });
                    },
 
-  haveTweetsForInterval: function(term, start, end){
-                       return Q.ninvoke(tweets, "find", {lpterm: term, 
-                         lptime: {$gte:start, $lte:end}});
+  haveSampleForInterval: function(term, start, end){
+                           return samples.findOne({term: term, 
+                                   time: {$gte:start, $lte:end}});
+                         },
+
+  haveSampleForDate: function(term, time){
+                       return samples.findOne({term: term, time: dayFilter(time)});
                      },
 
-  haveTweetsForDate: function(term, time, cb){
-                       tweets.find({lpterm: term, lptime: dayFilter(time)}, cb);
+  haveTweetsForDate: function(term, time){
+                       return tweets.find({lpterm: term, lptime: dayFilter(time)});
                      },
 
   tweetsForSample: function(sample){
-                       return Q.ninvoke(tweets, "find", {lpsample: sample});
+                       return tweets.find({lpsample: sample});
                    },
 
   close: function(){
            db.close();
+         },
+  clear: function(){
+           samples.drop();
+           tweets.drop();
          }
 
 };

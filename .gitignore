@@ -4,8 +4,11 @@ misc/*
 #node
 node_modules
 npm-debug.log
+
 #bower
-public/bower_components
+#bower.json
+# the components dir has it's own .gitignore file
+# to exclude only 3rd patry modules
 
 #vim buffer
 *.swp
@@ -26,6 +29,10 @@ twitterapi.json
 
 #ignore
 *.swp
-mongodata
 
+#low-pass
 .DS_Store
+
+rolftweets.json
+public/rolftweets.json
+mongodata

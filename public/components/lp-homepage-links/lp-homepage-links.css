@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  color: red;
+}
+
+.links {
+	max-width: 400px;
+	margin: 200px auto;
+	padding: 0;
+	text-align: center;
+	list-style: none
+}
+
+.links li {
+	display: inline-block;
+	padding: 0 10px;
+	text-align: center;
+}
+
+.links li a {
+	color: rgb(66, 139, 202);
+	text-decoration: none;
+}
+
+.links li a:hover {
+	cursor: pointer;
+}
+
+paper-dialog {
+	max-width: 700px;
+}
