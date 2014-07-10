@@ -3,25 +3,6 @@ var express = require('express');
 var router = express.Router();
 
 var passport = require('passport')
-var OAuthStrategy = require('passport-oauth').OAuthStrategy;
-
-passport.use('twitter', new OAuthStrategy({
-    //authorizationURL: 'https://www.provider.com/oauth2/authorize',
-    userAuthorizationURL: 'https://api.twitter.com/oauth/authorize',
-    requestTokenURL: 'https://api.twitter.com/oauth/request_token',
-    accessTokenURL: 'https://api.twitter.com/oauth/access_token',
-    callbackURL: 'http://localhost:3000/auth/twitter/callback', // to change
-    consumerKey: twitter.key.key,
-    consumerSecret: twitter.key.keySecret
-  },
-
-  function(token, tokenSecret, profile, done) {
-    console.log('access token:' + token);
-    profile.token = token;
-    profile.tokenSecret = tokenSecret;
-    done(null, profile);
-  }
-));
 
 passport.serializeUser(function(user, done) {
   done(null, user);

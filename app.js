@@ -6,11 +6,13 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var OAuthStrategy = require('passport-oauth').OAuthStrategy;
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var auth = require('./routes/auth');
 var users = require('./routes/users');
+var twitter = require('./data/twitter');
 
 // var users = require('./routes/users');
 // var polyRoutes = require('./routes/poly-routes');
@@ -32,6 +34,24 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.use('twitter', new OAuthStrategy({
+    //authorizationURL: 'https://www.provider.com/oauth2/authorize',
+    userAuthorizationURL: 'https://api.twitter.com/oauth/authorize',
+    requestTokenURL: 'https://api.twitter.com/oauth/request_token',
+    accessTokenURL: 'https://api.twitter.com/oauth/access_token',
+    callbackURL: twitter.key.callbackURL,
+    consumerKey: twitter.key.key,
+    consumerSecret: twitter.key.keySecret
+  },
+
+  function(token, tokenSecret, profile, done) {
+    console.log('access token:' + token);
+    profile.token = token;
+    profile.tokenSecret = tokenSecret;
+    done(null, profile);
+  }
+));
 
 app.use('/', routes);
 app.use('/api', api);
