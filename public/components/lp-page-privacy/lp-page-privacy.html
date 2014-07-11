@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <link rel="import" href="../lp-site-banner/lp-site-banner.html">
-<link rel="import" href="../lp-about-card/lp-about-card.html">
+<link rel="import" href="../lp-privacy-card/lp-privacy-card.html">
 <link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
 
 <!--
@@ -9,27 +9,26 @@ Element providing solution to no problem in particular.
 
 ##### Example
 
-    <lp-page-about></lp-page-about>
+    <lp-page-privacy></lp-page-privacy>
 
-@element lp-page-about
+@element lp-page-privacy
 @blurb Element providing solution to no problem in particular.
 @status alpha
-@homepage http://jeshuamaxey.github.io/lp-page-about
+@homepage http://jeshuamaxey.github.io/lp-page-privacy
 -->
-<polymer-element name="lp-page-about" attributes="" noscript>
+<polymer-element name="lp-page-privacy" noscript>
 
   <template>
 
-    <link rel="stylesheet" href="lp-page-about.css" />
+    <link rel="stylesheet" href="lp-page-privacy.css" />
 
     <lp-site-banner></lp-site-banner>
-
+  
     <div class="content">
-      <lp-about-card></lp-about-card>
+      <lp-privacy-card></lp-privacy-card>
     </div>
 
     <lp-homepage-links></lp-homepage-links>
-    
 
   </template>
 
