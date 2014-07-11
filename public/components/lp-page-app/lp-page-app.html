@@ -4,6 +4,7 @@
 <link rel="import" href="../core-icons/core-icons.html">
 <link rel="import" href="../core-icon-button/core-icon-button.html">
 
+<link rel="import" href="../lp-site-banner/lp-site-banner.html">
 <link rel="import" href="../lp-tweet-list/lp-tweet-list.html">
 <link rel="import" href="../lp-refine-tools/lp-refine-tools.html">
 
@@ -27,9 +28,7 @@ Element providing solution to no problem in particular.
 
     <core-header-panel fit mode="standard">
       <div class="core-header">
-        <core-toolbar>
-          <div class="brand" flex>Low Pass</div>
-        </core-toolbar>
+        <lp-site-banner></lp-site-banner>
       </div>
       <div id="content" class="content" horizontal around-justified layout
         on-lp-review-initiated="{{reviewInitiated}}">
