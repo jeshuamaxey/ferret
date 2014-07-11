@@ -52,6 +52,7 @@ var twitter = {
 
     return ref
            .fail(function(reason){
+             console.log(reason.message);
              console.log('trying more specific reference');
              return me.getSamplesAroundTime(term, time)
            })
@@ -86,6 +87,7 @@ var twitter = {
         return Q({sample:sample});
       })
       .fail(function(err){
+             console.log(err.message);
         return me.guessSample(search, time, ref);
       })
   },
@@ -106,6 +108,7 @@ var twitter = {
       }
     })
     .fail(function(reason){
+      console.log(reason.message);
       console.log('no first reference ' + new Date(time) + ' give up now');
       throw new Error('twitter index does not go back this far');
     });
@@ -123,6 +126,7 @@ var twitter = {
       }
     })
     .fail(function(reason){
+      console.log(reason.message);
       console.log('no tweets found at ' + new Date(time) + ' falling back');
       return me.getCachedSampleFromDate('twitter', time - 24*60*60*1000)
         .then(me.sampleFromBundle);
