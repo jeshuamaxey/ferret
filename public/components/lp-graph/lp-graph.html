@@ -18,7 +18,9 @@ Element providing solution to no problem in particular.
   <template>
 
     <link rel="stylesheet" href="lp-graph.css" />
-
+  
+    <!-- <img class="logo" src="img/logo.png" alt="Ferret"> -->
+    <!-- <img src="img/loading.gif" alt="loading" class="loading"> -->
     <div id="graph" class="graph"></div>
 
   </template>
@@ -88,8 +90,8 @@ Element providing solution to no problem in particular.
         //typeof this.series != 'object' ? data = JSON.parse(this.series) : data = this.series;
         data.forEach(function(d) {
           //convert date to milliseconds
-          d.date = new Date(parseInt(d.date*1000));
-          d.tps = +d.tps;
+          d.date = new Date(parseInt(d.date));
+          d.tps = +d.tps*60*60;
         });
         
         x.domain(d3.extent(data, function(d) { return d.date; }));
@@ -108,7 +110,7 @@ Element providing solution to no problem in particular.
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Tweets per second");
+            .text("Tweets per hour");
 
         glob.svg.append("path")
             .datum(data)
