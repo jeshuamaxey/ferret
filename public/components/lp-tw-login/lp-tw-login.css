@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+/* Style twitter login button blue with white text and darker blue ink. */
+.tw-login {
+    background: #00B7FF;
+    color: #fff;
+}
+
+.tw-login:hover {
+    background: #2a56c6;
+}
+
+.tw-login::shadow #ripple {
+    color: #2a56c6;
+}

@@ -5,6 +5,12 @@
   padding: 10px;
 
   font-size: 80%;
+
+  cursor: pointer;
+}
+
+:host[selected="true"] {
+	color: hotpink;
 }
 
 .twProfilePic {

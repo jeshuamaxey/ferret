@@ -2,11 +2,17 @@ var express = require('express');
 var router = express.Router();
 var series = require('../data/series');
 var twitter = require('../data/twitter');
+var db = require('../data/mdb');
 
 var dataMin = 50;
 
 //TODO:fix for api prefix
 router.get('/search', function(req, res){
+  if(req.session){
+    console.log(JSON.stringify(req.session));
+  } else {
+    console.log("no session");
+  }
   var term = req.query.q;
   var start = req.query.start;
   var end = req.query.end;
@@ -41,30 +47,18 @@ router.get('/search', function(req, res){
 
 router.get('/select', function(req, res){
   var term = req.query.term;
-  var time = req.query.time;
-  twitter.getSampleAtTime(term, time)
+  var time = Number(req.query.start);
+  if(!term || !time){
+    res.json({err: 'bad query'});
+    res.end();
+    return;
+  }
+  twitter.getSampleAtTime(term, time/1000)
+  .then(db.tweetsForSample)
   .then(function(tweets){
-    res.json(JSON.stringify(tweets));
+    res.json(tweets);
     res.end();
   });
 });
-
-/*
-router.get('/select', function(req, res){
-  var term = req.query.term;
-  var start = req.query.start;
-  var end = req.query.end;
-  if(start && end){
-    console.log('selecting');
-    twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
-      res.json(JSON.stringify(tweets));
-      res.end();
-    });
-  }else{
-    res.json({message: 'bad query'});
-    res.end();
-  }
-});
-  */
 
 module.exports = router;

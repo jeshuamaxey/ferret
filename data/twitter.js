@@ -84,6 +84,7 @@ var twitter = {
 
     return db.haveSampleForInterval(search, time - allow, time + allow)
       .then(function(sample){
+          console.log(sample.density);
         return Q({sample:sample});
       })
       .fail(function(err){

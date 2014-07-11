@@ -4,7 +4,9 @@
 <link rel="import" href="../core-icons/core-icons.html">
 <link rel="import" href="../core-icon-button/core-icon-button.html">
 
+<link rel="import" href="../lp-site-banner/lp-site-banner.html">
 <link rel="import" href="../lp-tweet-list/lp-tweet-list.html">
+<link rel="import" href="../lp-tweet-info/lp-tweet-info.html">
 <link rel="import" href="../lp-refine-tools/lp-refine-tools.html">
 
 <!--
@@ -19,7 +21,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-page-app
 -->
-<polymer-element name="lp-page-app" attributes="series">
+<polymer-element name="lp-page-app" attributes="series query">
 
   <template>
 
@@ -27,9 +29,7 @@ Element providing solution to no problem in particular.
 
     <core-header-panel fit mode="standard">
       <div class="core-header">
-        <core-toolbar>
-          <div class="brand" flex>Low Pass</div>
-        </core-toolbar>
+        <lp-site-banner></lp-site-banner>
       </div>
       <div id="content" class="content" horizontal around-justified layout
         on-lp-review-initiated="{{reviewInitiated}}">
@@ -38,15 +38,18 @@ Element providing solution to no problem in particular.
           <div id="tweetCol" class="col tweet-col" flex hidden>
             <lp-tweet-list id="tweetList"
             tweets="{{tweets}}"
+            selectedTweet="{{selectedTweet}}"
             filterBy="{{filterBy}}"
             sortBy="{{sortBy}}">
           </lp-tweet-list>
           </div>
           <!-- right column -->
-          <div class="col refine-col">
+          <div class="col refine-col" flex>
+            <lp-tweet-info tweet="{{selectedTweet}}" hidden></lp-tweet-info>
             <lp-refine-tools
               mode="{{mode}}"
               series="{{series}}"
+              query="{{query}}"
               tweets="{{tweets}}"
               filterBy="{{filterBy}}"
               sortBy="{{sortBy}}">
@@ -67,6 +70,8 @@ Element providing solution to no problem in particular.
       'mode' : 'initial',
 
       'btnLabel': 'Get Tweets',
+
+      'selectedTweet': null,
 
       modeChanged: function() {
         if(this.mode === 'main') {

@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  max-width: 100%;
+
+  font-size: 12px;
+}
+
+.card {
+	background: #fff;
+}
+
+/*top panel*/
+.top {
+	padding: 0 10px;
+
+	background: #444;
+	color: white;
+}
+
+.profile-pic {
+	height: 48px;
+	width: 48px;
+	float: left;
+	margin: 5px;
+	border-radius: 4px;
+}
+
+.name {
+	padding-top: 6px;
+	padding-left: 5px;
+	float: left;
+}
+
+.name p {
+	margin: 0;
+}
+
+.name .tw-username {
+	font-weight: bold;
+}
+
+.profile-pic, .name {
+	margin: 20px 0;
+} 
+
+.about {
+	max-width: 70%;
+	float: left;
+	padding: 0 15px;
+	margin: 0 auto;
+
+	text-align: center;
+}
+
+/*bottom panel*/
+
+.bottom {
+	padding: 10px;
+}
+
+.date, .num {
+	font-size: 120%;
+	color: #00B7FF;
+}
+.num {
+	font-size: 150%;
+	color: #00B7FF;
+}
+
+.y-or-no {
+	height: 15px;
+	margin: 0 0 0 5px;
+	display: inline;
+	position: relative;
+	top: 4px;
+}
+
+.y-or-no.y {
+	fill: green;
+}
+
+.y-or-no.n {
+	fill: red;
+}

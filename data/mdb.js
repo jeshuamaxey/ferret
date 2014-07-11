@@ -21,6 +21,7 @@ var sampleFilter = function(time) {
 };
 
 var twitterdb = {
+
   getReferenceBefore: function(time){
     return Q(samples.findOne({mintime: {$gt: time}}));
   },
@@ -187,7 +188,8 @@ var twitterdb = {
                      },
 
   tweetsForSample: function(sample){
-                       return tweets.find({lpsample: sample});
+                       var id = samples.id(sample.sample._id);
+                       return tweets.find({lpsample: id});
                    },
 
   close: function(){

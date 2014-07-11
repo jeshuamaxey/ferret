@@ -25,7 +25,7 @@ Element providing solution to no problem in particular.
 
     <div id="refineTools" vertical layout >
 
-      <div class="graph-wrapper" horizontal center-justified layout>
+      <div class="graph-wrapper" flex horizontal center-justified layout>
         <lp-graph
           size="{{(mode == 'initial') ? 'large' : 'small'}}"
           series="{{series}}"
@@ -58,6 +58,10 @@ Element providing solution to no problem in particular.
 
     Polymer('lp-refine-tools', {
       'btnLabel': 'Get Tweets',
+
+      ready: function() {
+        console.log('logged from lp-r-tools:', this.query)
+      },
 
       tweetsChanged: function() {
         this.$.retrieveTweets.hidden = true;

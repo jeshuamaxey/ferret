@@ -1,0 +1,56 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-faq-card></lp-faq-card>
+
+@element lp-faq-card
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-faq-card
+-->
+<polymer-element name="lp-faq-card" attributes="" noscript>
+
+  <template>
+
+    <link rel="stylesheet" href="lp-faq-card.css" />
+
+    <section class="card">
+      <h2>Ferret FAQs</h2>
+      
+      <div class="question">    
+        <h3>Why do I need to sign in to use Ferret?</h3>
+        <p>Twitter imposes a limit on the number of searches that can be done by any one person in a 15 minute period.</p>
+        <p>If we let everyone run their searches without logging in, this limit would be hit on the @ferretapp account in no time at all. So getting everyone to sign in is a way of making it fairer, and improving access for everyone.</p>
+      </div>
+
+      <div class="question">
+        <h3>Why did the tool stop working for me?</h3>
+        <p>There could be a lot of reasons :)</p>
+
+        <p>Most likely is that you used up the limited number of searches which Twitter allows anyone to carry out in a 15 minute period (see above question)</p>
+
+        <p>We calculate that everyone can do around 10 searches in a 15 minute period - maybe a little more, maybe a little less. If you hit the limit, after 15 minutes you should be able to search again, without you having to refresh to page, or log back in.</p>
+
+        <p>If you think the problem you’re experiencing is something else, let us know @ferretapp.</p>
+      </div>
+
+      <div class="question">
+        <h3>Can I contribute to the development of Ferret?</h3>
+        <p>Absolutely.</p>
+
+        <p>The tool is available <a href="http://github.com/jeshuamaxey/ferret">open-source under the MIT licence</a>, so you’re welcome to use it as the basis for something new.</p>
+
+        <p>We’ve no plans to add more features for now, but if there’s something you think should be added to Ferret then do get in touch <a href="https://twitter.com/ferretapp">&#64;ferretapp</a>.</p>
+      </div>
+
+      <paper-shadow z="1"></paper-shadow>
+    </section>
+
+  </template>
+
+</polymer-element>
