@@ -53,7 +53,8 @@ router.get('/select', function(req, res){
     res.end();
     return;
   }
-  db.getTweetsAfterTime(term, time/1000)
+  twitter.getSampleAtTime(term, time/1000)
+  .then(db.tweetsForSample)
   .then(function(tweets){
     res.json(tweets);
     res.end();
