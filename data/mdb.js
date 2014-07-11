@@ -21,6 +21,10 @@ var sampleFilter = function(time) {
 };
 
 var twitterdb = {
+  getTweetsAfterTime: function(term,time){
+    return Q(tweets.find({lptime: {$lt: time}}));
+  },
+
   getReferenceBefore: function(time){
     return Q(samples.findOne({mintime: {$gt: time}}));
   },

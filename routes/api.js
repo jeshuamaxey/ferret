@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var series = require('../data/series');
 var twitter = require('../data/twitter');
+var db = require('../data/mdb');
 
 var dataMin = 50;
 
@@ -46,14 +47,15 @@ router.get('/search', function(req, res){
 
 router.get('/select', function(req, res){
   var term = req.query.term;
-  var time = Number(req.query.time);
+  var time = Number(req.query.start);
   if(!term || !time){
     res.json({err: 'bad query'});
     res.end();
+    return;
   }
-  twitter.getSampleAtTime(term, time/100)
+  db.getTweetsAfterTime(term, time/1000)
   .then(function(tweets){
-    res.json(JSON.stringify(tweets));
+    res.json(tweets);
     res.end();
   });
 });
