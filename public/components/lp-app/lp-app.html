@@ -27,12 +27,14 @@ Element providing solution to no problem in particular.
         name="landing"
         class="page"
         series="{{series}}"
-        on-lp-search-initiated="{{searchInitiated}}">
+        on-lp-search-initiated="{{searchInitiated}}"
+        query="{{query}}">
       </lp-page-landing>
 <!-- Implement single view for all of app that isn't landing page --> 
       <lp-page-app
         name="app"
         class="page"
+        query="{{query}}"
         series="{{series}}">
       </lp-page-app>
     </core-animated-pages>

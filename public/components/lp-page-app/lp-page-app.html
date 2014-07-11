@@ -21,7 +21,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-page-app
 -->
-<polymer-element name="lp-page-app" attributes="series">
+<polymer-element name="lp-page-app" attributes="series query">
 
   <template>
 
@@ -49,6 +49,7 @@ Element providing solution to no problem in particular.
             <lp-refine-tools
               mode="{{mode}}"
               series="{{series}}"
+              query="{{query}}"
               tweets="{{tweets}}"
               filterBy="{{filterBy}}"
               sortBy="{{sortBy}}">
