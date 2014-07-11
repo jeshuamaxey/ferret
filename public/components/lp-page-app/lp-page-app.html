@@ -6,6 +6,7 @@
 
 <link rel="import" href="../lp-site-banner/lp-site-banner.html">
 <link rel="import" href="../lp-tweet-list/lp-tweet-list.html">
+<link rel="import" href="../lp-tweet-info/lp-tweet-info.html">
 <link rel="import" href="../lp-refine-tools/lp-refine-tools.html">
 
 <!--
@@ -37,12 +38,14 @@ Element providing solution to no problem in particular.
           <div id="tweetCol" class="col tweet-col" flex hidden>
             <lp-tweet-list id="tweetList"
             tweets="{{tweets}}"
+            selectedTweet="{{selectedTweet}}"
             filterBy="{{filterBy}}"
             sortBy="{{sortBy}}">
           </lp-tweet-list>
           </div>
           <!-- right column -->
-          <div class="col refine-col">
+          <div class="col refine-col" flex>
+            <lp-tweet-info tweet="{{selectedTweet}}" hidden></lp-tweet-info>
             <lp-refine-tools
               mode="{{mode}}"
               series="{{series}}"
@@ -66,6 +69,8 @@ Element providing solution to no problem in particular.
       'mode' : 'initial',
 
       'btnLabel': 'Get Tweets',
+
+      'selectedTweet': null,
 
       modeChanged: function() {
         if(this.mode === 'main') {

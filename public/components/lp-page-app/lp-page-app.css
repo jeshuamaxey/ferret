@@ -10,11 +10,6 @@ core-header-panel core-toolbar {
 }
 
 .content, .content div {
-	/*
-	 * don't allow the content height to exceed the full
-	 * height of the viewport (-64px accounts for static header)
-	 **/
-	max-height: calc(100% - 64px);
 	overflow: hidden;
 }
 
@@ -26,6 +21,10 @@ core-header-panel core-toolbar {
 
 .refine-col {
 	padding: 0;
+}
+
+lp-refine-tools, lp-tweet-info {
+	width: 600px;
 }
 
 /*hide column scrollbar*/

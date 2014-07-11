@@ -13,14 +13,14 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-tweet-list
 -->
-<polymer-element name="lp-tweet-list" attributes="tweets filterBy sortBy">
+<polymer-element name="lp-tweet-list" attributes="tweets filterBy sortBy selectedTweet">
 
   <template>
 
     <link rel="stylesheet" href="lp-tweet-list.css" />
 
     <template repeat="{{tweet in tweets}}">
-      <lp-tweet tweet="{{tweet}}"></lp-tweet>
+      <lp-tweet id="{{tweet.id}}" tweet="{{tweet}}" on-tap="{{chooseTweet}}" selected="false"></lp-tweet>
     </template>
     
 
@@ -38,6 +38,19 @@ Element providing solution to no problem in particular.
       tweetsChanged: function() {
         if(!this.allTweets.length)
           this.allTweets = this.sorters.recent(this.tweets);
+      },
+      chooseTweet : function(e) {
+        //search through array of tweets to find matching id
+        this.tweets.forEach(function(tw) {
+          if(tw.id === parseInt(e.srcElement.id)) {
+            sTw = tw;
+          };
+        });
+        //set attribute to selected tweet
+        this.selectedTweet = sTw;
+        // add attr to affect css
+        // console.log(e.srcElement.selected)
+        // e.srcElement.selected = true
       },
       /**
        * An object containing all the filter functions
