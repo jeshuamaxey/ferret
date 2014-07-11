@@ -54,8 +54,8 @@ Element providing solution to no problem in particular.
 
       retrieveTweets: function() {
         this.params.term = this.query;
-        this.params.start = this.range[0].getTime();
-        this.params.end = this.range[1].getTime();
+        this.params.start = this.range[0].getTime()*1000;
+        this.params.end = this.range[1].getTime()*1000;
         console.log(this.params)
         this.auto = true;
       },
