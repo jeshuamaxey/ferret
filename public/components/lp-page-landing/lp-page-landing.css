@@ -20,3 +20,9 @@ lp-search {
 lp-search.init {
 	margin: 100px auto;
 }
+
+lp-homepage-links {
+	position: fixed;
+  bottom: 0;
+  width: 100%;
+}

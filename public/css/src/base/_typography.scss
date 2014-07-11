@@ -19,7 +19,8 @@ body /deep/ {
 	}
 	
 	a {
-		color: #428bca;
+		color: $light-blue;
+		font-weight: bold;
 		text-decoration: none;
 		&:hover {
 			text-decoration: underline;

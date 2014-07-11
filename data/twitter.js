@@ -47,6 +47,10 @@ var twitter = {
              //A < B
              var sampleA = samples[0];
              var sampleB = samples[1];
+             //if(sampleA.time == sampleB.time){
+             //  return Q({sample:sampleA});
+             //}
+
              estimatedId = sampleA.minid + 
                (sampleB.maxid - sampleA.minid)*
                (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);

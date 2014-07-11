@@ -7,6 +7,11 @@ var dataMin = 50;
 
 //TODO:fix for api prefix
 router.get('/search', function(req, res){
+  if(req.session){
+    console.log(JSON.stringify(req.session));
+  } else {
+    console.log("no session");
+  }
   var term = req.query.q;
   var start = req.query.start;
   var end = req.query.end;
@@ -42,23 +47,5 @@ router.get('/select', function(req, res){
     res.end();
   });
 });
-
-/*
-router.get('/select', function(req, res){
-  var term = req.query.term;
-  var start = req.query.start;
-  var end = req.query.end;
-  if(start && end){
-    console.log('selecting');
-    twitter.getAllTweets(term, new Date(start).getTime(), new Date(end).getTime(), function(err, tweets){
-      res.json(JSON.stringify(tweets));
-      res.end();
-    });
-  }else{
-    res.json({message: 'bad query'});
-    res.end();
-  }
-});
-  */
 
 module.exports = router;

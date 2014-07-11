@@ -1,0 +1,37 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-tw-login></lp-tw-login>
+
+@element lp-tw-login
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-tw-login
+-->
+<polymer-element name="lp-tw-login" attributes="notitle">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-tw-login.css" />
+
+    <paper-button class="tw-login" raisedButton iconSrc="components/lp-tw-login/img/tw-logo.png" label="Login with Twitter" on-tap="{{login}}"></paper-button>
+    
+  </template>
+
+  <script>
+
+    Polymer('lp-tw-login', {
+    	login: function() {
+        window.location.href = window.location.origin + '/auth/twitter';
+      }
+    });
+
+  </script>
+
+</polymer-element>

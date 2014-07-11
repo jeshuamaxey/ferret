@@ -15,10 +15,17 @@ router.get('/about', function(req, res) {
 	});
 });
 
-/* GET about login. */
+/* GET login page. */
 router.get('/login', function(req, res) {
 	res.render('login', {
 		'title': 'Login to Ferret'
+	});
+});
+
+/* GET faq page. */
+router.get('/faq', function(req, res) {
+	res.render('faq', {
+		'title': 'Ferret FAQs'
 	});
 });
 
