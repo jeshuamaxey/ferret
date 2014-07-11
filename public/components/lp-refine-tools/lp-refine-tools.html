@@ -59,6 +59,10 @@ Element providing solution to no problem in particular.
     Polymer('lp-refine-tools', {
       'btnLabel': 'Get Tweets',
 
+      ready: function() {
+        console.log('logged from lp-r-tools:', this.query)
+      },
+
       tweetsChanged: function() {
         this.$.retrieveTweets.hidden = true;
         this.btnLabel = 'Refresh Tweets';
