@@ -12,12 +12,10 @@
   pointer-events: none;
 }
 
-/*.logo {
-  height: 40px;
-  position: absolute;
-  top: 210px;
-  right: 50px;
-}*/
+.loading {
+  margin-left: 180px;
+  margin-top: 50px;
+}
 
 /* graph styles */
 

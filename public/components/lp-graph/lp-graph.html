@@ -20,7 +20,7 @@ Element providing solution to no problem in particular.
     <link rel="stylesheet" href="lp-graph.css" />
   
     <!-- <img class="logo" src="img/logo.png" alt="Ferret"> -->
-    <!-- <img src="img/loading.gif" alt="loading" class="loading"> -->
+    <img id="loading" class="loading" src="img/loading.gif" alt="loading">
     <div id="graph" class="graph"></div>
 
   </template>
@@ -51,6 +51,8 @@ Element providing solution to no problem in particular.
        * @param {String} dummy Serves no purpose today.
        */
       seriesChanged: function() {
+        //hide loading gif
+        this.$.loading.hidden = true;
         //this ought to be calculated via js detecting element dimensions
         //and be wrappeded in a function which is called on window resizing
         var margin = {top: 50, right: 50, bottom: 50, left: 50},
