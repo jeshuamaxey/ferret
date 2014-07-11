@@ -40,7 +40,7 @@ router.get('/search', function(req, res){
 
 router.get('/select', function(req, res){
   var term = req.query.term;
-  var time = req.query.time;
+  var time = Number(req.query.end);
   twitter.getSampleAtTime(term, time)
   .then(function(tweets){
     res.json(JSON.stringify(tweets));
