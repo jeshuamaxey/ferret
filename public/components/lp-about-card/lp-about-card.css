@@ -12,7 +12,7 @@
 	margin: 40px 0;
 }
 
-.question p {
+.question p, .question em {
 	padding-left: 15px;
 }
 
