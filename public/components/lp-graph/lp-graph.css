@@ -12,14 +12,10 @@
   pointer-events: none;
 }
 
-/*
-These need to be implemented to unify
-the refine and revie views
-
-:host .refine
-
-:host .review
-*/
+.loading {
+  margin-left: 180px;
+  margin-top: 50px;
+}
 
 /* graph styles */
 

@@ -29,4 +29,11 @@ router.get('/faq', function(req, res) {
 	});
 });
 
+/* GET provacy page. */
+router.get('/privacy', function(req, res) {
+	res.render('privacy', {
+		'title': 'Ferret Privacy'
+	});
+});
+
 module.exports = router;
