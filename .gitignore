@@ -6,7 +6,7 @@ node_modules
 npm-debug.log
 
 #bower
-#bower.json
+bower.json
 # the components dir has it's own .gitignore file
 # to exclude only 3rd patry modules
 

@@ -3,10 +3,15 @@ var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
+var auth = require('./routes/auth');
+var users = require('./routes/users');
+
 // var users = require('./routes/users');
 // var polyRoutes = require('./routes/poly-routes');
 
@@ -22,10 +27,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(session({secret: 'tochange', resave: true, saveUninitialized: true}));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/api', api);
+app.use('/auth', auth);
+app.use('/users', users);
 // app.use('/users', users);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -61,26 +72,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-/*
-function cleanup () {
-  shutting_down = true;
-  server.close( function () {
-    console.log( "Closed out remaining connections.");
-    // Close db connections, other chores, etc.
-    twitterdb.close();
-    process.exit();
-  });
-
-  setTimeout( function () {
-   console.error("Could not close connections in time, forcing shut down");
-   process.exit(1);
-  }, 30*1000);
-
-}
-
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
-*/
 
 module.exports = app;

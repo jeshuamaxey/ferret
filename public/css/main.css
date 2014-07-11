@@ -27,7 +27,8 @@ body /deep/ {
     font-size: 150%;
     text-align: center; }
   body /deep/ a {
-    color: #428bca;
+    color: #00b7ff;
+    font-weight: bold;
     text-decoration: none; }
     body /deep/ a:hover {
       text-decoration: underline; }
