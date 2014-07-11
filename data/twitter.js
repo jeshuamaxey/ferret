@@ -35,41 +35,59 @@ var twitter = {
   getSampleFromDate: function(search, time){
     var query = { q: search, result_type: 'recent'};
     var d = new Date(time);
+    var de = new Date(time - 24*60*60*1000);
     var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    var des = de.getFullYear() + '-' + (de.getMonth() + 1) + '-' + de.getDate();
     query.until = ds;
+    query.since= des;
     return this.makeSample(query);
   },
 
-  guessSample: function(term, time){
+  guessSample: function(term, time, ref){
     var me = this;
-    return me.getSamplesAroundTime(term, time)
+
+    if (!ref){
+      ref = me.getSamplesAroundTime(term, time)
+    }
+
+    return ref
+           .fail(function(reason){
+             console.log('trying more specific reference');
+             return me.getSamplesAroundTime(term, time)
+           })
            .then(function(samples){
              //A < B
              var sampleA = samples[0];
              var sampleB = samples[1];
+
              estimatedId = sampleA.minid + 
                (sampleB.maxid - sampleA.minid)*
                (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);
-             console.log('' + sampleA.mintime + ' ' + sampleB.maxtime)
+           console.log('' + sampleA.minid + ' ' + sampleB.maxid);
+           console.log('' + new Date(sampleA.mintime) + ' ' + new Date(sampleB.maxtime));
+           console.log(estimatedId);
 
-             return me.getCachedSampleFromId(term, estimatedId);
+             return me.getCachedSampleFromId(term, estimatedId)
+             .fail(function(reason){
+               console.log(JSON.stringify(reason));
+               return Q({sample:{time:time, density:0}});
+             });
            });
   },
 
-  getSampleAtTime: function(search, time, allow){
+  getSampleAtTime: function(search, time, allow, ref){
     var me = this;
     if(!allow){
       allow = 0;
     }
 
     return db.haveSampleForInterval(search, time - allow, time + allow)
-           .then(function(sample){
-             if(sample){
-               return Q({sample:sample});
-             } else {
-               return me.guessSample(search, time);
-             }
-           });
+      .then(function(sample){
+        return Q({sample:sample});
+      })
+      .fail(function(err){
+        return me.guessSample(search, time, ref);
+      })
   },
 
   sampleFromBundle: function(bundle){
@@ -86,6 +104,10 @@ var twitter = {
       } else {
         return Q(reference);
       }
+    })
+    .fail(function(reason){
+      console.log('no first reference ' + new Date(time) + ' give up now');
+      throw new Error('twitter index does not go back this far');
     });
   },
 
@@ -99,7 +121,13 @@ var twitter = {
       } else {
         return Q(reference);
       }
+    })
+    .fail(function(reason){
+      console.log('no tweets found at ' + new Date(time) + ' falling back');
+      return me.getCachedSampleFromDate('twitter', time - 24*60*60*1000)
+        .then(me.sampleFromBundle);
     });
+
   },
 
   getSamplesAroundTime: function(term, time){
@@ -144,7 +172,7 @@ var twitter = {
     var maxid = 0;
 
     if (tweets.length < 2){
-      console.log('not enough tweets');
+      throw new Error('not enough tweets');
     } else {
       tweets.sort(function(a,b){
         if(a.lptime < b.lptime){
@@ -190,6 +218,7 @@ var twitter = {
                 return Q.ninvoke(this.T, "get", 'search/tweets', query)
                   .then(function(response){
                     var tweets = response[0].statuses;
+                    console.log(tweets.length);
                     var term = query.q;
                     tweets.map(function(t){
                       t.lpterm = query.q;

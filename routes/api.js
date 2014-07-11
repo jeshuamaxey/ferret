@@ -17,17 +17,23 @@ router.get('/search', function(req, res){
     if (!start){
       start = Date.now();
     } else {
-      start = new Date(start).getTime()
-    }
-    if (!end){
-      scale = 14*24*60*60*1000; 
-    } else {
-      scale = new Date(end).getTime() - start;
+      start = Number(start);
     }
 
-    series.getSeriesFromSamples(term, start, scale)
+    if (!end){
+      scale = 14*24*60*60*1000; 
+      end = start - scale;
+    } else {
+      end = Number(end);
+    }
+
+    series.getSeriesFromSamples(term, start, end)
     .then(function(series){
       res.json(JSON.stringify(series));
+      res.end();
+    })
+    .fail(function(reason){
+      res.json({err: reason.message});
       res.end();
     });
   }
