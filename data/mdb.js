@@ -22,25 +22,25 @@ var sampleFilter = function(time) {
 
 var twitterdb = {
   getReferenceBefore: function(time){
-                          return samples.findOne({mintime: {$lt: time}});
-                      },
+    return Q(samples.findOne({mintime: {$gt: time}}));
+  },
 
   getReferenceAfter: function(time){
-                          return samples.findOne({maxtime: {$gt: time}});
-                      },
+    return Q(samples.findOne({maxtime: {$lt: time}}));
+  },
 
   getAllSamplesSorted: function(time){
-                          return samples.find({},{sort: {time: 1}})
-                        },
+    return Q(samples.find({},{sort: {time: 1}}));
+  },
 
   storeTweets: function(term, newTweets){
-                 for (var t in newTweets){
-                   newTweets[t].lpterm = term;
-                   newTweets[t].lptime = new Date(newTweets[t].created_at).getTime();
-                 }
-                 tweets.insert(newTweets);
-                 return Q(newTweets);
-               },
+    for (var t in newTweets){
+     newTweets[t].lpterm = term;
+     newTweets[t].lptime = new Date(newTweets[t].created_at).getTime();
+    }
+    tweets.insert(newTweets);
+    return Q(newTweets);
+  },
 
   storeSample: function(sample, ts){
                  return Q.ninvoke(samples, "insert", sample)
@@ -154,8 +154,8 @@ var twitterdb = {
 
   haveSampleForId: function(term, id, cb){
                        var me = this;
-                       return samples.findOne( 
-                           {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}});
+                       return Q(samples.findOne( 
+                           {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}}));
                    },
 
   haveTweetsForId: function(term, id, cb){
@@ -168,8 +168,14 @@ var twitterdb = {
                    },
 
   haveSampleForInterval: function(term, start, end){
-                           return samples.findOne({term: term, 
-                                   time: {$gte:start, $lte:end}});
+                           return Q(samples.findOne({term: term, 
+                                   time: {$gte:start, $lte:end}})
+                             .then(function(sample){
+                               if(!sample){
+                                 throw new Error("no samples in time range");
+                               }
+                               return Q(sample)
+                             }));
                          },
 
   haveSampleForDate: function(term, time){

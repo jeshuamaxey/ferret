@@ -13,6 +13,7 @@ describe('series', function(){
       var term = 'neymar';
       series.getSeriesFromSamples(term, start, end)
       .then(function(series){
+        console.log(series);
         series.length.should.be.greaterThan(7);
         var seen = [];
         var lastdate = Number.MAX_VALUE;
@@ -41,12 +42,16 @@ describe('series', function(){
       var term = 'neymar';
       series.getSeriesFromSamples(term, start, end)
       .then(function(series){
+        console.log(series);
         series.length.should.be.greaterThan(7);
         var seen = [];
+        var lastdate = Number.MAX_VALUE;
         for (var s in series){
           series[s].date.should.be.ok;
           series[s].date.should.be.lessThan(start/100);
-          series[s].date.should.be.greaterThan(end/100);
+          series[s].date.should.be.greaterThan((end - 12*60*60*1000)/100);
+          series[s].date.should.be.lessThan(lastdate);
+          lastdate = series[s].date;
 
           series[s].tps.should.be.ok;
           (series[s].tps >= 0).should.be.true;
