@@ -1,0 +1,91 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-tweet-info></lp-tweet-info>
+
+@element lp-tweet-info
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-tweet-info
+-->
+<polymer-element name="lp-tweet-info" attributes="tweet">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-tweet-info.css" />
+
+    <div class="card" layout vertical>
+      <!-- top panel -->
+      <section class="top" layout centre-justified horizontal>
+        <img class="profile-pic" src="{{tweet.user.profile_image_url}}" alt="Profile Picture">
+        <div class="name">
+          <p class="tw-username">{{tweet.user.name}}</p>
+          <p class="tw-handle">&#64;{{tweet.user.screen_name}}</p>
+        </div>
+        <div class="about">
+          <p>{{tweet.user.description}}</p>
+          <p>{{tweet.user.location}} &#149; {{tweet.user.url}}</p>
+        </div>
+      </section>
+      <!-- bottom panel -->
+      <section class="bottom" layout centre-justified horizontal>
+        <div flex>
+          <p><span class="num">{{tweet.user.statuses_count}}</span> tweets</p>
+          <p><span class="num">{{tweet.user.friends_count}}</span> following</p>
+        </div>
+        <div flex>
+          <p><span class="num">{{tweet.user.followers_count}}</span> followers</p>
+          <p><span class="date">{{tweet.user.created_at | formatTwitterDate}}</span><br>(tweeting since)</p>
+        </div>
+        <div flex>
+          <p>Verified: <img class="y-or-no y" src="{{tweet.user.verified | iconFilter}}" alt=""></p>
+          <p>Geo tagged: <img class="y-or-no n" src="{{tweet.user.geo_enabled | iconFilter}}" alt=""></p>
+        </div>
+      </section>
+      <paper-shadow z="1"></paper-shadow>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-tweet-info', {
+      tweetChanged: function() {
+        //unhide this element
+        this.hidden = false;
+        console.log(this.tweet)
+      },
+      /**
+       * Formats the date of a tweet for display
+       * along with other meta data.
+       * To be used as a filter, eg:
+       * {{tweet.created_at | formatTwitterDate}}
+       */
+      formatTwitterDate: function(twitterDate) {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var dateStamp = new Date(twitterDate);
+        var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
+        return dateStr;
+      },
+      /**
+       * Produces icon src url
+       * true -> tick, false -> cross
+       * To be used as a filter, eg:
+       * {{tweet.user.verified | iconFilter}}
+       */
+      iconFilter: function(arg) {
+        var tick = 'components/lp-tweet-info/img/icon-tick.svg'
+        var cross = 'components/lp-tweet-info/img/icon-cross.svg'
+        return arg ? tick : cross;
+      }
+    });
+
+  </script>
+
+</polymer-element>
