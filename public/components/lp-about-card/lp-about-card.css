@@ -16,6 +16,16 @@
 	padding-left: 15px;
 }
 
+.pull-left {
+	float: left;
+}
+
+.s-times-logo {
+	float: right;
+	max-width: 300px;
+	margin: 0 40px;
+}
+
 .paper-shadow {
 	pointer-events: none;
 }
