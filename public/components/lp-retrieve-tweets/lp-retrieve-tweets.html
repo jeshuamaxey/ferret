@@ -53,8 +53,10 @@ Element providing solution to no problem in particular.
       },
 
       retrieveTweets: function() {
-        this.params.start = this.range[0];
-        this.params.end = this.range[1];
+        this.params.query = this.query;
+        this.params.start = this.range[0].getTime();
+        this.params.end = this.range[1].getTime();
+        console.log(this.params)
         this.auto = true;
       },
 
