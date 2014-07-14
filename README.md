@@ -1,5 +1,7 @@
 # Ferret
 
+**Be first to breaking news on Twitter.**
+
 **Ferret** is a powerful tool for finding first-person, eye-witness accounts of major events through Twitter.</p>
 
 It allows journalists to go back in time and find tweets immediately before the flood of noise and activity that accompanies heavily-reported news.
