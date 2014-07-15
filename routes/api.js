@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var auth = require('./auth');
 var series = require('../data/series');
 var twitter = require('../data/twitter');
 var db = require('../data/mdb');
@@ -33,7 +34,9 @@ router.get('/search', function(req, res){
       end = Number(end);
     }
 
-    series.getSeriesFromSamples(term, start, end)
+    var key = new auth.key().withAppAccess();
+
+    series.getSeriesFromSamples(term, start, end, key)
     .then(function(series){
       res.json(JSON.stringify(series));
       res.end();
@@ -53,7 +56,9 @@ router.get('/select', function(req, res){
     res.end();
     return;
   }
-  twitter.getSampleAtTime(term, time/1000)
+
+  var key = new auth.key().withAppAccess();
+  new twitter(key).getSampleAtTime(term, time/1000)
   .then(db.tweetsForSample)
   .then(function(tweets){
     res.json(tweets);

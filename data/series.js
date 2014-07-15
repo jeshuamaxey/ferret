@@ -1,9 +1,10 @@
-var twitter = require('./twitter');
+var t = require('./twitter');
 var db = require('./mdb');
 var Q = require('q');
 
 var sampler = {
-  getSeriesFromSamples: function(term, start, end){
+  getSeriesFromSamples: function(term, start, end, key){
+    var twitter = new t(key);
     var n = 20;
     var interval = (start - end)/n;
     var allSamples = [];
