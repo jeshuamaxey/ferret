@@ -9,10 +9,16 @@ var dataMin = 50;
 
 //TODO:fix for api prefix
 router.get('/search', function(req, res){
-  if(req.session){
+  if(req.session.passport.user){
     console.log(JSON.stringify(req.session));
+    var key = new auth.key().withUserAccess(
+      req.session.passport.user.token,
+      req.session.passport.user.tokenSecret
+    );
   } else {
-    console.log("no session");
+      res.json({err: "Not signed in"});
+      res.end();
+      return;
   }
   var term = req.query.q;
   var start = req.query.start;
@@ -33,8 +39,6 @@ router.get('/search', function(req, res){
     } else {
       end = Number(end);
     }
-
-    var key = new auth.key().withAppAccess();
 
     series.getSeriesFromSamples(term, start, end, key)
     .then(function(series){
