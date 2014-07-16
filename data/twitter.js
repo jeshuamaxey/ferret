@@ -172,7 +172,12 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
     var mintime = tweets[0].lptime;
     var maxtime = tweets[tweets.length - 1].lptime;
 
-    avgTime = (maxtime + mintime) / 2; //for simplicity
+
+    avgTime = Math.round(tweets.map(function(t){
+      return t.lptime;
+    }).reduce(function(prev, current){
+      return prev + current;
+    }) / tweets.length);
 
     if (maxtime == mintime){
       console.log('sample size too small');
