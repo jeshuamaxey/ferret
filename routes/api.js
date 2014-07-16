@@ -36,7 +36,7 @@ router.get('/search', function(req, res){
 
     var key = new auth.key().withAppAccess();
 
-    series.getSeriesFromSamples(term, start, end, key)
+    series.getDaySamples(term, start, end, key)
     .then(function(series){
       res.json(JSON.stringify(series));
       res.end();

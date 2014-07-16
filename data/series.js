@@ -3,6 +3,16 @@ var db = require('./mdb');
 var Q = require('q');
 
 var sampler = {
+
+  getDaySamples: function(term, start, end, key){
+    var twitter = new t(key);
+    var allSamples = [];
+    for (var time = start; time > end; time -= 24*60*60*1000){
+      allSamples.push(twitter.getSampleFromDate(term, time));
+    }
+    return this.settleSeries(allSamples);
+  },
+
   getSeriesFromSamples: function(term, start, end, key){
     var twitter = new t(key);
     var n = 20;
@@ -16,7 +26,11 @@ var sampler = {
     for (var time = start; time > end; time -= interval){
       allSamples.push(twitter.getSampleAtTime(term, time, allow, references));
     }
-    
+
+    return this.settleSeries(allSamples);
+  },
+
+  settleSeries: function(allSamples){
     return Q.allSettled(allSamples)
       .then(function(samples){
         //make them look good
@@ -33,7 +47,7 @@ var sampler = {
           })
           );
       });
-  },
+  }
 
 }
 
