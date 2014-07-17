@@ -1,0 +1,39 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../paper-shadow/paper-shadow.html">
+
+<!--
+Element to scaffold a page of the ferret website
+
+##### Example
+
+    <lp-card-page>
+      <h2>Page Title 1</h2>
+      <section>
+        <h3>Sub Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi quod quam debitis excepturi laudantium earum ratione provident. Quaerat assumenda quas rem consequatur quam excepturi dignissimos, ducimus beatae esse aperiam voluptatem.</p>
+      </section>
+        <h3>Sub Title 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi quod quam debitis excepturi laudantium earum ratione provident. Quaerat assumenda quas rem consequatur quam excepturi dignissimos, ducimus beatae esse aperiam voluptatem.</p>
+      </section>
+    </lp-card-page>
+
+@element lp-card-page
+@blurb Element to scaffold a page of the ferret website
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-card-page
+-->
+<polymer-element name="lp-card-page" noscript>
+
+  <template>
+
+    <link rel="stylesheet" href="lp-card-page.css" />
+
+    <div class="card">
+      <content class="card-content" horizontal layout></content>
+      <paper-shadow></paper-shadow>
+    </div>
+
+  </template>
+
+</polymer-element>
