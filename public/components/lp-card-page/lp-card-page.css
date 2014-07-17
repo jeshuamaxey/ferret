@@ -37,10 +37,6 @@
  * Columns
  **/
 
-::content .col {
-  margin: 40px;
-}
-
 /**
  * Stop paper shadow swallowing all click
  * events and breaking links and forms
