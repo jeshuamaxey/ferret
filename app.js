@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var morgan = require('morgan');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
@@ -33,9 +34,11 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(morgan('short'));
+
 app.use('/', routes);
 app.use('/api', api);
-app.use('/auth', auth);
+app.use('/auth', auth.router);
 app.use('/users', users);
 // app.use('/users', users);
 

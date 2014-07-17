@@ -23,5 +23,30 @@
     "polymer-ui-toolbar": "Polymer/polymer-ui-toolbar#~0.3.0",
     "core-animated-pages": "Polymer/core-animated-pages#~0.3.3",
     "d3": "~3.4.9"
+  },
+  "resolutions": {
+    "core-component-page": ">=0.3.0 <1.0.0",
+    "core-drawer-panel": ">=0.3.0 <1.0.0",
+    "core-header-panel": ">=0.3.0 <1.0.0",
+    "core-icon": ">=0.3.0 <1.0.0",
+    "core-icon-button": ">=0.3.0 <1.0.0",
+    "core-input": ">=0.3.0 <1.0.0",
+    "core-media-query": ">=0.3.0 <1.0.0",
+    "core-transition": ">=0.3.0 <1.0.0",
+    "core-item": ">=0.3.0 <1.0.0",
+    "core-menu": ">=0.3.0 <1.0.0",
+    "core-icons": ">=0.3.0 <1.0.0",
+    "core-overlay": ">=0.3.0 <1.0.0",
+    "core-range": ">=0.3.0 <1.0.0",
+    "core-toolbar": ">=0.3.0 <1.0.0",
+    "core-selector": ">=0.3.0 <1.0.0",
+    "polymer": "^0.3.0",
+    "platform": ">=0.3.0 <1.0.0",
+    "core-collapse": ">=0.3.0 <1.0.0",
+    "core-layout": ">=0.3.0 <1.0.0",
+    "core-meta": ">=0.3.0 <1.0.0",
+    "core-selection": ">=0.3.0 <1.0.0",
+    "core-iconset": ">=0.3.0 <1.0.0",
+    "core-iconset-svg": ">=0.3.0 <1.0.0"
   }
 }
