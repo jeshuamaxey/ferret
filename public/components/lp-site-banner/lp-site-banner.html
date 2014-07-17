@@ -14,32 +14,17 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-site-banner
 -->
-<polymer-element name="lp-site-banner" attributes="">
+<polymer-element name="lp-site-banner" noscript>
 
   <template>
 
     <link rel="stylesheet" href="lp-site-banner.css" />
 
-    <section id="leadCopy" class="leadCopy">
-      <img class="logo" src="img/logo.png" alt="Ferret">
+    <header id="leadCopy" class="leadCopy">
+      <a href="/"><img class="logo" src="img/logo.png" alt="Ferret"></a>
       <paper-shadow z="1"></paper-shadow>
-    </section>
+    </header>
 
   </template>
-
-  <script>
-
-    Polymer('lp-site-banner', {
-      /**
-       * This is a function with a view to being able to
-       * easily alter copy for different languages.
-       */
-      leadText: (function() {
-        return 'Be first to breaking news on Twitter';
-      })()
-
-    });
-
-  </script>
 
 </polymer-element>
