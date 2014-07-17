@@ -159,23 +159,14 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
   if (tweets.length < 2){
     throw new Error('not enough tweets');
   } else {
-    tweets.sort(function(a,b){
-      if(a.lptime < b.lptime){
-        return -1;
-      }
-      if(a.lptime > b.lptime){
-        return 1;
-      }
-      return 0;
+    var times = tweets.map(function(t){
+      return t.lptime;
     });
 
-    var mintime = tweets[0].lptime;
-    var maxtime = tweets[tweets.length - 1].lptime;
+    var mintime = Math.max.apply(null, times);
+    var maxtime = Math.min.apply(null, times);
 
-
-    avgTime = Math.round(tweets.map(function(t){
-      return t.lptime;
-    }).reduce(function(prev, current){
+    avgTime = Math.round(times.reduce(function(prev, current){
       return prev + current;
     }) / tweets.length);
 
@@ -186,8 +177,14 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
       density = tweets.length / (maxtime - mintime);
     }
 
-    minid = tweets[0].id;
-    maxid = tweets[tweets.length - 1].id;
+    var ids = tweets.map(function(t){
+      return t.id;
+    });
+
+    maxid = Math.max.apply(null, ids);
+    minid = Math.min.apply(null, ids);
+    var idrate = (maxid - minid) / tweets.length;
+
    }
 
    var sample = {
@@ -197,7 +194,8 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
      maxid: maxid,
      mintime: mintime,
      maxtime: maxtime,
-     density: density
+     density: density,
+     idrate: idrate 
    };
    return db.storeSample(sample, tweets);
 };

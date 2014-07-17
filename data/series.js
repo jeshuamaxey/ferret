@@ -43,7 +43,7 @@ var sampler = {
           })
           .map(function(sample){
           var s = sample.value.sample;
-          return {date: s.time, tps: s.density};
+          return {date: s.time, tps: s.idrate};
           })
           );
       });
