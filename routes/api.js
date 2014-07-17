@@ -34,13 +34,13 @@ router.get('/search', function(req, res){
     }
 
     if (!end){
-      scale = 14*24*60*60*1000; 
+      scale = 7*24*60*60*1000; 
       end = start - scale;
     } else {
       end = Number(end);
     }
 
-    series.getSeriesFromSamples(term, start, end, key)
+    series.getDaySamples(term, start, end, key)
     .then(function(series){
       res.json(JSON.stringify(series));
       res.end();
