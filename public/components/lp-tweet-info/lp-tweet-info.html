@@ -25,12 +25,12 @@ Element providing solution to no problem in particular.
       <section class="top" layout centre-justified horizontal>
         <img class="profile-pic" src="{{tweet.user.profile_image_url}}" alt="Profile Picture">
         <div class="name">
-          <p class="tw-username">{{tweet.user.name}}</p>
+          <p class="tw-username"><a href="{{tweet.user.url}}">{{tweet.user.name}}</a></p>
           <p class="tw-handle">&#64;{{tweet.user.screen_name}}</p>
         </div>
         <div class="about">
           <p>{{tweet.user.description}}</p>
-          <p>{{tweet.user.location}} &#149; {{tweet.user.url}}</p>
+          <p>{{tweet.user.location || ''}} &#149; <a href="{{tweet | formatTwUrl}}" style="{{tweet | formatTwUrl}}">link</a></p>
         </div>
       </section>
       <!-- bottom panel -->
@@ -72,6 +72,16 @@ Element providing solution to no problem in particular.
         var dateStamp = new Date(twitterDate);
         var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
         return dateStr;
+      },
+      /**
+       * Displays the url of a twitter user if present
+       * To be used as a filter, eg:
+       * {{tweet.user.screen_name}}
+       */
+      formatTwUrl: function(tweet) {
+        if(tweet && tweet.user) {
+          return tweet.user.url || 'display:none;';
+        }
       },
       /**
        * Produces icon src url

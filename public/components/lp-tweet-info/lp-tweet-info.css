@@ -5,6 +5,10 @@
   font-size: 12px;
 }
 
+.paper-shadow {
+	pointer-events: none;
+}
+
 .card {
 	background: #fff;
 }
