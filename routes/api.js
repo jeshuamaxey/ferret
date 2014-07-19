@@ -7,7 +7,6 @@ var db = require('../data/mdb');
 
 var dataMin = 50;
 
-//TODO:fix for api prefix
 router.get('/search', function(req, res){
   if(req.session.passport.user){
     console.log(JSON.stringify(req.session));
@@ -73,7 +72,7 @@ router.get('/select', function(req, res){
     return;
   }
 
-  new twitter(key).getSampleAtTime(term, time/1000)
+  new twitter(key).getSampleAtTime(term, time)
   .then(db.tweetsForSample)
   .then(function(tweets){
     res.json(tweets);
