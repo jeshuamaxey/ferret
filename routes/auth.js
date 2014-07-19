@@ -45,7 +45,7 @@ router.get('/twitter', passport.authenticate('twitter'));
 // Otherwise, authentication has failed.
 router.get('/twitter/callback', 
   passport.authenticate('twitter', { successRedirect: '/',
-                                      failureRedirect: '/' }));
+                                      failureRedirect: '/login' }));
 
 function key(){
   this.data = null;

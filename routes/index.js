@@ -3,9 +3,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index', {
-		'title': 'Ferret'
-	});
+  if(req.session.passport.user){
+    res.render('index', {
+      'title': 'Ferret'
+    });
+  } else {
+    res.redirect('/login');
+  }
 });
 
 /* GET about page. */
