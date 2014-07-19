@@ -4,13 +4,35 @@ var Q = require('q');
 
 var sampler = {
 
-  getDaySamples: function(term, start, end, key){
+  getHalfDaySamples: function(term, start, end, key){
     var twitter = new t(key);
     var allSamples = [];
     for (var time = start; time > end; time -= 24*60*60*1000){
       allSamples.push(twitter.getSampleFromDate(term, time));
     }
     return this.settleSeries(allSamples);
+  },
+
+  getDaySamples: function(term, start, end, key){
+    var twitter = new t(key);
+    var allSamples = [];
+    for (var time = start; time > end; time -= 24*60*60*1000){
+      allSamples.push(twitter.getSampleFromDate(term, time));
+    }
+    //TODO:change settle to not prettify
+    return this.settleSeries(allSamples)
+    .then(function(series){
+      //now lets fill in the gaps
+      fillers = [];
+      for (var s = 1; s < series.length -1){
+        var id = series[s-1].minid + series[s].maxid;
+        fillers.push(twitter.getSampleFromId(term, id));
+      }
+      return this.settleSeries(fillers)
+      .then(function(extraSeries){
+
+      });
+    })
   },
 
   getSeriesFromSamples: function(term, start, end, key){

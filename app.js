@@ -40,7 +40,6 @@ app.use('/', routes);
 app.use('/api', api);
 app.use('/auth', auth.router);
 app.use('/users', users);
-// app.use('/users', users);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
