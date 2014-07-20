@@ -7,7 +7,6 @@ var db = require('../data/mdb');
 
 var dataMin = 50;
 
-//TODO:fix for api prefix
 router.get('/search', function(req, res){
   if(req.session.passport.user){
     console.log(JSON.stringify(req.session));
@@ -34,7 +33,7 @@ router.get('/search', function(req, res){
     }
 
     if (!end){
-      scale = 7*24*60*60*1000; 
+      scale = 10*24*60*60*1000; 
       end = start - scale;
     } else {
       end = Number(end);
@@ -53,6 +52,18 @@ router.get('/search', function(req, res){
 });
 
 router.get('/select', function(req, res){
+  if(req.session.passport.user){
+    console.log(JSON.stringify(req.session));
+    var key = new auth.key().withUserAccess(
+      req.session.passport.user.token,
+      req.session.passport.user.tokenSecret
+    );
+  } else {
+      res.json({err: "Not signed in"});
+      res.end();
+      return;
+  }
+
   var term = req.query.term;
   var time = Number(req.query.start);
   if(!term || !time){
@@ -61,8 +72,7 @@ router.get('/select', function(req, res){
     return;
   }
 
-  var key = new auth.key().withAppAccess();
-  new twitter(key).getSampleAtTime(term, time/1000)
+  new twitter(key).getSampleAtTime(term, time)
   .then(db.tweetsForSample)
   .then(function(tweets){
     res.json(tweets);
