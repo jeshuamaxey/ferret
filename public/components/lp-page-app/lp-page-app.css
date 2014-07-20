@@ -20,6 +20,13 @@ core-header-panel core-toolbar {
 }
 
 .refine-col {
+	/* this ensures that when all tweets are filters
+	 * the refine column doesn't have an overflow
+	 * problem
+	 **/
+	min-width: 600px;
+	min-height: 300px;
+
 	padding: 0;
 }
 
