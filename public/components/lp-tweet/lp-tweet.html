@@ -39,61 +39,9 @@ Element providing solution to no problem in particular.
 
   </template>
 
-  <!-- 
-
-  
-  "<div class='tweet'>" +
-    "<div class='row tw-body'>" +
-      "<div class='col-md-4 tw-profile'>" +
-        "<img class='twProfilePic' src='"+ t.user.profile_image_url +"' >" +
-        "<div class='user'>" +
-          "<strong class='tw-username'>"+ t.user.name +"</strong>" +
-          "<br>" +
-          "<span class='tw-handle'>&#64;"+ t.user.screen_name +"</span>" +
-        "</div>" +
-        "<div>" +
-          "<p class='tw-date'>" + dateStr + "</p>" +
-          "<p>" +
-            "<span class='tw-rt'>RETWEETS "+ t.retweet_count +"</span><br>" +
-            "<span class='tw-fav'>FAVOURITES "+ t.favorite_count +"</span>" +
-          "</p>" +
-        "</div>" +
-      "</div>" +
-      "<div class='col-md-"+ (media ? "4" : "8") +" tw-text'>" +
-        "<p>" + t.text + "</p>" +
-      "</div>" +
-      (media ? "<div class='col-md-4 tw-media'>" + media +"</div>" : "") +
-    "</div>" +
-  "</div>")
-
-
-   -->
-
   <script>
 
     Polymer('lp-tweet', {
-      /**
-       * The `noevent` event is not actually fired from here,
-       * we document it as an example of documenting events.
-       *
-       * @event noevent
-       */
-
-      /**
-       * The `notitle` attribute does not yet have a purpose.
-       *
-       * @attribute notitle
-       * @type string
-       */
-      notitle: '',
-
-      /**
-       * The `aProp` is a property that does something cool.
-       *
-       * @property aProp
-       * @type bool
-       */
-      aProp: false,
 
       /**
        * Formats the date of a tweet for display
@@ -106,16 +54,6 @@ Element providing solution to no problem in particular.
         var dateStamp = new Date(twitterDate);
         var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
         return dateStr;
-      },
-
-      /**
-       * The `task` method does no work at this time.
-       *
-       * @method task
-       * @return {Object} Returns undefined.
-       * @param {String} dummy Serves no purpose today.
-       */
-      task: function(dummy) {
       }
 
     });
