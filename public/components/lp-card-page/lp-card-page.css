@@ -36,6 +36,9 @@
 /**
  * Columns
  **/
+::content .col {
+  padding: 20px;
+}
 
 /**
  * Stop paper shadow swallowing all click
