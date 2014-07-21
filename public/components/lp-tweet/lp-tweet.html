@@ -26,6 +26,11 @@ Element providing solution to no problem in particular.
         <span class='tw-handle'>&#64;{{tweet.user.screen_name}} </span>
       </div>
       <p class="tw-text" flex two>{{tweet.text}}</p>
+      <template if="{{tweet | hasPhoto}}">
+        <div class="image-wrapper" flex two>
+          <img src="{{tweet.entities.media[0].media_url}}" alt="">
+        </div>
+      </template>
     </div>
 
     <div class="meta-data row" horizontal layout>
@@ -42,6 +47,15 @@ Element providing solution to no problem in particular.
   <script>
 
     Polymer('lp-tweet', {
+      ready: function() {
+        if(this.tweet.entities.media) {
+          console.log(this.tweet.entities);
+        }
+      },
+
+      hasPhoto: function(tweet) {
+        return tweet.entities.media && tweet.entities.media[0].type == "photo";
+      },
 
       /**
        * Formats the date of a tweet for display
