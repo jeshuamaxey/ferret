@@ -61,16 +61,10 @@ Element providing solution to no problem in particular.
       },
 
       handleResponse: function() {
+        console.log(this.response)
         this.tweets = typeof this.response == 'string' ? JSON.parse(this.response) : this.response;
         this.fire('lp-review-initiated');
       }
-
-      /**
-       * The `aProp` is a property that does something cool.
-       *
-       * @property aProp
-       * @type bool
-       */
 
     });
 

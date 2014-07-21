@@ -84,12 +84,17 @@ Element providing solution to no problem in particular.
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
-        //console.log(typeof this.series);
+            
         //format data
-        // var data = this.series; //used for fake data
-        var data = JSON.parse(this.series) //used for real (api) data
-        //typeof this.series != 'object' ? data = JSON.parse(this.series) : data = this.series;
+        var data;
+        if(typeof this.series === 'object') {
+          //used for fake data
+          data = this.series;
+        } else {
+          //used for real (api) data
+          data = JSON.parse(this.series);
+        }
+        
         data.forEach(function(d) {
           //convert date to milliseconds
           d.date = new Date(parseInt(d.date));
