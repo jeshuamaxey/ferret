@@ -34,9 +34,9 @@ Element providing solution to no problem in particular.
     </div>
 
     <div class="meta-data row" horizontal layout>
-      <span class='tw-date'>{{tweet.created_at | formatTwitterDate}}</span>
-      <span class='tw-rt'>RETWEETS <span class="num">{{tweet.retweet_count}}</span></span><br>
-      <span class='tw-fav'>FAVOURITES <span class="num">{{tweet.favorite_count}}</span></span>
+      <span class="tw-date">{{tweet.created_at | formatTwitterDate}}</span>
+      <span class="tw-rt">RETWEETS <span class="num">{{tweet.retweet_count}}</span></span><br>
+      <span class="tw-fav">FAVOURITES <span class="num">{{tweet.favorite_count}}</span></span>
     </div>
 
     <paper-shadow z="1"></paper-shadow>
@@ -49,7 +49,7 @@ Element providing solution to no problem in particular.
     Polymer('lp-tweet', {
       ready: function() {
         if(this.tweet.entities.media) {
-          console.log(this.tweet.entities);
+          console.log(this.tweet);
         }
       },
 
@@ -62,14 +62,13 @@ Element providing solution to no problem in particular.
        * along with other meta data.
        * To be used as a filter, eg:
        * {{tweet.created_at | formatTwitterDate}}
-       */
+       **/
       formatTwitterDate: function(twitterDate) {
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var dateStamp = new Date(twitterDate);
         var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
         return dateStr;
       }
-
     });
 
   </script>

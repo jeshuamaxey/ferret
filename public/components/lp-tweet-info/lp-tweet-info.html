@@ -22,7 +22,18 @@ Element providing solution to no problem in particular.
 
     <div class="card" layout vertical>
       <!-- top panel -->
-      <section class="top" layout centre-justified horizontal>
+      <section class="top">
+        <a href="{{tweet | tweetLink}}" target="_blank">See tweet on Twitter.com</a>
+        <span>Embed Code (alpha feature): </span>
+        <textarea id="embedCode" cols="30" rows="1">
+<blockquote class="twitter-tweet" data-conversation="none" data-cards="hidden" data-partner="ferret">
+<p>{{tweet.text}}</p>&mdash; {{tweet.username}} (&#64;{{tweet.username}}) <a href="{{tweet | tweetLink}}">{{tweet | formatTwitterDate}}</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </textarea>
+      </section>
+      <!-- middle panel -->
+      <section class="middle" layout centre-justified horizontal>
         <img class="profile-pic" src="{{tweet.user.profile_image_url}}" alt="Profile Picture">
         <div class="name">
           <p class="tw-username"><a href="{{tweet.user.url}}">{{tweet.user.name}}</a></p>
@@ -84,6 +95,16 @@ Element providing solution to no problem in particular.
         }
       },
       /**
+       * Generates the link to the specific tweet
+       **/
+       tweetLink: function(tweet) {
+        if(tweet && tweet.id_str) {
+          return "https://twitter.com/l/statuses/" + tweet.id_str;
+        } else {
+          return "/";
+        }
+       },
+      /**
        * Produces icon src url
        * true -> tick, false -> cross
        * To be used as a filter, eg:
@@ -93,6 +114,21 @@ Element providing solution to no problem in particular.
         var tick = 'components/lp-tweet-info/img/icon-tick.svg'
         var cross = 'components/lp-tweet-info/img/icon-cross.svg'
         return arg ? tick : cross;
+      },
+      embedCode: function() {
+        //
+      },
+      /**
+       * Formats the date of a tweet for display
+       * along with other meta data.
+       * To be used as a filter, eg:
+       * {{tweet.created_at | formatTwitterDate}}
+       **/
+      formatTwitterDate: function(twitterDate) {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var dateStamp = new Date(twitterDate);
+        var dateStr = dateStamp.getDate() + " " + months[dateStamp.getMonth()] + " " + dateStamp.getFullYear();
+        return dateStr;
       }
     });
 
