@@ -73,6 +73,11 @@ router.get('/select', function(req, res){
   }
 
   new twitter(key).getSampleAtTime(term, time)
+  .then(function(sample){
+    req.session.minid = sample.minid;
+    req.session.term = term;
+    return Q(sample);
+  })
   .then(db.tweetsForSample)
   .then(function(tweets){
     res.json(tweets);
@@ -80,4 +85,34 @@ router.get('/select', function(req, res){
   });
 });
 
+router.get('/next', function(req, res){
+  if(req.session.passport.user){
+    console.log(JSON.stringify(req.session));
+    var key = new auth.key().withUserAccess(
+      req.session.passport.user.token,
+      req.session.passport.user.tokenSecret
+    );
+  } else {
+    res.json({err: "Not signed in"});
+    res.end();
+    return;
+  }
+  
+  if(!req.session.minid){
+    res.json({err: "Who are you?"});
+    res.end();
+    return;
+  }
+
+  new twitter(key).getSampleFromId(req.session.term, req.session.minid)
+    .then(function(sample){
+      req.session.minid = sample.minid;
+      return Q(sample);
+    })
+    .then(db.tweetsForSample)
+    .then(function(tweets){
+      res.json(tweets);
+      res.end();
+    });
+});
 module.exports = router;
