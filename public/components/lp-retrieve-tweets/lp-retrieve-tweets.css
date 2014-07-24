@@ -6,3 +6,16 @@ paper-button {
 	background: #fff;
 	margin-bottom: 20px;
 }
+
+#retrieve {
+    background: #00B7FF;
+    color: #fff;
+}
+
+#retrieve:hover {
+    background: #2a56c6;
+}
+
+#retrieve::shadow #ripple {
+    color: #2a56c6;
+}
