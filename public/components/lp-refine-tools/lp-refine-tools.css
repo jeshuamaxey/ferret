@@ -1,7 +1,8 @@
 :host {
   display: block;
 
-  margin-top: 50px;
+  min-width: 600px;
+	min-height: 300px;
 
 	background: #fff;
 }
@@ -25,5 +26,5 @@
 }
 
 .lp-tools-wrapper {
-	padding: 0 40px;
+	padding: 0 40px 30px 40px;
 }

@@ -54,23 +54,17 @@ Element providing solution to no problem in particular.
 
       retrieveTweets: function() {
         this.params.term = this.query;
-        this.params.start = this.range[0].getTime();
-        this.params.end = this.range[1].getTime();
+        this.params.start = this.range[0].getTime()*1;
+        this.params.end = this.range[1].getTime()*1;
         console.log(this.params)
         this.auto = true;
       },
 
       handleResponse: function() {
+        console.log(this.response)
         this.tweets = typeof this.response == 'string' ? JSON.parse(this.response) : this.response;
         this.fire('lp-review-initiated');
       }
-
-      /**
-       * The `aProp` is a property that does something cool.
-       *
-       * @property aProp
-       * @type bool
-       */
 
     });
 

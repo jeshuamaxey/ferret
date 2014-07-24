@@ -19,7 +19,6 @@ Element providing solution to no problem in particular.
 
     <link rel="stylesheet" href="lp-graph.css" />
   
-    <!-- <img class="logo" src="img/logo.png" alt="Ferret"> -->
     <img id="loading" class="loading" src="img/loading.gif" alt="loading">
     <div id="graph" class="graph"></div>
 
@@ -56,7 +55,7 @@ Element providing solution to no problem in particular.
         //this ought to be calculated via js detecting element dimensions
         //and be wrappeded in a function which is called on window resizing
         var margin = {top: 50, right: 50, bottom: 50, left: 50},
-            width = 500;
+            width = 500,
             height = 200;
 
         var parseDate = d3.time.format("%d-%b-%y").parse;
@@ -73,7 +72,8 @@ Element providing solution to no problem in particular.
 
         var yAxis = d3.svg.axis()
             .scale(y)
-            .orient("left");
+            .orient("left")
+            .ticks(0);
 
         var line = d3.svg.line()
             .x(function(d) { return x(d.date); })
@@ -84,12 +84,17 @@ Element providing solution to no problem in particular.
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
-        //console.log(typeof this.series);
+            
         //format data
-        // var data = this.series; //used for fake data
-        var data = JSON.parse(this.series) //used for real (api) data
-        //typeof this.series != 'object' ? data = JSON.parse(this.series) : data = this.series;
+        var data;
+        if(typeof this.series === 'object') {
+          //used for fake data
+          data = this.series;
+        } else {
+          //used for real (api) data
+          data = JSON.parse(this.series);
+        }
+        
         data.forEach(function(d) {
           //convert date to milliseconds
           d.date = new Date(parseInt(d.date));
@@ -112,7 +117,7 @@ Element providing solution to no problem in particular.
             .attr("y", 6)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
-            .text("Tweets per hour");
+            .text("Tweet frequency");
 
         glob.svg.append("path")
             .datum(data)

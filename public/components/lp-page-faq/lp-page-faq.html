@@ -1,22 +1,22 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <link rel="import" href="../lp-site-banner/lp-site-banner.html">
-<link rel="import" href="../lp-faq-card/lp-faq-card.html">
+<link rel="import" href="../lp-card-page/lp-card-page.html">
 <link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
 
 <!--
-Element providing solution to no problem in particular.
+FAQ page of Ferret website
 
 ##### Example
 
     <lp-page-faq></lp-page-faq>
 
 @element lp-page-faq
-@blurb Element providing solution to no problem in particular.
+@blurb FAQ page of Ferret website
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-page-faq
 -->
-<polymer-element name="lp-page-faq" attributes="notitle">
+<polymer-element name="lp-page-faq" noscript>
 
   <template>
 
@@ -24,20 +24,38 @@ Element providing solution to no problem in particular.
 
     <lp-site-banner></lp-site-banner>
   
-    <div class="content">
-      <lp-faq-card></lp-faq-card>
-    </div>
+    <lp-card-page>
+      <h2>Ferret FAQs</h2>
+      
+      <div>    
+        <h3>Why do I need to sign in to use Ferret?</h3>
+        <p>Twitter imposes a limit on the number of searches that can be done by any one person in a 15 minute period.</p>
+        <p>If we let everyone run their searches without logging in, this limit would be hit on the @ferretapp account in no time at all. So getting everyone to sign in is a way of making it fairer, and improving access for everyone.</p>
+      </div>
+
+      <div>
+        <h3>Why did the tool stop working for me?</h3>
+        <p>There could be a lot of reasons :)</p>
+
+        <p>Most likely is that you used up the limited number of searches which Twitter allows anyone to carry out in a 15 minute period (see above question)</p>
+
+        <p>We calculate that everyone can do around five or six searches in a 15 minute period - maybe a little more, maybe a little less. If you hit the limit, after 15 minutes you should be able to search again, without you having to refresh to page, or log back in.</p>
+
+        <p>If you think the problem you’re experiencing is something else, let us know @ferretapp.</p>
+      </div>
+
+      <div>
+        <h3>Can I contribute to the development of Ferret?</h3>
+        <p>Absolutely.</p>
+
+        <p>The tool is available <a href="http://github.com/jeshuamaxey/ferret">open-source under the MIT licence</a>, so you’re welcome to use it as the basis for something new.</p>
+
+        <p>We’ve no plans to add more features for now, but if there’s something you think should be added to Ferret then do get in touch <a href="https://twitter.com/ferretapp">&#64;ferretapp</a>.</p>
+      </div>
+    </lp-card-page>
 
     <lp-homepage-links></lp-homepage-links>
 
   </template>
-
-  <script>
-
-    Polymer('lp-page-faq', {
-
-    });
-
-  </script>
 
 </polymer-element>

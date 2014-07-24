@@ -1,18 +1,18 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <link rel="import" href="../lp-site-banner/lp-site-banner.html">
-<link rel="import" href="../lp-about-card/lp-about-card.html">
+<link rel="import" href="../lp-card-page/lp-card-page.html">
 <link rel="import" href="../lp-homepage-links/lp-homepage-links.html">
 
 <!--
-Element providing solution to no problem in particular.
+About page of the Ferret website
 
 ##### Example
 
     <lp-page-about></lp-page-about>
 
 @element lp-page-about
-@blurb Element providing solution to no problem in particular.
+@blurb About page of the Ferret website
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-page-about
 -->
@@ -24,9 +24,51 @@ Element providing solution to no problem in particular.
 
     <lp-site-banner></lp-site-banner>
 
-    <div class="content">
-      <lp-about-card></lp-about-card>
-    </div>
+    <lp-card-page>
+      <h2>About Ferret</h2>
+      
+      <section>    
+        <h3>Be first to breaking news on Twitter.</h3>
+        <p>Ferret helps you filter the noise on Twitter and get closer to what’s important, fast. </p>
+        <p>Whether you’re looking for original tweets and pictures from a breaking news event, or monitoring a campaign or promotion, Ferret graphs the number of tweets on any given search term, and allows you to retrieve only those tweets sent in a time period you choose.</p>
+        <p>Filtering options then help strip out more of what you don’t want, before sharing or embedding what you find.</p>
+      </section>
+
+      <section>
+        <em>Ferret is currently in alpha. It doesn't work perfectly but we're working to improve it daily. Any comments to <a href="http://twitter.com/ferretapp">&#64;FerretApp</a> would be greatly appreciated.</em>
+      </section>
+
+      <section>
+        <p>
+        	<img class="pull-right" src="/img/s-times-logo.svg" alt="The Times &amp; The Sunday Times">
+        	Ferret was the winning app at Build The News – <a href="http://timesdigitaldevelopment.tumblr.com/post/77906495813/build-the-news-event-update">a hackathon put on by The Times and The Sunday Times</a> in February 2014. It was originally called ‘Low Pass’ and was then developed further with the support of Nick Petrie and the rest of The Times/Sunday Times digital development team. More details of its development can be found in these <a href="http://jeshua.co/build-the-news/">two</a> <a href="http://timesdigitaldevelopment.tumblr.com/post/85809624900/our-week-working-on-low-pass-with-the-times-and-sunday">blogposts</a>.
+        </p>
+      </section>
+
+      <section>
+        <h3>Who built Ferret?</h3>
+        <p>Ferret was built by:
+          <ul>
+            <li><a href="http://twitter.com/gdcharles">Giovanni Charles</a></li>
+            <li><a href="http://twitter.com/jeshuamaxey">Jeshua Maxey</a></li>
+            <li><a href="http://twitter.com/philipnye">Philip Nye</a></li>
+            <li><a href="http://twitter.com/ashmpace">Ashley Pace</a></li>
+            <li><a href="http://twitter.com/kadhimshubber">Kadhim Shubber</a></li>
+          </ul>
+        </p>
+      </section>
+
+      <section>
+        <h3>What are the terms of use?</h3>
+        <p>Ferret is open source, and available for reuse under the MIT licence. <a href="http://github.com/jeshuamaxey/ferret">All the code can be found on GitHub.</a></p>
+      </section>
+
+      <section>
+        <h3>Credits and further thanks</h3>
+        <p>Ferret’s logo is (lightly) adapted from Dan Stack’s Ferret icon from the Noun Project.</p>
+        <p>Thanks to Joanna Geary at Twitter, Josh Miller at Facebook, and Gavin Sheridan from Storyful for their time and advice.</p>
+      </section>
+    </lp-card-page>
 
     <lp-homepage-links></lp-homepage-links>
     

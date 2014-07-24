@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+.card {
+	padding: 40px;
+	background-color: #fff;
+}
+
+/**
+ * All styles relating to page content
+ **/
+::content section {
+	margin: 40px 0;
+}
+
+::content section p, ::content section em {
+	padding-left: 15px;
+}
+
+::content img {
+	max-width: 300px;
+	margin: 0 40px 20px;
+}
+
+::content .pull-left {
+	float: left;
+}
+
+::content .pull-right {
+	float: right;
+}
+
+/**
+ * Columns
+ **/
+::content .col {
+  padding: 20px;
+}
+
+/**
+ * Stop paper shadow swallowing all click
+ * events and breaking links and forms
+ **/
+.paper-shadow {
+	pointer-events: none;
+}

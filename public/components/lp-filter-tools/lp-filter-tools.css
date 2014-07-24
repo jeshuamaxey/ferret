@@ -9,3 +9,12 @@
 	bottom: 5px;
 	float: right;
 }
+
+/*colour paper-radio-buttons with ferret blue*/
+paper-radio-button::shadow #onRadio {
+	background-color: rgb(0, 183, 255);
+}
+
+paper-radio-button::shadow #ink[checked] {
+	color: rgb(0, 183, 255);
+}

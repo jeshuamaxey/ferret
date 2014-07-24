@@ -3,6 +3,12 @@
   max-width: 100%;
 
   font-size: 12px;
+
+  margin-bottom: 50px;
+}
+
+.paper-shadow {
+	pointer-events: none;
 }
 
 .card {
@@ -11,6 +17,22 @@
 
 /*top panel*/
 .top {
+	background: #fff;
+	padding: 10px 10px 20px 10px;
+}
+
+.top a {
+	margin-right: 20px;
+}
+
+.top textarea {
+	position: relative;
+	top: 5px;
+	border-radius: 3px;
+}
+
+/*middle panel*/
+.middle {
 	padding: 0 10px;
 
 	background: #444;
