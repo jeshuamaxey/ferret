@@ -15,3 +15,7 @@
 .tw-login::shadow #ripple {
     color: #2a56c6;
 }
+
+paper-button::shadow #content {
+	padding: 2px 5px 0px 5px;
+}
