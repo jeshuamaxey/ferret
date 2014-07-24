@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+paper-button {
+	background: #fff;
+	margin-bottom: 20px;
+}
+
+#more {
+    background: #00B7FF;
+    color: #fff;
+}
+
+#more:hover {
+    background: #2a56c6;
+}
+
+#more::shadow #ripple {
+    color: #2a56c6;
+}
