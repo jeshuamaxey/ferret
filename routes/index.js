@@ -1,6 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
+/*redirect for the sake of sessions*/
+router.get('/*', function(req, res, next) {
+  if (req.headers.host.match(/^www\./) != null) {
+    res.redirect("http://" + req.headers.host.slice(4) + req.url, 301);
+  } else {
+    next();
+  }
+});
+
 /* GET home page. */
 router.get('/', function(req, res) {
   if(req.session.passport.user){
