@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /*redirect for the sake of sessions*/
-app.get('/*', function(req, res, next) {
+router.get('/*', function(req, res, next) {
   if (req.headers.host.match(/^www\./) != null) {
     res.redirect("http://" + req.headers.host.slice(4) + req.url, 301);
   } else {
