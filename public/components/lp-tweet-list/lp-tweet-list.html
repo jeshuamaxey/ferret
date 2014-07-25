@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../lp-tweet/lp-tweet.html">
+<link rel="import" href="../lp-more-tweets/lp-more-tweets.html">
 
 <!--
 Element providing solution to no problem in particular.
@@ -22,6 +23,8 @@ Element providing solution to no problem in particular.
     <template repeat="{{tweet in tweets}}">
       <lp-tweet id="{{tweet.id}}" tweet="{{tweet}}" on-tap="{{chooseTweet}}" selected="false"></lp-tweet>
     </template>
+
+    <lp-more-tweets label="Load more tweets" tweets="{{moreTweets}}"></lp-more-tweets>
     
 
   </template>
@@ -32,6 +35,7 @@ Element providing solution to no problem in particular.
       'filterBy': 'none',
       'sortBy': 'recent',
       'allTweets': [],
+      'moreTweets': null,
       /*
        * Store a backup of all tweets the first time they come in
        **/
@@ -51,6 +55,9 @@ Element providing solution to no problem in particular.
         // add attr to affect css
         // console.log(e.srcElement.selected)
         // e.srcElement.selected = true
+      },
+      moreTweetsChanged: function() {
+        this.tweets = this.tweets.concat(this.moreTweets);
       },
       /**
        * An object containing all the filter functions

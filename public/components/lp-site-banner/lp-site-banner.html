@@ -14,7 +14,7 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://jeshuamaxey.github.io/lp-site-banner
 -->
-<polymer-element name="lp-site-banner" noscript>
+<polymer-element name="lp-site-banner" attributes="query">
 
   <template>
 
@@ -22,9 +22,18 @@ Element providing solution to no problem in particular.
 
     <header id="leadCopy" class="leadCopy">
       <a href="/"><img class="logo" src="img/logo.png" alt="Ferret"></a>
+      <template if="{{query}}">
+      	<span class="query">"{{query}}"</span>
+      </template>
       <paper-shadow z="1"></paper-shadow>
     </header>
 
   </template>
+
+  <script>
+  	Polymer('lp-site-banner', {
+      'query': null
+    });
+  </script>
 
 </polymer-element>
