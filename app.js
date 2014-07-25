@@ -76,8 +76,4 @@ app.use(function(err, req, res, next) {
     });
 });
 
-var http = require('http');
-var server = http.createServer(app);
-server.listen(3000);
-
 module.exports = app;
