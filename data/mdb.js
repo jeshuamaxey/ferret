@@ -34,6 +34,19 @@ var twitterdb = {
     return Q(samples.find({},{sort: {time: 1}}));
   },
 
+  getSampleBefore: function(term, time){
+    return Q(samples.find(
+      {
+        term: term, 
+        time: {$lte: time}
+      },
+      {sort: {time: 1}}
+    ))
+    .then(function(samples){
+      return Q(samples[samples.length-1]);
+    });
+  },
+
   storeTweets: function(term, newTweets){
     for (var t in newTweets){
      newTweets[t].lpterm = term;
