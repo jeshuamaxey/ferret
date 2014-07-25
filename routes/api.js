@@ -1,4 +1,5 @@
 var express = require('express');
+var Q = require('q');
 var router = express.Router();
 var auth = require('./auth');
 var series = require('../data/series');
@@ -72,15 +73,20 @@ router.get('/select', function(req, res){
     return;
   }
 
-  new twitter(key).getSampleAtTime(term, time)
+  db.getSampleBefore(term, time)
   .then(function(sample){
     req.session.minid = sample.minid;
     req.session.term = term;
-    return Q(sample);
+    return Q({sample: sample});
   })
   .then(db.tweetsForSample)
   .then(function(tweets){
     res.json(tweets);
+    res.end();
+  })
+  .fail(function(reason){
+    console.log(reason);
+    res.json({err: reason});
     res.end();
   });
 });
