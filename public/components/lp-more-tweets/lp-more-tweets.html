@@ -28,7 +28,10 @@ Element providing solution to no problem in particular.
       on-core-response="{{handleResponse}}">
     </core-ajax>
 
-    <paper-button id="more" label="{{label}}" on-tap="{{retrieveMoreTweets}}" raisedButton></paper-button>
+    <div class="container" horizontal center-justified layout>
+      <paper-button id="more" label="{{label}}" on-tap="{{retrieveMoreTweets}}" raisedButton></paper-button>
+      <img id="loading" class="loading" src="img/loading.gif" alt="Loading" hidden>
+    </div>
 
   </template>
 
@@ -46,10 +49,13 @@ Element providing solution to no problem in particular.
 
       retrieveMoreTweets: function() {
         this.auto = true;
+        this.$.more.hidden = true;
+        this.$.loading.hidden = false;
       },
 
       handleResponse: function() {
-        console.log("MOAR TWEETS", this.response);
+        this.$.more.hidden = false;
+        this.$.loading.hidden = true;
         this.tweets = typeof this.response == 'string' ? JSON.parse(this.response) : this.response;
       }
 

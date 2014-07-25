@@ -2,20 +2,29 @@
   display: block;
 }
 
-paper-button {
-	background: #fff;
+paper-button, .loading {
+	margin-top: 10px;
 	margin-bottom: 20px;
 }
 
+paper-button {
+	background: #fff;
+}
+
 #more {
-    background: #00B7FF;
-    color: #fff;
+  background: #00B7FF;
+  color: #fff;
 }
 
 #more:hover {
-    background: #2a56c6;
+	background: #2a56c6;
 }
 
 #more::shadow #ripple {
-    color: #2a56c6;
+	color: #2a56c6;
+}
+
+.loading {
+	width: 40px;
+	height: 40px;
 }
