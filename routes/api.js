@@ -46,6 +46,7 @@ router.get('/search', function(req, res){
       res.end();
     })
     .fail(function(reason){
+      console.log(reason);
       res.json({err: reason.message});
       res.end();
     });

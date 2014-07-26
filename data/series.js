@@ -10,27 +10,43 @@ var sampler = {
     for (var time = start; time > end; time -= 24*60*60*1000){
       allSamples.push(twitter.getSampleFromDate(term, time));
     }
-    return this.settleSeries(allSamples);
+    return this.settleAndPrettify(allSamples);
   },
 
   getDaySamples: function(term, start, end, key){
+    var me = this;
     var twitter = new t(key);
     var allSamples = [];
     for (var time = start; time > end; time -= 24*60*60*1000){
       allSamples.push(twitter.getSampleFromDate(term, time));
     }
     //TODO:change settle to not prettify
-    return this.settleSeries(allSamples)
+    return me.settleSeries(allSamples)
+    .then(me.stripSamples)
     .then(function(series){
       //now lets fill in the gaps
-      fillers = [];
-      for (var s = 1; s < series.length -1){
-        var id = series[s-1].minid + series[s].maxid;
+      fillers = []; 
+      for (var s = 1; s < series.length - 1; s++){
+        var id = series[s-1].minid/2 + series[s].maxid/2;
         fillers.push(twitter.getSampleFromId(term, id));
       }
-      return this.settleSeries(fillers)
+      return me.settleSeries(fillers)
       .then(function(extraSeries){
-
+        console.log(extraSeries);
+        console.log(series);
+        return me.stripSamples(extraSeries)
+        .then(function(extraSamples){
+          return Q(series.concat(extraSamples)
+                   .sort(function(a, b){
+                     if(a.time < b.time){
+                       return -1;
+                     } else if (a.time > b.time){
+                       return 1;
+                     }
+                     return 0;
+                   }));
+        })
+        .then(me.prettifySeries);
       });
     })
   },
@@ -49,7 +65,13 @@ var sampler = {
       allSamples.push(twitter.getSampleAtTime(term, time, allow, references));
     }
 
-    return this.settleSeries(allSamples);
+    return this.settleAndPrettify(allSamples);
+  },
+
+  settleAndPrettify: function(samplePromises){
+    return this.settleSeries
+    .then(this.stripSamples)
+    .then(this.prettifySeries);
   },
 
   settleSeries: function(allSamples){
@@ -63,12 +85,25 @@ var sampler = {
             }
             return sample.state === "fulfilled";
           })
-          .map(function(sample){
-          var s = sample.value.sample;
-          return {date: s.time, tps: s.idrate};
-          })
           );
       });
+  },
+
+  
+  stripSamples: function(promises){
+    return Q(
+      promises.map(function(promise){
+        return promise.value.sample;
+      })
+    );
+  },
+
+  prettifySeries: function(samples){
+    return Q(
+      samples.map(function(s){
+        return {date: s.time, tps: s.idrate};
+      })
+    );
   }
 
 }
