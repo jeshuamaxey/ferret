@@ -18,9 +18,8 @@ var sampler = {
     var twitter = new t(key);
     var allSamples = [];
     for (var time = start; time > end; time -= 24*60*60*1000){
-      allSamples.push(twitter.getSampleFromDate(term, time));
+      allSamples.push(twitter.getCachedSampleFromDate(term, time));
     }
-    //TODO:change settle to not prettify
     return me.settleSeries(allSamples)
     .then(me.stripSamples)
     .then(function(series){
@@ -32,24 +31,26 @@ var sampler = {
       }
       return me.settleSeries(fillers)
       .then(function(extraSeries){
-        console.log(extraSeries);
-        console.log(series);
         return me.stripSamples(extraSeries)
         .then(function(extraSamples){
-          return Q(series.concat(extraSamples)
-                   .sort(function(a, b){
-                     if(a.time < b.time){
-                       return -1;
-                     } else if (a.time > b.time){
-                       return 1;
-                     }
-                     return 0;
-                   }));
+          return Q(me.mergeSamples([samples, extraSamples]));
         })
         .then(me.prettifySeries);
       });
     })
   },
+
+  mergeSamples: function(sampleArray){
+    return [].concat.apply([], sampleArray)
+    .sort(function(a, b){
+      if(a.time < b.time){
+        return -1;
+      } else if (a.time > b.time){
+        return 1;
+      }
+      return 0;
+    });
+  }
 
   getSeriesFromSamples: function(term, start, end, key){
     var twitter = new t(key);

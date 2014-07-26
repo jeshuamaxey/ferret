@@ -125,30 +125,33 @@ twitter.prototype.getSamplesAroundTime = function(term, time){
 
 twitter.prototype.getCachedSampleFromId = function(search, id){
   var me = this;
+  //likely to miss
   return db.haveSampleForId(search, id)
-    .then(function(sample){
-      if(!sample){
-        return me.getSampleFromId(search, id)
-      } else {
-        console.log('have sample');
-        return Q(sample);
-      }
-    });
+  .then(function(sample){
+    if(sample){
+      return me.bundleise(sample);
+    }
+    return me.getSampleFromId(search, id)
+  });
 };
 
 twitter.prototype.getCachedSampleFromDate = function(search, time){
   var me = this;
   return db.haveSampleForDate(search, time)
-         .then(function(sample){
-           if(sample){
-             return db.tweetsForSample(sample)
-              .then(function(tweets){
-                return Q({sample:sample, tweets:tweets});
-              });
-           }
-           return me.getSampleFromDate(search, time);
-         });
+  .then(function(sample){
+    if(sample){
+      return me.bundleise(sample);
+    }
+    return me.getSampleFromDate(search, time);
+  });
 };
+
+twitter.prototype.bundleise = function(sample){
+  return db.tweetsForSample(sample)
+  .then(function(tweets){
+    return Q({sample:sample, tweets:tweets});
+  });
+}
 
 twitter.prototype.sampleFromTweets = function(term, tweets){
   var avgTime = 0;
@@ -204,16 +207,16 @@ twitter.prototype.makeSample = function(query){
   var me = this;
   console.log(query);
   return Q.ninvoke(this.T, "get", 'search/tweets', query)
-    .then(function(response){
-      var tweets = response[0].statuses;
-      console.log(tweets.length);
-      var term = query.q;
-      tweets.map(function(t){
-        t.lpterm = query.q;
-        t.lptime = new Date(t.created_at).getTime();
-      });
-      return me.sampleFromTweets(term, tweets);
+  .then(function(response){
+    var tweets = response[0].statuses;
+    console.log(tweets.length + ' tweets recieved');
+    var term = query.q;
+    tweets.map(function(t){
+      t.lpterm = query.q;
+      t.lptime = new Date(t.created_at).getTime();
     });
+    return me.sampleFromTweets(term, tweets);
+  });
 };
 
 twitter.prototype.finished = function(){
