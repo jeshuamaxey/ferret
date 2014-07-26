@@ -23,7 +23,11 @@ Element providing solution to no problem in particular.
     <div class="card" layout vertical>
       <!-- top panel -->
       <section class="top">
-        <a href="{{tweet | tweetLink}}" target="_blank">See tweet on Twitter.com</a>
+        <span><a href="{{tweet | tweetLink}}" target="_blank">Link to Tweet (alpha feature):</a></span>
+        <textarea id="embedCode" cols="30" rows="1">
+{{tweet | tweetLink}}
+        </textarea>
+        <br>
         <span>Embed Code (alpha feature): </span>
         <textarea id="embedCode" cols="30" rows="1">
 <blockquote class="twitter-tweet" data-conversation="none" data-cards="hidden" data-partner="ferret">

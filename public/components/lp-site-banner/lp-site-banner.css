@@ -11,6 +11,11 @@ header {
 	padding: 5px;
 }
 
+.query {
+	position: relative;
+	bottom: 18px;
+}
+
 .paper-shadow {
 	pointer-events: none;
 }

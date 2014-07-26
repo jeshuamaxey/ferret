@@ -1,0 +1,66 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <lp-more-tweets></lp-more-tweets>
+
+@element lp-more-tweets
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://jeshuamaxey.github.io/lp-more-tweets
+-->
+<polymer-element name="lp-more-tweets" attributes="label tweets">
+
+  <template>
+
+    <link rel="stylesheet" href="lp-more-tweets.css" />
+
+    <core-ajax
+      auto="{{auto}}"
+      url="{{url}}"
+      handleAs="json"
+      response="{{response}}"
+      on-core-response="{{handleResponse}}">
+    </core-ajax>
+
+    <div class="container" horizontal center-justified layout>
+      <paper-button id="more" label="{{label}}" on-tap="{{retrieveMoreTweets}}" raisedButton></paper-button>
+      <img id="loading" class="loading" src="img/loading.gif" alt="Loading" hidden>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer('lp-more-tweets', {
+
+      'auto': false,
+      'response': null,
+
+      ready: function() {
+        console.log("hello!")
+        this.url = window.location.origin + '/api/next';
+      },
+
+      retrieveMoreTweets: function() {
+        this.auto = true;
+        this.$.more.hidden = true;
+        this.$.loading.hidden = false;
+      },
+
+      handleResponse: function() {
+        this.$.more.hidden = false;
+        this.$.loading.hidden = true;
+        this.tweets = typeof this.response == 'string' ? JSON.parse(this.response) : this.response;
+      }
+
+    });
+
+  </script>
+
+</polymer-element>

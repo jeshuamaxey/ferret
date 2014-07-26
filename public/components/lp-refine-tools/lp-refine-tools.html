@@ -35,7 +35,7 @@ Element providing solution to no problem in particular.
       </div>
       
       <div class="lp-retrieve-wrapper" horizontal center-justified layout>
-        <lp-retrieve-tweets id="retrieveTweets"
+        <lp-retrieve-tweets id="retrieveTweets" hidden
           query="{{query}}"
           range="{{dateRange}}"
           tweets="{{tweets}}"
@@ -67,6 +67,12 @@ Element providing solution to no problem in particular.
       modeChanged: function() {
         if(this.mode === 'main') {
           this.$.lpToolsWrapper.hidden = false;
+        }
+      },
+
+      plottedChanged: function() {
+        if(this.plotted) {
+          this.$.retrieveTweets.hidden = false;
         }
       }
     });
