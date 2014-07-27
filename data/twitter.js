@@ -7,13 +7,13 @@ function twitter(key) {
 };
 
 twitter.prototype.getSampleFromId = function(search, id){
-  var query = { q: search, result_type: 'recent'};
+  var query = {q: search, result_type: 'recent'};
   query.max_id = id;
   return this.makeSample(query);
 };
 
 twitter.prototype.getSampleFromDate = function(search, time){
-  var query = { q: search, result_type: 'recent'};
+  var query = {q: search, result_type: 'recent'};
   var d = new Date(time);
   var de = new Date(time - 24*60*60*1000);
   var ds = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
@@ -31,29 +31,29 @@ twitter.prototype.guessSample = function(term, time, ref){
   }
 
   return ref
-         .fail(function(reason){
-           console.log(reason.message);
-           console.log('trying more specific reference');
-           return me.getSamplesAroundTime(term, time)
-         })
-         .then(function(samples){
-           //A < B
-           var sampleA = samples[0];
-           var sampleB = samples[1];
+  .fail(function(reason){
+    console.log(reason.message);
+    console.log('trying more specific reference');
+    return me.getSamplesAroundTime(term, time)
+  })
+  .then(function(samples){
+    //A < B
+    var sampleA = samples[0];
+    var sampleB = samples[1];
 
-           estimatedId = sampleA.minid + 
-             (sampleB.maxid - sampleA.minid)*
-             (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);
-         console.log('' + sampleA.minid + ' ' + sampleB.maxid);
-         console.log('' + new Date(sampleA.mintime) + ' ' + new Date(sampleB.maxtime));
-         console.log(estimatedId);
+    estimatedId = sampleA.minid + 
+      (sampleB.maxid - sampleA.minid)*
+      (time - sampleA.mintime)/(sampleB.maxtime - sampleA.mintime);
+    console.log('' + sampleA.minid + ' ' + sampleB.maxid);
+    console.log('' + new Date(sampleA.mintime) + ' ' + new Date(sampleB.maxtime));
+    console.log(estimatedId);
 
-           return me.getCachedSampleFromId(term, estimatedId)
-           .fail(function(reason){
-             console.log(JSON.stringify(reason));
-             return Q({sample:{time:time, density:0}});
-           });
-         });
+    return me.getCachedSampleFromId(term, estimatedId)
+    .fail(function(reason){
+      console.log(JSON.stringify(reason));
+      return Q({sample:{time:time, density:0}});
+    });
+  });
 };
 
 twitter.prototype.getSampleAtTime = function(search, time, allow, ref){

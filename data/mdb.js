@@ -191,7 +191,10 @@ var twitterdb = {
   },
 
   haveSampleForDate: function(term, time){
-    return samples.findOne({term: term, time: dayFilter(time)});
+    return samples.findOne(
+      {term: term, time: dayFilter(time)},
+      {sort: {time: 1}}
+    );
   },
 
   haveTweetsForDate: function(term, time){
@@ -199,7 +202,7 @@ var twitterdb = {
   },
 
   tweetsForSample: function(sample){
-    var id = samples.id(sample.sample._id);
+    var id = samples.id(sample._id);
     return tweets.find({lpsample: id});
   },
 

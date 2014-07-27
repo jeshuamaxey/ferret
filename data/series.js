@@ -33,7 +33,7 @@ var sampler = {
       .then(function(extraSeries){
         return me.stripSamples(extraSeries)
         .then(function(extraSamples){
-          return Q(me.mergeSamples([samples, extraSamples]));
+          return Q(me.mergeSamples([series, extraSamples]));
         })
         .then(me.prettifySeries);
       });
@@ -44,13 +44,13 @@ var sampler = {
     return [].concat.apply([], sampleArray)
     .sort(function(a, b){
       if(a.time < b.time){
-        return -1;
-      } else if (a.time > b.time){
         return 1;
+      } else if (a.time > b.time){
+        return -1;
       }
       return 0;
     });
-  }
+  },
 
   getSeriesFromSamples: function(term, start, end, key){
     var twitter = new t(key);
