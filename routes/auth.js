@@ -6,8 +6,21 @@ var router = express.Router();
 var passport = require('passport')
 var OAuthStrategy = require('passport-oauth').OAuthStrategy;
 
-var accessfile = path.join (__dirname, 'twitterapi.json');
-var twitteraccess = JSON.parse(fs.readFileSync(accessfile, 'utf8'));
+var twitteraccess;
+
+try {
+  var accessfile = path.join (__dirname, 'twitterapi.json');
+  twitteraccess = JSON.parse(fs.readFileSync(accessfile, 'utf8'));
+} catch (err) {
+  twitteraccess = {
+    key: process.env.FERRET_KEY,
+    keySecret: process.env.FERRET_KEY_SECRET,
+    token: process.env.FERRET_TOKEN,
+    tokenSecret: process.env.FERRET_TOKEN_SECRET,
+    callbackURL: (process.env.FERRET_HOST || "http://localhost:3000") 
+    + "/auth/twitter/callback"
+  }
+}
 
 passport.use('twitter', new OAuthStrategy({
     //authorizationURL: 'https://www.provider.com/oauth2/authorize',
