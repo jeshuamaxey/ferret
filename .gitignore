@@ -26,6 +26,7 @@ r.js
 
 #twitter api key
 twitterapi.json
+ferretenv.sh
 
 #ignore
 *.swp
