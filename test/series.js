@@ -3,6 +3,8 @@ var series = require('../data/series');
 var auth = require('../routes/auth');
 require('../data/mdb').clear();
 
+var TERM = 'gaza'
+
 describe('series', function(){
 
   describe('#getSeries', function(){
@@ -11,7 +13,7 @@ describe('series', function(){
       var start = Date.now();
       var scale = 5*24*60*60*1000;
       var end = Date.now() - scale;
-      var term = 'neymar';
+      var term = TERM;
       var key = new auth.key().withAppAccess();
       series.getDaySamples(term, start, end, key)
       .then(function(series){
@@ -43,7 +45,7 @@ describe('series', function(){
       var start = Date.now();
       var scale = 5*24*60*60*1000;
       var end = Date.now() - scale;
-      var term = 'neymar';
+      var term = TERM;
       var key = new auth.key().withAppAccess();
       series.getDaySamples(term, start, end, key)
       .then(function(series){

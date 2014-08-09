@@ -57,6 +57,17 @@ var twitterdb = {
     return Q(newTweets);
   },
 
+  storeBundle: function(bundle){
+    return Q.ninvoke(samples, "insert", bundle.sample)
+    .then(function(doc){
+      bundle.tweets.forEach(function(tweet){
+        tweet.lpsample = doc._id;
+      })
+      tweets.insert(bundle.tweets);
+      return Q({tweets: bundle.tweets, sample: doc})
+    });
+  },
+
   storeSample: function(sample, ts){
     return Q.ninvoke(samples, "insert", sample)
     .then(function(doc){

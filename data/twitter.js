@@ -2,6 +2,22 @@ var Q = require('q');
 var Twit = require('twit');
 var db = require('./mdb');
 
+function NoDataError(message) {
+    this.name = 'no data error';
+    this.message = message;
+    this.stack = (new Error()).stack;
+}
+NoDataError.prototype = Error.prototype;
+NoDataError.prototype.constructor = NoDataError;
+
+function WrongDateError(message) {
+    this.name = 'twitter has given tweets with the wrong date';
+    this.message = message;
+    this.stack = (new Error()).stack;
+}
+WrongDateError.prototype = Error.prototype;
+WrongDateError.prototype.constructor = WrongDateError;
+
 function twitter(key) {
   this.T = new Twit(key.data);
 };
@@ -9,10 +25,12 @@ function twitter(key) {
 twitter.prototype.getSampleFromId = function(search, id){
   var query = {q: search, result_type: 'recent'};
   query.max_id = id;
-  return this.makeSample(query);
+  return this.makeSample(query)
+  .then(db.storeBundle);
 };
 
 twitter.prototype.getSampleFromDate = function(search, time){
+  var me = this;
   var query = {q: search, result_type: 'recent'};
   var d = new Date(time);
   var de = new Date(time - 24*60*60*1000);
@@ -20,7 +38,48 @@ twitter.prototype.getSampleFromDate = function(search, time){
   var des = de.getFullYear() + '-' + (de.getMonth() + 1) + '-' + de.getDate();
   query.until = ds;
   query.since= des;
-  return this.makeSample(query);
+  return this.makeSample(query)
+  then(function(bundle){
+    //reject if twitter has messed up
+    var failed = bundle.tweets.some(function(tweet){
+      var tweetDate = new Date(tweet.lptime);
+      return !(
+        tweetDate.getDay() == d.getDay() &&
+        tweetDate.getMonth() == d.getMonth() &&
+        tweetDate.getFullYear() == d.getFullYear() 
+      );
+    })
+    if (failed){
+      throw new WrongDateError();
+    }
+    return Q(bundle);
+  })
+  .then(db.storeBundle);
+  //.fail(function(reason){
+    //if(reason instanceof NoDataError){
+      //return me.zeroPoint(search, time);
+    //}
+    //throw reason;
+  //})
+};
+
+twitter.prototype.zeroPoint = function(search, time){
+  return Q(
+    {
+      sample:
+        {
+          term: search,
+          time: time,
+          minid: 0,
+          maxid: 0,
+          mintime: time,
+          maxtime: time,
+          density: 0,
+          idrate: 0
+        },
+      tweets: []
+    }
+  );
 };
 
 twitter.prototype.guessSample = function(term, time, ref){
@@ -146,7 +205,7 @@ twitter.prototype.getCachedSampleFromDate = function(search, time){
   });
 };
 
-twitter.prototype.bundleise = function(sample){
+twitter.prototype.bundleise = function(sample, tweets){
   return db.tweetsForSample(sample)
   .then(function(tweets){
     return Q({sample:sample, tweets:tweets});
@@ -160,7 +219,7 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
   var maxid = 0;
 
   if (tweets.length < 2){
-    throw new Error('not enough tweets');
+    throw new NoDataError('not enough tweets');
   } else {
     var times = tweets.map(function(t){
       return t.lptime;
@@ -177,7 +236,7 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
       console.log('sample size too small');
       density = tweets.length;
     } else {
-      density = tweets.length / (maxtime - mintime);
+      density = tweets.length / (mintime - maxtime);
     }
 
     var ids = tweets.map(function(t){
@@ -200,7 +259,7 @@ twitter.prototype.sampleFromTweets = function(term, tweets){
      density: density,
      idrate: idrate 
    };
-   return db.storeSample(sample, tweets);
+   return Q(sample);
 };
 
 twitter.prototype.makeSample = function(query){
@@ -215,7 +274,10 @@ twitter.prototype.makeSample = function(query){
       t.lpterm = query.q;
       t.lptime = new Date(t.created_at).getTime();
     });
-    return me.sampleFromTweets(term, tweets);
+    return me.sampleFromTweets(term, tweets)
+    .then(function(sample){
+      return Q({sample: sample, tweets: tweets});
+    });
   });
 };
 

@@ -24,20 +24,20 @@ var sampler = {
     .then(me.stripSamples)
     .then(function(series){
       //now lets fill in the gaps
-      fillers = []; 
+      var fillers = []; 
+
       for (var s = 1; s < series.length - 1; s++){
         var id = series[s-1].minid/2 + series[s].maxid/2;
-        fillers.push(twitter.getSampleFromId(term, id));
+        fillers.push(twitter.getCachedSampleFromId(term, id));
       }
+
       return me.settleSeries(fillers)
-      .then(function(extraSeries){
-        return me.stripSamples(extraSeries)
-        .then(function(extraSamples){
-          return Q(me.mergeSamples([series, extraSamples]));
-        })
-        .then(me.prettifySeries);
-      });
-    })
+      .then(me.stripSamples.bind(me))
+      .then(function(extraSamples){
+        return Q(me.mergeSamples([series, extraSamples]));
+      })
+      .then(me.prettifySeries.bind(me));
+    });
   },
 
   mergeSamples: function(sampleArray){
@@ -82,7 +82,7 @@ var sampler = {
         return Q(samples
           .filter(function(sample){
             if(sample.state === "rejected"){
-              console.log(sample.reason);
+              console.log(sample.reason.stack);
             }
             return sample.state === "fulfilled";
           })
