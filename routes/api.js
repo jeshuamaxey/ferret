@@ -78,7 +78,7 @@ router.get('/select', function(req, res){
   .then(function(sample){
     req.session.minid = sample.minid;
     req.session.term = term;
-    return Q({sample: sample});
+    return Q(sample);
   })
   .then(db.tweetsForSample)
   .then(function(tweets){
@@ -87,7 +87,7 @@ router.get('/select', function(req, res){
   })
   .fail(function(reason){
     console.log(reason.stack);
-    res.json({err: reason});
+    res.json({err: reason.name});
     res.end();
   });
 });
@@ -111,15 +111,21 @@ router.get('/next', function(req, res){
     return;
   }
 
-  new twitter(key).getSampleFromId(req.session.term, req.session.minid)
-    .then(function(sample){
-      req.session.minid = sample.minid;
-      return Q(sample);
+  new twitter(key).getSampleFromId(req.session.term, req.session.minid-1)
+    .then(function(bundle){
+      req.session.minid = bundle.sample.minid;
+      return Q(bundle.tweets);
     })
-    .then(db.tweetsForSample)
     .then(function(tweets){
       res.json(tweets);
       res.end();
+    })
+    .fail(function(reason){
+      console.log(reason.stack);
+      res.json({err: reason.name});
+      res.end();
     });
+
 });
+
 module.exports = router;

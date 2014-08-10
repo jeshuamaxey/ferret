@@ -36,15 +36,15 @@ var twitterdb = {
   },
 
   getSampleBefore: function(term, time){
-    return Q(samples.find(
+    return Q(tweets.findOne(
       {
-        term: term, 
-        time: {$lte: time}
+        lpterm: term,
+        lptime: {$lte: time}
       },
       {sort: {time: 1}}
     ))
-    .then(function(samples){
-      return Q(samples[samples.length-1]);
+    .then(function(tweet){
+      return Q(samples.findById(tweet.lpsample));
     });
   },
 

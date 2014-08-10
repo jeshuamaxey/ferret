@@ -54,20 +54,11 @@ twitter.prototype.getSampleFromDate = function(search, time){
       );
     })
     if (failed){
-      console.log(tweetDate);
-      console.log(d);
-      console.log(de);
       throw new WrongDateError();
     }
     return Q(bundle);
   })
   .then(db.storeBundle);
-  //.fail(function(reason){
-    //if(reason instanceof NoDataError){
-      //return me.zeroPoint(search, time);
-    //}
-    //throw reason;
-  //})
 };
 
 twitter.prototype.zeroPoint = function(search, time){
