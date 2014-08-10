@@ -39,17 +39,24 @@ twitter.prototype.getSampleFromDate = function(search, time){
   query.until = ds;
   query.since= des;
   return this.makeSample(query)
-  then(function(bundle){
+  .then(function(bundle){
     //reject if twitter has messed up
     var failed = bundle.tweets.some(function(tweet){
       var tweetDate = new Date(tweet.lptime);
       return !(
-        tweetDate.getDay() == d.getDay() &&
-        tweetDate.getMonth() == d.getMonth() &&
-        tweetDate.getFullYear() == d.getFullYear() 
+        tweetDate.getDay() === d.getDay() &&
+        tweetDate.getMonth() === d.getMonth() &&
+        tweetDate.getFullYear() === d.getFullYear() 
+      ) && !(
+        tweetDate.getDay() === de.getDay() &&
+        tweetDate.getMonth() === de.getMonth() &&
+        tweetDate.getFullYear() === de.getFullYear() 
       );
     })
     if (failed){
+      console.log(tweetDate);
+      console.log(d);
+      console.log(de);
       throw new WrongDateError();
     }
     return Q(bundle);

@@ -46,7 +46,7 @@ router.get('/search', function(req, res){
       res.end();
     })
     .fail(function(reason){
-      console.log(reason);
+      console.log(reason.stack);
       res.json({err: reason.message});
       res.end();
     });
@@ -86,7 +86,7 @@ router.get('/select', function(req, res){
     res.end();
   })
   .fail(function(reason){
-    console.log(reason);
+    console.log(reason.stack);
     res.json({err: reason});
     res.end();
   });

@@ -64,6 +64,7 @@ var twitterdb = {
         tweet.lpsample = doc._id;
       })
       tweets.insert(bundle.tweets);
+      console.log('stored ' + doc._id + ' ' + bundle.tweets.length);
       return Q({tweets: bundle.tweets, sample: doc})
     });
   },
@@ -184,7 +185,7 @@ var twitterdb = {
     return samples.findOne( 
         {lpterm: term, maxid:{$gte:id}, minid:{$lte:id}})
     .then(function(sample){
-      return me.tweetsForSample(term, sample);
+      return me.tweetsForSample(term, sample);//broken
     });
   },
 
@@ -214,12 +215,13 @@ var twitterdb = {
 
   tweetsForSample: function(sample){
     var id = samples.id(sample._id);
-    return tweets.find({lpsample: id});
+    return Q(tweets.find({lpsample: id}));
   },
 
   close: function(){
     db.close();
   },
+
   clear: function(){
     samples.drop();
     tweets.drop();
