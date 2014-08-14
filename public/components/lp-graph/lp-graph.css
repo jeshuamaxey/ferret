@@ -69,10 +69,24 @@ circle {
   stroke-width: 1.5px;
 }
 
+.resize.w {
+  display: none;
+}
+
+.resize.e path {
+  stroke: rgba(0,183,255,0.5);
+  stroke-opacity: 0;
+  fill: rgba(0,183,255,0.6);
+}
+
 .brush .extent {
-  /*//#5AA9E0;*/
-  fill: rgb(0,183,255);
-  /*rgb(255,0,255);*/
-  fill-opacity: .125;
+  /*important required to overide inline D3 style*/
+  cursor: default !important;
+  /*
+   * #entextGrid is defined inline with the rest of the svg which
+   * is appended with D3 hence must be changed in the js that
+   * accompaines this element
+   **/
+  fill:url(/#extentGrad);
   shape-rendering: crispEdges;
 }

@@ -25,6 +25,8 @@ Element providing solution to no problem in particular.
 
     <div id="refineTools" vertical layout >
 
+      <p id="instruction" flex horizontal center-justified layout>Select a point from which Ferret will search backwards for relevant tweets.</p>
+
       <div class="graph-wrapper" flex horizontal center-justified layout>
         <lp-graph
           size="{{(mode == 'initial') ? 'large' : 'small'}}"
@@ -67,6 +69,7 @@ Element providing solution to no problem in particular.
       modeChanged: function() {
         if(this.mode === 'main') {
           this.$.lpToolsWrapper.hidden = false;
+          this.$.instruction.hidden = true;
         }
       },
 

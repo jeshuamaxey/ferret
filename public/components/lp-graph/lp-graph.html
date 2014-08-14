@@ -54,7 +54,7 @@ Element providing solution to no problem in particular.
         this.$.loading.hidden = true;
         //this ought to be calculated via js detecting element dimensions
         //and be wrappeded in a function which is called on window resizing
-        var margin = {top: 50, right: 50, bottom: 50, left: 50},
+        var margin = {top: 30, right: 50, bottom: 50, left: 50},
             width = 500,
             height = 200;
 
@@ -101,6 +101,20 @@ Element providing solution to no problem in particular.
           d.tps = +d.tps*60*60;
         });
         
+        //gradient for extent (applied in css)
+        var grad = glob.svg.append("defs")
+          .append("linearGradient")
+            .attr("id","extentGrad");
+
+        grad.append("stop")
+          .attr("offset","5%")
+          .attr("stop-color","rgba(0,0,0,0)");
+
+        grad.append("stop")
+          .attr("offset","95%")
+          .attr("stop-color","rgba(0,183,255,0.5)");
+
+        //add extend rect
         x.domain(d3.extent(data, function(d) { return d.date; }));
         y.domain(d3.extent(data, function(d) { return d.tps; }));
 
@@ -131,9 +145,9 @@ Element providing solution to no problem in particular.
         var brushHeight = 40;
 
         var arc = d3.svg.arc()
-            .outerRadius(brushHeight / 2)
+            .outerRadius(function(d, i) { return i ? 0 : brushHeight / 2; })
             .startAngle(0)
-            .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
+            .endAngle(function(d, i) { return i ? -Math.PI*0 : Math.PI; });
 
         //set initial extent of handles
         var startExtent = [new Date(data[1].date), new Date(data[data.length - 2].date)]
